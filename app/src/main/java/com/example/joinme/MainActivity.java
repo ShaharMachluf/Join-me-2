@@ -1,3 +1,5 @@
+//used this video https://www.youtube.com/watch?v=gD9uQf5UU-g&ab_channel=AtifPervaiz
+
 package com.example.joinme;
 
 import androidx.activity.result.ActivityResult;
