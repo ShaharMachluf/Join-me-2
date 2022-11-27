@@ -76,7 +76,8 @@ public class MainActivity extends AppCompatActivity {
                 //begin google sign in
                 Log.d(TAG, "onClick: begin Google SignIn");
                 Intent intent = googleSignInClient.getSignInIntent();
-                activityLauncher.launch(intent);
+//                activityLauncher.launch(intent);
+                startActivityForResult(intent, RC_SIGN_IN);
             }
         });
     }
