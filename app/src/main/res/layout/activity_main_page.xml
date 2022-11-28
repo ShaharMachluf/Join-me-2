@@ -13,7 +13,8 @@
         style="@style/TextAppearance.MaterialComponents.Caption"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="You're LoggedIn as"/>
+        android:text="You're LoggedIn as" />
+
     <TextView
         android:id="@+id/emailTv"
         style="@style/TextAppearance.MaterialComponents.Body1"
