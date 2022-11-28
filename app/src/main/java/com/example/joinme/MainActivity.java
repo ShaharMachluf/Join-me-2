@@ -131,21 +131,32 @@ public class MainActivity extends AppCompatActivity {
                         Log.d(TAG, "onSuccess: Email: "+email);
                         Log.d(TAG, "onSuccess: UID: "+uid);
 
+                        //admin logged in
+                        if(email.equals("jiayhb@gmail.com")){
+                            Log.d(TAG, "onSuccess: Admin logged in...\n"+email);
+                            Toast.makeText(MainActivity.this, "Admin logged in...\n"+email, Toast.LENGTH_SHORT).show();
+                            //start profile activity
+                            startActivity(new Intent(MainActivity.this, AdminMainPageActivity.class));
+                            finish();
+                        }
+
                         //check if user is new or existing
-                        if(authResult.getAdditionalUserInfo().isNewUser()){
+                        else if(authResult.getAdditionalUserInfo().isNewUser()){
                             //user is new- account created
                             Log.d(TAG, "onSuccess: Account Created...\n"+email);
                             Toast.makeText(MainActivity.this, "Account Created...\n"+email, Toast.LENGTH_SHORT).show();
+                            //start profile activity
+                            startActivity(new Intent(MainActivity.this, MainPageActivity.class));
+                            finish();
                         }
-                        else{
+                        else {
                             //existing account
-                            Log.d(TAG, "onSuccess: Existing user...\n"+email);
-                            Toast.makeText(MainActivity.this, "Existing user...\n"+email, Toast.LENGTH_SHORT).show();
+                            Log.d(TAG, "onSuccess: Existing user...\n" + email);
+                            Toast.makeText(MainActivity.this, "Existing user...\n" + email, Toast.LENGTH_SHORT).show();
+                            //start profile activity
+                            startActivity(new Intent(MainActivity.this, MainPageActivity.class));
+                            finish();
                         }
-
-                        //start profile activity
-                        startActivity(new Intent(MainActivity.this, MainPageActivity.class));
-                        finish();
                     }
                 })
                 .addOnFailureListener(new OnFailureListener() {
