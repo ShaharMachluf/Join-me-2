@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 
+import com.example.joinme.databinding.ActivityAdminMainPageBinding;
 import com.example.joinme.databinding.ActivityMainPageBinding;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -13,26 +14,27 @@ import com.google.firebase.auth.FirebaseUser;
 public class AdminMainPageActivity extends AppCompatActivity {
 
     //view binding
-    private ActivityMainPageBinding binding;
+    private ActivityAdminMainPageBinding binding;
 
     private FirebaseAuth firebaseAuth;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_admin_main_page);
+        binding = ActivityAdminMainPageBinding.inflate(getLayoutInflater());
+        setContentView(binding.getRoot());
         //init firebase auth
-//        firebaseAuth = FirebaseAuth.getInstance();
-//        checkUser();
-//
-//        //handle click, logout
-//        binding.logoutBtn.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                firebaseAuth.signOut();
-//                checkUser();
-//            }
-//        });
+        firebaseAuth = FirebaseAuth.getInstance();
+        checkUser();
+
+        //handle click, logout
+        binding.logoutBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                firebaseAuth.signOut();
+                checkUser();
+            }
+        });
     }
 
     private void checkUser() {
@@ -42,7 +44,8 @@ public class AdminMainPageActivity extends AppCompatActivity {
             //user not logged in
             startActivity(new Intent(this, MainActivity.class));
             finish();
-        }else{
+        }
+        else{
             //user logged in
             //get user info
             String email = firebaseUser.getEmail();
