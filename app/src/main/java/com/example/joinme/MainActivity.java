@@ -146,7 +146,7 @@ public class MainActivity extends AppCompatActivity {
                             Log.d(TAG, "onSuccess: Account Created...\n"+email);
                             Toast.makeText(MainActivity.this, "Account Created...\n"+email, Toast.LENGTH_SHORT).show();
                             //start profile activity
-                            startActivity(new Intent(MainActivity.this, MainPageActivity.class));
+                            startActivity(new Intent(MainActivity.this, FillDetailsActivity.class));
                             finish();
                         }
                         else {
