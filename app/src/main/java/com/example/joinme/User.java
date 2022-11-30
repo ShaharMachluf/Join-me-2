@@ -4,7 +4,7 @@ import android.text.format.DateFormat;
 
 import java.util.ArrayList;
 
-public class User extends FirebaseBaseModel{
+public class User{
     private String uid;
     private String name;
     private String phone; //todo: check if android studio have phone
@@ -12,7 +12,7 @@ public class User extends FirebaseBaseModel{
     private String birth_date;
     private ArrayList<Group> my_groups; // list of all the groups that this user participated in.
     private int num_of_reports; //number of reports on this user.
-    private int Success_creating_groups; //number of groups that success and this user is the head of them.
+    private int success_creating_groups; //number of groups that success and this user is the head of them.
 
     public User(String uid, String name, String phone, String mail, String birth_date) {
         this.name = name;
@@ -21,7 +21,7 @@ public class User extends FirebaseBaseModel{
         this.birth_date = birth_date;
         this.my_groups = new ArrayList<>();
         this.num_of_reports = 0;
-        this.Success_creating_groups = 0;
+        this.success_creating_groups = 0;
     }
 
     public String getName() {
@@ -65,11 +65,11 @@ public class User extends FirebaseBaseModel{
     }
 
     public int getSuccess_creating_groups() {
-        return Success_creating_groups;
+        return success_creating_groups;
     }
 
     public void setSuccess_creating_groups(int success_creating_groups) {
-        Success_creating_groups = success_creating_groups;
+        success_creating_groups = success_creating_groups;
     }
 
     public String getBirth_date() {

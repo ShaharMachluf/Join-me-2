@@ -2,13 +2,17 @@
 
 package com.example.joinme;
 
+
+
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
-
 import com.example.joinme.databinding.ActivityMainPageBinding;
+import com.google.android.gms.auth.api.signin.GoogleSignIn;
+import com.google.android.gms.auth.api.signin.GoogleSignInClient;
+import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
@@ -16,8 +20,9 @@ public class MainPageActivity extends AppCompatActivity {
 
     //view binding
     private ActivityMainPageBinding binding;
-
+    private GoogleSignInClient mGoogleSignInClient;
     private FirebaseAuth firebaseAuth;
+    private static final int RC_SIGN_IN = 100;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -27,6 +32,7 @@ public class MainPageActivity extends AppCompatActivity {
 
         //init firebase auth
         firebaseAuth = FirebaseAuth.getInstance();
+        mGoogleSignInClient = GoogleSignIn.getClient(this, MainActivity.googleSignInOptions);
         checkUser();
 
         //handle click, logout
@@ -34,6 +40,10 @@ public class MainPageActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 firebaseAuth.signOut();
+                mGoogleSignInClient.signOut();
+                Intent signInIntent = mGoogleSignInClient.getSignInIntent();
+                //starting the activity for result
+                startActivityForResult(signInIntent, RC_SIGN_IN);
                 checkUser();
             }
         });

@@ -37,7 +37,7 @@ public class MainActivity extends AppCompatActivity {
 
     private static final int RC_SIGN_IN = 100;
     private GoogleSignInClient googleSignInClient;
-
+    public static GoogleSignInOptions googleSignInOptions;
     private FirebaseAuth firebaseAuth;
 
     private static final String TAG = "GOOGLE_SIGN_IN_TAG";
@@ -59,7 +59,7 @@ public class MainActivity extends AppCompatActivity {
         setContentView(binding.getRoot());
 
         //confirm google signin
-        GoogleSignInOptions googleSignInOptions = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+        googleSignInOptions = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
                 .requestIdToken(getString(R.string.default_web_client_id))
                 .requestEmail()
                 .build();
@@ -133,6 +133,7 @@ public class MainActivity extends AppCompatActivity {
 
                         //admin logged in
                         if(email.equals("jiayhb@gmail.com")){
+                            Log.d(TAG, "onSuccess: Admin logged in...\n"+email);
                             Log.d(TAG, "onSuccess: Admin logged in...\n"+email);
                             Toast.makeText(MainActivity.this, "Admin logged in...\n"+email, Toast.LENGTH_SHORT).show();
                             //start profile activity
