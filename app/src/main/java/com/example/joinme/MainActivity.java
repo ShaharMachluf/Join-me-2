@@ -134,7 +134,6 @@ public class MainActivity extends AppCompatActivity {
                         //admin logged in
                         if(email.equals("jiayhb@gmail.com")){
                             Log.d(TAG, "onSuccess: Admin logged in...\n"+email);
-                            Log.d(TAG, "onSuccess: Admin logged in...\n"+email);
                             Toast.makeText(MainActivity.this, "Admin logged in...\n"+email, Toast.LENGTH_SHORT).show();
                             //start profile activity
                             startActivity(new Intent(MainActivity.this, AdminMainPageActivity.class));
