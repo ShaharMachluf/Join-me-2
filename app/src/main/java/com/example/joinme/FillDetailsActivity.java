@@ -50,7 +50,6 @@ public class FillDetailsActivity extends AppCompatActivity {
         firebaseAuth = FirebaseAuth.getInstance();
         mGoogleSignInClient = GoogleSignIn.getClient(this, MainActivity.googleSignInOptions);
         checkUser();
-//        setSpinners();
 
         //handle click, logout
         binding.logoutBtn.setOnClickListener(new View.OnClickListener() {
@@ -65,54 +64,6 @@ public class FillDetailsActivity extends AppCompatActivity {
             }
         });
     }
-
-//    private void setSpinners(){
-//        //day spinner
-//        //get the spinner from the xml.
-//        Spinner daySpnr = findViewById(R.id.daySpnr);
-////create a list of items for the spinner.
-//        String[] days = new String[31];
-//        for(int i=1; i <= 31; i++){
-//            days[i-1] = String.valueOf(i);
-//        }
-////create an adapter to describe how the items are displayed, adapters are used in several places in android.
-////There are multiple variations of this, but this is the basic variant.
-//        ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_dropdown_item, days);
-////set the spinners adapter to the previously created one.
-//        daySpnr.setAdapter(adapter);
-//
-//        //month spinner
-//        //get the spinner from the xml.
-//        Spinner monthSpnr = findViewById(R.id.monthSpnr);
-////create a list of items for the spinner.
-//        String[] months = new String[12];
-//        for(int i=1; i <= 12; i++){
-//            months[i-1] = String.valueOf(i);
-//        }
-////create an adapter to describe how the items are displayed, adapters are used in several places in android.
-////There are multiple variations of this, but this is the basic variant.
-//        ArrayAdapter<String> adapter2 = new ArrayAdapter<>(this, android.R.layout.simple_spinner_dropdown_item, months);
-////set the spinners adapter to the previously created one.
-//        daySpnr.setAdapter(adapter2);
-//
-//        //year spinner
-//        //get the spinner from the xml.
-//        Spinner yearSpnr = findViewById(R.id.yearSpnr);
-////create a list of items for the spinner.
-//        String[] years = new String[12];
-//        int currYear = 1960;
-//        //let only people that are over 16 in the app
-//        for(int i=0; i < 46; i++){
-//            days[i] = String.valueOf(currYear);
-//            currYear++;
-//        }
-////create an adapter to describe how the items are displayed, adapters are used in several places in android.
-////There are multiple variations of this, but this is the basic variant.
-//        ArrayAdapter<String> adapter3 = new ArrayAdapter<>(this, android.R.layout.simple_spinner_dropdown_item, years);
-////set the spinners adapter to the previously created one.
-//        daySpnr.setAdapter(adapter3);
-//    }
-
 
     private void checkUser() {
         //get current user
@@ -157,6 +108,12 @@ public class FillDetailsActivity extends AppCompatActivity {
 
                     //create user
                     User user = new User(uid, name, phone, email, date);
+
+                    System.out.println(user.getName());
+                    System.out.println(phone);
+                    System.out.println("bla");
+
+                    db.collection("usersById").add(user);
 //                    Map<String, Object> currUser = new HashMap<>();
 //                    currUser.put("name", name);
 //                    currUser.put("phone", phone);

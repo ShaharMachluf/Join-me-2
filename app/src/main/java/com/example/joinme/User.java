@@ -5,6 +5,10 @@ import android.text.format.DateFormat;
 import java.util.ArrayList;
 
 public class User{
+    public String getUid() {
+        return uid;
+    }
+
     private String uid;
     private String name;
     private String phone; //todo: check if android studio have phone
@@ -19,6 +23,7 @@ public class User{
         this.phone = phone;
         this.mail = mail;
         this.birth_date = birth_date;
+        this.uid = uid;
         this.my_groups = new ArrayList<>();
         this.num_of_reports = 0;
         this.success_creating_groups = 0;
