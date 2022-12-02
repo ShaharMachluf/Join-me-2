@@ -42,16 +42,6 @@ public class MainActivity extends AppCompatActivity {
 
     private static final String TAG = "GOOGLE_SIGN_IN_TAG";
 
-//    ActivityResultLauncher<Intent> activityLauncher = registerForActivityResult(
-//            new ActivityResultContracts.StartActivityForResult(),
-//            new ActivityResultCallback<ActivityResult>() {
-//                @Override
-//                public void onActivityResult(ActivityResult result) {
-//                    Log.d(TAG, "onActivityResult: ");
-//                }
-//            }
-//    );
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -86,7 +76,16 @@ public class MainActivity extends AppCompatActivity {
         //if user is already signed in then go to main page
         FirebaseUser firebaseUser = firebaseAuth.getCurrentUser();
         if(firebaseUser != null){
-            Log.d(TAG, "checkUser: Already logged in");//todo:if admin go to admin page
+            String email = firebaseUser.getEmail();
+            //admin logged in
+            if(email.equals("jiayhb@gmail.com")){
+                Log.d(TAG, "onSuccess: Admin logged in...\n"+email);
+                Toast.makeText(MainActivity.this, "Admin logged in...\n"+email, Toast.LENGTH_SHORT).show();
+                //start profile activity
+                startActivity(new Intent(MainActivity.this, AdminMainPageActivity.class));
+                finish();
+            }
+            Log.d(TAG, "checkUser: Already logged in");
             startActivity(new Intent(this, MainPageActivity.class));
             finish();
         }

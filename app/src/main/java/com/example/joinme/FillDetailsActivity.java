@@ -40,6 +40,7 @@ public class FillDetailsActivity extends AppCompatActivity {
     private GoogleSignInClient mGoogleSignInClient;
     private static final int RC_SIGN_IN = 100;
     private FirebaseAuth firebaseAuth;
+    private static final String TAG = "GOOGLE_SIGN_IN_TAG";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -77,6 +78,7 @@ public class FillDetailsActivity extends AppCompatActivity {
             //get user info
             String email = firebaseUser.getEmail();
             String uid = firebaseUser.getUid();
+            //prepare calendar
             final Calendar calendar = Calendar.getInstance();
             final int year = calendar.get(Calendar.YEAR);
             final int month = calendar.get(Calendar.MONTH);
@@ -102,45 +104,14 @@ public class FillDetailsActivity extends AppCompatActivity {
                 @Override
                 public void onClick(View view) {
                     //get all the details
-                    String name = binding.FNameTxt.getText().toString() + binding.LNameTxt.getText().toString();
+                    String name = binding.FNameTxt.getText().toString() + " " + binding.LNameTxt.getText().toString();
                     String phone = binding.PhoneTxt.getText().toString();
-
 
                     //create user
                     User user = new User(uid, name, phone, email, date);
+                    //add user to database
+                    db.collection("usersById").document(uid).set(user);
 
-                    System.out.println(user.getName());
-                    System.out.println(phone);
-                    System.out.println("bla");
-
-                    db.collection("usersById").add(user);
-//                    Map<String, Object> currUser = new HashMap<>();
-//                    currUser.put("name", name);
-//                    currUser.put("phone", phone);
-//                    currUser.put("email", email);
-//                    currUser.put("birthday", birthday);
-//                    currUser.put("my_groups", new ArrayList<>());
-//                    currUser.put("num_of_reports", 0);
-//                    currUser.put("success_creating_groups", 0);
-
-
-//                    User currUser = new User(uid, name, phone, email, birthday);.document(uid).set(currUser);
-                    //insert
-                    // Add a new document with a generated ID
-//                    db.collection("users")
-//                            .add(currUser);
-//                            .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
-//                                @Override
-//                                public void onSuccess(DocumentReference documentReference) {
-//                                    Log.d(TAG,"DocumentSnapshot added with ID: " + documentReference.getId());
-//                                }
-//                            })
-//                            .addOnFailureListener(new OnFailureListener() {
-//                                @Override
-//                                public void onFailure(@NonNull Exception e) {
-//                                    Log.w(TAG, "Error adding document", e);
-//                                }
-//                            });
                     startActivity(new Intent(FillDetailsActivity.this, MainPageActivity.class));
                     finish();
 
