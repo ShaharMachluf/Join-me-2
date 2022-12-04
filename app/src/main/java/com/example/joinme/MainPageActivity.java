@@ -47,6 +47,14 @@ public class MainPageActivity extends AppCompatActivity {
                 checkUser();
             }
         });
+
+        binding.createGroupBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivity(new Intent(MainPageActivity.this, OpenGroupActivity.class));
+                finish();
+            }
+        });
     }
 
     private void checkUser() {
@@ -64,4 +72,6 @@ public class MainPageActivity extends AppCompatActivity {
             binding.emailTv.setText(email);
         }
     }
+
+
 }
