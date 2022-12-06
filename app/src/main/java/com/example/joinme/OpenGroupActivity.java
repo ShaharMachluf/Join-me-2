@@ -29,9 +29,8 @@ import java.util.Locale;
 
 public class OpenGroupActivity extends AppCompatActivity implements AdapterView.OnItemSelectedListener {
     FirebaseFirestore db = FirebaseFirestore.getInstance();
-    // create array of Strings
-    // and store name of courses
-    String[] meetings = {"Category", "Minnian", "Football", "Basketball", "Groups game", "Volunteer"};
+    // create array of Strings of categories
+    String[] meetings = {"Category", "Minnian", "Football", "Basketball", "Group games", "Volunteer", "Hang out"};
     //todo: check that "category" not chosen.
     //view binding
     private ActivityOpenGroupBinding binding;
@@ -71,13 +70,11 @@ public class OpenGroupActivity extends AppCompatActivity implements AdapterView.
             }
         });
 
-
         // Take the instance of Spinner and
         // apply OnItemSelectedListener on it which
         // tells which item of spinner is clicked
         Spinner spino = findViewById(R.id.spinner);
         spino.setOnItemSelectedListener(this);
-
         // Create the instance of ArrayAdapter
         // having the list of meetings
         ArrayAdapter ad
@@ -85,17 +82,14 @@ public class OpenGroupActivity extends AppCompatActivity implements AdapterView.
                 this,
                 android.R.layout.simple_spinner_item,
                 meetings);
-
         // set simple layout resource file
         // for each item of spinner
         ad.setDropDownViewResource(
                 android.R.layout
                         .simple_spinner_dropdown_item);
-
         // Set the ArrayAdapter (ad) data on the
         // Spinner which binds data to spinner
         spino.setAdapter(ad);
-
         //get date of the meeting
         final Calendar calendar = Calendar.getInstance();
         final int year = calendar.get(Calendar.YEAR);
@@ -117,6 +111,7 @@ public class OpenGroupActivity extends AppCompatActivity implements AdapterView.
                 dialog.show();
             }
         });
+        //when time meeting text field clicks
         binding.SelectTimeEdt.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -133,8 +128,8 @@ public class OpenGroupActivity extends AppCompatActivity implements AdapterView.
                     timePicker.show();
             }
         });
+        //when create button clicks
         binding.CreateBtn.setOnClickListener(new View.OnClickListener(){
-
             @Override
             public void onClick(View view) {
                 //get all the details
@@ -144,11 +139,12 @@ public class OpenGroupActivity extends AppCompatActivity implements AdapterView.
                 int min = Integer.parseInt(binding.minParticipentsTxt.getText().toString());
                 int max = Integer.parseInt(binding.maxParticipentsTxt.getText().toString());
                 FirebaseUser head = firebaseAuth.getCurrentUser(); //todo: how change this to User object
-                Group currGroup = new Group(title, city, time, date, head, min, max);
-
+                String head_uid = head.getUid();
+                //create group
+                Group currGroup = new Group(title, city, time, date, head_uid, min, max);
                 //add group to database
                 db.collection("groups").add(currGroup);
-
+                //move to the main page
                 startActivity(new Intent(OpenGroupActivity.this, MainPageActivity.class));
                 // todo: maybe change the next page
                 finish();
@@ -174,5 +170,3 @@ public class OpenGroupActivity extends AppCompatActivity implements AdapterView.
                 .show();
     }
 }
-
-//}

@@ -16,9 +16,9 @@ public class Group {
     private String date; // the date of this meeting
     private boolean is_happened; //the group success?
     private ArrayList<User> participants; //list of all the participants in this group.
-    private FirebaseUser head_of_group; //the user that create this group.
+    private String head_of_group_uid; //the user that create this group.
 
-    public Group(String title, String city, String time, String date, FirebaseUser head, int min_participants, int max_participants) {
+    public Group(String title, String city, String time, String date, String head, int min_participants, int max_participants) {
         this.title = title;
         this.num_of_participant = 0;
         this.city = city;
@@ -26,7 +26,7 @@ public class Group {
         this.date = date;
         this.is_happened = false;
         this.participants = new ArrayList<>();
-        this.head_of_group = head;
+        this.head_of_group_uid = head;
         this.min_participants = min_participants;
         this.max_participants = max_participants;
     }
@@ -80,13 +80,13 @@ public class Group {
         this.participants = participants;
     }
 
-//    public User getHead_of_group() {
-//        return head_of_group;
-//    }
-//
-//    public void setHead_of_group(User head_of_group) {
-//        this.head_of_group = head_of_group;
-//    }
+    public String getHead_of_group() {
+        return head_of_group_uid;
+    }
+
+    public void setHead_of_group(String head_of_group) {
+        this.head_of_group_uid = head_of_group;
+    }
 
     public int getMin_participants() {
         return min_participants;

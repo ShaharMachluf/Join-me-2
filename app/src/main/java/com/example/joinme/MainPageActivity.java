@@ -55,6 +55,14 @@ public class MainPageActivity extends AppCompatActivity {
                 finish();
             }
         });
+
+        binding.joinGroupBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivity(new Intent(MainPageActivity.this, FindGroupActivity.class));
+                finish();
+            }
+        });
     }
 
     private void checkUser() {
