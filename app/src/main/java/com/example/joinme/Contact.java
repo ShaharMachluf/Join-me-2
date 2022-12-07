@@ -4,11 +4,13 @@ public class Contact {
     private String category;
     private String location;
     private String date;
+    private String id;
 
-    public Contact(String category, String location, String date) {
+    public Contact(String category, String location, String date, String id) {
         this.category = category;
         this.location = location;
         this.date = date;
+        this.id = id;
     }
 
 
@@ -37,4 +39,11 @@ public class Contact {
     }
 
 
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
 }

@@ -97,6 +97,7 @@ public class FindGroupActivity extends AppCompatActivity implements AdapterView.
                 String city = binding.cityTxt.getText().toString();
                 Intent intent = new Intent(FindGroupActivity.this, RelevantGroupsActivity.class);
                 intent.putExtra("Title", title);
+                intent.putExtra("City", city);
                 startActivity(intent);
              
                 finish();

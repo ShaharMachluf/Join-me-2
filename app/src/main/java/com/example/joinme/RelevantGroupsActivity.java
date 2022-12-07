@@ -8,8 +8,10 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ListView;
 import android.widget.SearchView;
+import android.widget.TextView;
 
 
 import com.example.joinme.databinding.ActivityOpenGroupBinding;
@@ -27,7 +29,7 @@ import org.checkerframework.checker.nullness.qual.NonNull;
 
 import java.util.ArrayList;
 
-public class RelevantGroupsActivity extends AppCompatActivity{
+public class RelevantGroupsActivity extends AppCompatActivity implements RecycleViewInterface{
     FirebaseFirestore db = FirebaseFirestore.getInstance();
     private ActivityRelevantGroupsBinding binding;
     private GoogleSignInClient mGoogleSignInClient;
@@ -35,6 +37,7 @@ public class RelevantGroupsActivity extends AppCompatActivity{
     private static final int RC_SIGN_IN = 100;
     private static final String TAG = "GOOGLE_SIGN_IN_TAG";
     ArrayList<Contact> contacts = new ArrayList<>();
+//    private ContactsAdapter.RecyclerViewClickListener listener;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -71,28 +74,89 @@ public class RelevantGroupsActivity extends AppCompatActivity{
     }
 
     private void setUpContact(){
-        Intent titleI = getIntent();
-        String title = titleI.getStringExtra("Title");
-        db.collection("groups")
-                .whereEqualTo("title", title)
-                .get()
-                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-                    @Override
-                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                        if (task.isSuccessful()) {
-                            RecyclerView recyclerView = findViewById(R.id.rvBox);
-                            for (QueryDocumentSnapshot document : task.getResult()) {
-                                contacts.add(new Contact(document.getString("title"), document.getString("city"), document.getString("date") + " " + document.getString("time")));
-                                Log.d(TAG, document.getId() + " => " + document.getString("city"));
+//        setOnClickListener();
+        Intent intent = getIntent();
+        String title = intent.getStringExtra("Title");
+        String city = intent.getStringExtra("City");
+        if(city.equals("")) {
+            db.collection("groups")
+                    .whereEqualTo("title", title)
+                    .get()
+                    .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                        @Override
+                        public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                            if (task.isSuccessful()) {
+                                RecyclerView recyclerView = findViewById(R.id.rvBox);
+                                if (task.getResult().isEmpty()){
+                                    TextView nonResultTxt = findViewById(R.id.nonResultTxt);
+                                    nonResultTxt.setText("No matching groups were found");
+                                }
+                                for (QueryDocumentSnapshot document : task.getResult()) {
+                                    contacts.add(new Contact(document.getString("title"), document.getString("city"), document.getString("date") + " " + document.getString("time"), document.getId()));
+                                    Log.d(TAG, document.getId() + " => " + document.getString("city"));
+                                }
+                                ContactsAdapter adapter = new ContactsAdapter(RelevantGroupsActivity.this, contacts, RelevantGroupsActivity.this);
+                                recyclerView.setAdapter(adapter);
+                                recyclerView.setLayoutManager(new LinearLayoutManager(RelevantGroupsActivity.this));
+                            } else {
+                                Log.d(TAG, "Error getting documents: ", task.getException());
                             }
-                            ContactsAdapter adapter = new ContactsAdapter(RelevantGroupsActivity.this, contacts);
-                            recyclerView.setAdapter(adapter);
-                            recyclerView.setLayoutManager(new LinearLayoutManager(RelevantGroupsActivity.this));
-                        } else {
-                            Log.d(TAG, "Error getting documents: ", task.getException());
                         }
-                    }
-                });
+                    });
+        }
+        else{
+            db.collection("groups")
+                    .whereEqualTo("title", title).whereEqualTo("city", city)
+                    .get()
+                    .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                        @Override
+                        public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                            if (task.isSuccessful()) {
+                                RecyclerView recyclerView = findViewById(R.id.rvBox);
+                                if (task.getResult().isEmpty()){
+                                    TextView nonResultTxt = findViewById(R.id.nonResultTxt);
+                                    nonResultTxt.setText("No matching groups were found");
+                                }
+                                for (QueryDocumentSnapshot document : task.getResult()) {
+                                    contacts.add(new Contact(document.getString("title"), document.getString("city"), document.getString("date") + " " + document.getString("time"), document.getId()));
+                                    Log.d(TAG, document.getId() + " => " + document.getString("city"));
+                                }
+                                ContactsAdapter adapter = new ContactsAdapter(RelevantGroupsActivity.this, contacts, RelevantGroupsActivity.this);
+                                recyclerView.setAdapter(adapter);
+                                recyclerView.setLayoutManager(new LinearLayoutManager(RelevantGroupsActivity.this));
+                            } else {
+                                Log.d(TAG, "Error getting documents: ", task.getException());
+                            }
+                        }
+                    });
+        }
+//        Button seeDetails = findViewById(R.id.detailsBtn);
+//        seeDetails.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+////                Intent intent = new Intent(RelevantGroupsActivity.this, GroupDetailsActivity.class);
+////                intent.putExtra("GroupID", )
+//                startActivity(new Intent(RelevantGroupsActivity.this, GroupDetailsActivity.class));
+//            }
+//        });
     }
 
-}
+    @Override
+    public void onItemClick(int position) {
+        Intent intent = new Intent(RelevantGroupsActivity.this, GroupDetailsActivity.class);
+        intent.putExtra("ID", contacts.get(position).getId());
+        startActivity(intent);
+    }
+
+//    private void setOnClickListener() {
+//        listener = new ContactsAdapter.RecyclerViewClickListener() {
+//            @Override
+//            public void onClick(View v, int position) {
+//                Intent intent = new Intent(getApplicationContext(), GroupDetailsActivity.class);
+////                intent.putExtra("GroupID", )
+//                startActivity(intent);
+//            }
+//        };
+    }
+
+//}
