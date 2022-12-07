@@ -37,20 +37,23 @@
         android:layout_width="132dp"
         android:layout_height="46dp"
         android:fontFamily="sans-serif-black"
+        android:gravity="center"
         android:text="title"
-        android:textSize="20sp"
+        android:textSize="34sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="@+id/addressTxt"
-        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintHorizontal_bias="0.508"
         app:layout_constraintStart_toStartOf="@+id/addressTxt"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.231" />
+        app:layout_constraintVertical_bias="0.157" />
 
     <TextView
         android:id="@+id/addressTxt"
         android:layout_width="75dp"
         android:layout_height="39dp"
+        android:gravity="center"
         android:text="location"
+        android:textSize="16sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="@+id/dateTxt"
         app:layout_constraintStart_toStartOf="@+id/dateTxt"
@@ -61,10 +64,13 @@
         android:id="@+id/dateTxt"
         android:layout_width="71dp"
         android:layout_height="39dp"
+        android:gravity="center"
         android:text="date"
+        android:textSize="16sp"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="@+id/textView6"
-        app:layout_constraintStart_toStartOf="@+id/textView6"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/addressTxt"
         app:layout_constraintVertical_bias="0.069" />
 
@@ -72,7 +78,9 @@
         android:id="@+id/timeTxt"
         android:layout_width="74dp"
         android:layout_height="38dp"
+        android:gravity="center"
         android:text="time"
+        android:textSize="16sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.498"
@@ -81,9 +89,10 @@
         app:layout_constraintVertical_bias="0.086" />
 
     <TextView
-        android:id="@+id/textView6"
-        android:layout_width="116dp"
-        android:layout_height="72dp"
+        android:id="@+id/headTxt"
+        android:layout_width="244dp"
+        android:layout_height="61dp"
+        android:gravity="center"
         android:text="head"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -94,12 +103,14 @@
 
     <TextView
         android:id="@+id/numPartTxt"
-        android:layout_width="119dp"
-        android:layout_height="72dp"
+        android:layout_width="287dp"
+        android:layout_height="41dp"
+        android:layout_marginBottom="120dp"
+        android:gravity="center"
         android:text="num of participents"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.503"
+        app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView6"
         app:layout_constraintVertical_bias="0.178" />

@@ -37,7 +37,6 @@ public class RelevantGroupsActivity extends AppCompatActivity implements Recycle
     private static final int RC_SIGN_IN = 100;
     private static final String TAG = "GOOGLE_SIGN_IN_TAG";
     ArrayList<Contact> contacts = new ArrayList<>();
-//    private ContactsAdapter.RecyclerViewClickListener listener;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -69,12 +68,9 @@ public class RelevantGroupsActivity extends AppCompatActivity implements Recycle
             }
         });
 
-
-
     }
 
     private void setUpContact(){
-//        setOnClickListener();
         Intent intent = getIntent();
         String title = intent.getStringExtra("Title");
         String city = intent.getStringExtra("City");
@@ -130,15 +126,6 @@ public class RelevantGroupsActivity extends AppCompatActivity implements Recycle
                         }
                     });
         }
-//        Button seeDetails = findViewById(R.id.detailsBtn);
-//        seeDetails.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-////                Intent intent = new Intent(RelevantGroupsActivity.this, GroupDetailsActivity.class);
-////                intent.putExtra("GroupID", )
-//                startActivity(new Intent(RelevantGroupsActivity.this, GroupDetailsActivity.class));
-//            }
-//        });
     }
 
     @Override
@@ -148,15 +135,4 @@ public class RelevantGroupsActivity extends AppCompatActivity implements Recycle
         startActivity(intent);
     }
 
-//    private void setOnClickListener() {
-//        listener = new ContactsAdapter.RecyclerViewClickListener() {
-//            @Override
-//            public void onClick(View v, int position) {
-//                Intent intent = new Intent(getApplicationContext(), GroupDetailsActivity.class);
-////                intent.putExtra("GroupID", )
-//                startActivity(intent);
-//            }
-//        };
-    }
-
-//}
+}
