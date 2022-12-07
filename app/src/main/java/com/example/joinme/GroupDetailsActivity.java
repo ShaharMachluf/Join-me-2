@@ -108,7 +108,7 @@ public class GroupDetailsActivity extends AppCompatActivity {
                                 uid = document.getString("head_of_group");
                                 binding.numPartTxt.setText("Current number of participants in the group: " + document.get("num_of_participant").toString());
                                 Log.d(TAG, "DocumentSnapshot data: " + document.getData());
-                                db.collection("users").document(uid).get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                                db.collection("usersById").document(uid).get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
                                     @Override
                                     public void onComplete(@NonNull Task<DocumentSnapshot> task2) {
                                         if (task2.isSuccessful()) {
