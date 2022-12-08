@@ -7,6 +7,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.app.DatePickerDialog;
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 import android.widget.ArrayAdapter;
@@ -103,6 +104,15 @@ public class FillDetailsActivity extends AppCompatActivity {
 
                 @Override
                 public void onClick(View view) {
+                    if(TextUtils.isEmpty(binding.FNameTxt.toString())){
+                        binding.FNameTxt.setError("please enter your first name");
+                        return;
+                    }
+
+                    if(TextUtils.isEmpty(binding.PhoneTxt.toString())) {
+                        binding.FNameTxt.setError("please enter your phone number");
+                        return;
+                    }
                     //get all the details
                     String name = binding.FNameTxt.getText().toString() + " " + binding.LNameTxt.getText().toString();
                     String phone = binding.PhoneTxt.getText().toString();
@@ -114,7 +124,6 @@ public class FillDetailsActivity extends AppCompatActivity {
 
                     startActivity(new Intent(FillDetailsActivity.this, MainPageActivity.class));
                     finish();
-
                 }
             });
         }

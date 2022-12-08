@@ -5,12 +5,14 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.DatePicker;
 import android.widget.Spinner;
+import android.widget.TextView;
 import android.widget.TimePicker;
 import android.widget.Toast;
 
@@ -136,8 +138,35 @@ public class OpenGroupActivity extends AppCompatActivity implements AdapterView.
                 String city = binding.cityTxt.getText().toString();
                 String time = binding.SelectTimeEdt.getText().toString();
                 String date = binding.selectDateEt.getText().toString();
-                int min = Integer.parseInt(binding.minParticipentsTxt.getText().toString());
-                int max = Integer.parseInt(binding.maxParticipentsTxt.getText().toString());
+                int min, max;
+                //check that all of the fields had been filled
+                try {
+                    min = Integer.parseInt(binding.minParticipentsTxt.getText().toString());
+                }catch(NumberFormatException e){
+                    binding.minParticipentsTxt.setError("please enter minimum participants");
+                    return;
+                }
+                try {
+                    max = Integer.parseInt(binding.maxParticipentsTxt.getText().toString());
+                }catch(NumberFormatException e){
+                    binding.maxParticipentsTxt.setError("please enter maximum participants");
+                    return;
+                }
+                if(min > max){
+                    binding.minParticipentsTxt.setError("Minimum participants must be smaller then maximum participants");
+                    return;
+                }
+                if(title.equals("Category")){
+                    TextView errorText = (TextView)binding.spinner.getSelectedView();
+                    errorText.setError("");
+                    errorText.setTextColor(Color.RED);//just to highlight that this is an error
+                    errorText.setText("please enter category");//changes the selected item text to this
+                    return;
+                }
+                if(city.isEmpty()){
+                    binding.cityTxt.setError("please enter the location");
+                    return;
+                }
                 FirebaseUser head = firebaseAuth.getCurrentUser(); //todo: how change this to User object
                 String head_uid = head.getUid();
                 //create group

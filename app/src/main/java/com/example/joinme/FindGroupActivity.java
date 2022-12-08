@@ -4,12 +4,14 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Spinner;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.joinme.databinding.ActivityFindGroupBinding;
@@ -92,6 +94,14 @@ public class FindGroupActivity extends AppCompatActivity implements AdapterView.
         binding.searchBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                //user must choose a category
+                if(title.equals("Category")){
+                    TextView errorText = (TextView)binding.spinner.getSelectedView();
+                    errorText.setError("");
+                    errorText.setTextColor(Color.RED);//just to highlight that this is an error
+                    errorText.setText("Choose category");//changes the selected item text to this
+                    return;
+                }
 
                 //get all the details
                 String city = binding.cityTxt.getText().toString();

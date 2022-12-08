@@ -8,18 +8,6 @@
     tools:layout_editor_absoluteX="11dp"
     tools:layout_editor_absoluteY="59dp">
 
-    <!--    <TextView-->
-    <!--        android:id="@+id/yearTxt"-->
-    <!--        android:layout_width="wrap_content"-->
-    <!--        android:layout_height="wrap_content"-->
-    <!--        android:text="Year:"-->
-    <!--        app:layout_constraintBottom_toTopOf="@+id/yearSpnr"-->
-    <!--        app:layout_constraintEnd_toEndOf="parent"-->
-    <!--        app:layout_constraintHorizontal_bias="0.456"-->
-    <!--        app:layout_constraintStart_toEndOf="@+id/monthTxt"-->
-    <!--        app:layout_constraintTop_toBottomOf="@+id/birthDateTxt"-->
-    <!--        app:layout_constraintVertical_bias="0.666" />-->
-
     <EditText
         android:id="@+id/LNameTxt"
         android:layout_width="wrap_content"
@@ -78,7 +66,8 @@
         android:hint="Phone"
         android:inputType="phone"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="@+id/selectDateEt"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/FNameTxt"
         app:layout_constraintVertical_bias="0.211" />
 
@@ -94,20 +83,6 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.045" />
 
-    <!--    <TextView-->
-    <!--        android:id="@+id/birthDateTxt"-->
-    <!--        android:layout_width="wrap_content"-->
-    <!--        android:layout_height="wrap_content"-->
-    <!--        android:layout_marginTop="58dp"-->
-    <!--        android:text="Birth Date"-->
-    <!--        android:textSize="20sp"-->
-    <!--        app:layout_constraintBottom_toBottomOf="parent"-->
-    <!--        app:layout_constraintEnd_toEndOf="parent"-->
-    <!--        app:layout_constraintHorizontal_bias="0.108"-->
-    <!--        app:layout_constraintStart_toStartOf="parent"-->
-    <!--        app:layout_constraintTop_toTopOf="@+id/PhoneTxt"-->
-    <!--        app:layout_constraintVertical_bias="0.019" />-->
-
     <EditText
         android:id="@+id/etSelectDate"
         android:layout_width="209dp"
@@ -116,76 +91,9 @@
         android:textColor="@android:color/black"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.178"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/PhoneTxt"
-        app:layout_constraintVertical_bias="0.084" />
+        app:layout_constraintVertical_bias="0.112" />
 
-    <!--    <Button-->
-    <!--        android:id="@+id/dateBtn"-->
-    <!--        android:layout_width="wrap_content"-->
-    <!--        android:layout_height="wrap_content"-->
-    <!--        android:text="Pick a date"-->
-    <!--        app:layout_constraintBottom_toBottomOf="parent"-->
-    <!--        app:layout_constraintEnd_toEndOf="parent"-->
-    <!--        app:layout_constraintHorizontal_bias="0.13"-->
-    <!--        app:layout_constraintStart_toEndOf="@+id/birthDateTxt"-->
-    <!--        app:layout_constraintTop_toBottomOf="@+id/PhoneTxt"-->
-    <!--        app:layout_constraintVertical_bias="0.063" />-->
-
-    <!--    <Spinner-->
-    <!--        android:id="@+id/daySpnr"-->
-    <!--        android:layout_width="98dp"-->
-    <!--        android:layout_height="17dp"-->
-    <!--        android:layout_marginTop="60dp"-->
-    <!--        app:layout_constraintEnd_toEndOf="parent"-->
-    <!--        app:layout_constraintHorizontal_bias="0.121"-->
-    <!--        app:layout_constraintStart_toStartOf="parent"-->
-    <!--        app:layout_constraintTop_toBottomOf="@+id/birthDateTxt" />-->
-
-    <!--    <Spinner-->
-    <!--        android:id="@+id/yearSpnr"-->
-    <!--        android:layout_width="98dp"-->
-    <!--        android:layout_height="17dp"-->
-    <!--        android:layout_marginStart="21dp"-->
-    <!--        app:layout_constraintBottom_toBottomOf="@+id/monthSpnr"-->
-    <!--        app:layout_constraintEnd_toEndOf="parent"-->
-    <!--        app:layout_constraintHorizontal_bias="0.066"-->
-    <!--        app:layout_constraintStart_toEndOf="@+id/monthSpnr" />-->
-
-    <!--    <Spinner-->
-    <!--        android:id="@+id/monthSpnr"-->
-    <!--        android:layout_width="98dp"-->
-    <!--        android:layout_height="17dp"-->
-    <!--        android:layout_marginStart="20dp"-->
-    <!--        app:layout_constraintEnd_toEndOf="parent"-->
-    <!--        app:layout_constraintHorizontal_bias="0.089"-->
-    <!--        app:layout_constraintStart_toEndOf="@+id/daySpnr"-->
-    <!--        app:layout_constraintTop_toTopOf="@+id/daySpnr" />-->
-
-    <!--    <TextView-->
-    <!--        android:id="@+id/dayTxt"-->
-    <!--        android:layout_width="wrap_content"-->
-    <!--        android:layout_height="wrap_content"-->
-    <!--        android:layout_marginBottom="9dp"-->
-    <!--        android:text="Day:"-->
-    <!--        app:layout_constraintBottom_toTopOf="@+id/daySpnr"-->
-    <!--        app:layout_constraintEnd_toEndOf="parent"-->
-    <!--        app:layout_constraintHorizontal_bias="0.098"-->
-    <!--        app:layout_constraintStart_toStartOf="parent"-->
-    <!--        app:layout_constraintTop_toBottomOf="@+id/birthDateTxt"-->
-    <!--        app:layout_constraintVertical_bias="0.848" />-->
-
-    <!--    <TextView-->
-    <!--        android:id="@+id/monthTxt"-->
-    <!--        android:layout_width="wrap_content"-->
-    <!--        android:layout_height="wrap_content"-->
-    <!--        android:text="Month:"-->
-    <!--        app:layout_constraintBottom_toTopOf="@+id/monthSpnr"-->
-    <!--        app:layout_constraintEnd_toEndOf="parent"-->
-    <!--        app:layout_constraintHorizontal_bias="0.346"-->
-    <!--        app:layout_constraintStart_toEndOf="@+id/dayTxt"-->
-    <!--        app:layout_constraintTop_toBottomOf="@+id/birthDateTxt"-->
-    <!--        app:layout_constraintVertical_bias="0.666" />-->
 
 </androidx.constraintlayout.widget.ConstraintLayout>
