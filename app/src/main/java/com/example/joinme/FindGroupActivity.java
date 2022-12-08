@@ -32,7 +32,6 @@ public class FindGroupActivity extends AppCompatActivity implements AdapterView.
     FirebaseFirestore db = FirebaseFirestore.getInstance();
     // create array of Strings of categories
     String[] meetings = {"Category", "Minnian", "Football", "Basketball", "Group games", "Volunteer", "Hang out"};
-    //todo: check that "category" not chosen.
     //view binding
     private ActivityFindGroupBinding binding;
     private GoogleSignInClient mGoogleSignInClient;

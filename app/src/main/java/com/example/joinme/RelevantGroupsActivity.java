@@ -77,6 +77,7 @@ public class RelevantGroupsActivity extends AppCompatActivity implements Recycle
         if(city.equals("")) {
             db.collection("groups")
                     .whereEqualTo("title", title)
+                    .whereEqualTo("is_happened", false)
                     .get()
                     .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
                         @Override
@@ -88,8 +89,10 @@ public class RelevantGroupsActivity extends AppCompatActivity implements Recycle
                                     nonResultTxt.setText("No matching groups were found");
                                 }
                                 for (QueryDocumentSnapshot document : task.getResult()) {
-                                    contacts.add(new Contact(document.getString("title"), document.getString("city"), document.getString("date") + " " + document.getString("time"), document.getId()));
-                                    Log.d(TAG, document.getId() + " => " + document.getString("city"));
+                                    if(document.getLong("max_participants") > document.getLong("num_of_participant")) {
+                                        contacts.add(new Contact(document.getString("title"), document.getString("city"), document.getString("date") + " " + document.getString("time"), document.getId()));
+                                        Log.d(TAG, document.getId() + " => " + document.getString("city"));
+                                    }
                                 }
                                 ContactsAdapter adapter = new ContactsAdapter(RelevantGroupsActivity.this, contacts, RelevantGroupsActivity.this);
                                 recyclerView.setAdapter(adapter);
@@ -103,6 +106,7 @@ public class RelevantGroupsActivity extends AppCompatActivity implements Recycle
         else{
             db.collection("groups")
                     .whereEqualTo("title", title).whereEqualTo("city", city)
+                    .whereEqualTo("is_happened", false)
                     .get()
                     .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
                         @Override
@@ -114,8 +118,10 @@ public class RelevantGroupsActivity extends AppCompatActivity implements Recycle
                                     nonResultTxt.setText("No matching groups were found");
                                 }
                                 for (QueryDocumentSnapshot document : task.getResult()) {
-                                    contacts.add(new Contact(document.getString("title"), document.getString("city"), document.getString("date") + " " + document.getString("time"), document.getId()));
-                                    Log.d(TAG, document.getId() + " => " + document.getString("city"));
+                                    if(document.getLong("max_participants") > document.getLong("num_of_participant")) {
+                                        contacts.add(new Contact(document.getString("title"), document.getString("city"), document.getString("date") + " " + document.getString("time"), document.getId()));
+                                        Log.d(TAG, document.getId() + " => " + document.getString("city"));
+                                    }
                                 }
                                 ContactsAdapter adapter = new ContactsAdapter(RelevantGroupsActivity.this, contacts, RelevantGroupsActivity.this);
                                 recyclerView.setAdapter(adapter);
