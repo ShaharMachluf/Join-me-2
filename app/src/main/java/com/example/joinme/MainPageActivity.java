@@ -4,17 +4,27 @@ package com.example.joinme;
 
 
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
+import android.widget.Toast;
+
 import com.example.joinme.databinding.ActivityMainPageBinding;
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInClient;
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FirebaseFirestore;
+
+import java.util.ArrayList;
 
 public class MainPageActivity extends AppCompatActivity {
 
@@ -23,6 +33,8 @@ public class MainPageActivity extends AppCompatActivity {
     private GoogleSignInClient mGoogleSignInClient;
     private FirebaseAuth firebaseAuth;
     private static final int RC_SIGN_IN = 100;
+    private FirebaseFirestore db = FirebaseFirestore.getInstance();
+    private static final String TAG = "WELCOME_TAG";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -75,9 +87,23 @@ public class MainPageActivity extends AppCompatActivity {
         }else{
             //user logged in
             //get user info
-            String email = firebaseUser.getEmail();
-            //set email
-            binding.emailTv.setText(email);
+            String uid = firebaseUser.getUid();
+            db.collection("usersById").document(uid).get()
+                    .addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                        @Override
+                        public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                            if (task.isSuccessful()) {
+                                DocumentSnapshot document = task.getResult();
+                                if (document.exists()) {
+                                    binding.nameTv.setText(document.getString("name"));
+                                } else {
+                                    Log.d(TAG, "No such document");
+                                }
+                            } else {
+                                Log.d(TAG, "get failed with ", task.getException());
+                            }
+                        }
+                    });
         }
     }
 

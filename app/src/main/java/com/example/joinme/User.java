@@ -11,12 +11,14 @@ public class User{
 
     private String uid;
     private String name;
-    private String phone; //todo: check if android studio have phone
-    private String mail; //todo: check if android studio have Email
+    private String phone;
+    private String mail;
     private String birth_date;
-    private ArrayList<Group> my_groups; // list of all the groups that this user participated in.
+    private ArrayList<String> my_groups; // list of all the groups that this user participated in.
     private int num_of_reports; //number of reports on this user.
     private int success_creating_groups; //number of groups that success and this user is the head of them.
+
+    public User(){}
 
     public User(String uid, String name, String phone, String mail, String birth_date) {
         this.name = name;
@@ -41,7 +43,7 @@ public class User{
         return mail;
     }
 
-    public ArrayList<Group> getMy_groups() {
+    public ArrayList<String> getMy_groups() {
         return my_groups;
     }
 
@@ -61,7 +63,7 @@ public class User{
         this.mail = mail;
     }
 
-    public void setMy_groups(ArrayList<Group> my_groups) {
+    public void setMy_groups(ArrayList<String> my_groups) {
         this.my_groups = my_groups;
     }
 
@@ -83,5 +85,9 @@ public class User{
 
     public void setBirth_date(String birth_date) {
         this.birth_date = birth_date;
+    }
+
+    public void addGroup(String gid){
+        this.my_groups.add(gid);
     }
 }
