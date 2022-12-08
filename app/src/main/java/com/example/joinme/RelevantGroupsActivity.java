@@ -12,6 +12,7 @@ import android.widget.Button;
 import android.widget.ListView;
 import android.widget.SearchView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 
 import com.example.joinme.databinding.ActivityOpenGroupBinding;
@@ -21,6 +22,7 @@ import com.google.android.gms.auth.api.signin.GoogleSignInClient;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
@@ -135,10 +137,41 @@ public class RelevantGroupsActivity extends AppCompatActivity implements Recycle
     }
 
     @Override
-    public void onItemClick(int position) {
+    public void onDetailsClick(int position) {
         Intent intent = new Intent(RelevantGroupsActivity.this, GroupDetailsActivity.class);
         intent.putExtra("ID", contacts.get(position).getId());
         startActivity(intent);
+    }
+
+    @Override
+    public void onJoinClick(int position) {
+        String groupID = contacts.get(position).getId();
+        db.collection("groups")
+                .document(groupID)
+                .get()
+                .addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                    @Override
+                    public void onComplete(@androidx.annotation.NonNull Task<DocumentSnapshot> task) {
+                        if (task.isSuccessful()) {
+                            DocumentSnapshot document = task.getResult();
+                            if (document.exists()) {
+                                Group group = document.toObject(Group.class);
+//                                group.setNum_of_participant(group.getNum_of_participant() + 1);
+                                group.addParticipant(firebaseAuth.getCurrentUser().getUid());
+                                addParticipantToDb(groupID, group);
+                            } else {
+                                Log.d(TAG, "No such document");
+                            }
+                        } else {
+                            Log.d(TAG, "get failed with ", task.getException());
+                        }
+                    }
+                });
+    }
+
+    private void addParticipantToDb(String groupID, Group group) {
+        db.collection("groups").document(groupID).set(group);
+        Toast.makeText(this, "Joined group successfully", Toast.LENGTH_SHORT).show();
     }
 
 }

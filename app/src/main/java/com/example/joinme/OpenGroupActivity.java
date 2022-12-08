@@ -175,7 +175,7 @@ public class OpenGroupActivity extends AppCompatActivity implements AdapterView.
                 db.collection("groups").add(currGroup);
                 //move to the main page
                 startActivity(new Intent(OpenGroupActivity.this, MainPageActivity.class));
-                // todo: maybe change the next page
+                Toast.makeText(OpenGroupActivity.this, "Group created successfully", Toast.LENGTH_SHORT).show();
                 finish();
 
             }

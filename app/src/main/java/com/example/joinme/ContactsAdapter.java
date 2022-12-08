@@ -1,9 +1,6 @@
 package com.example.joinme;
 
-import static androidx.core.content.ContextCompat.startActivity;
-
 import android.content.Context;
-import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -63,27 +60,24 @@ class ContactsAdapter extends RecyclerView.Adapter<ContactsAdapter.MyViewHolder>
                         int pos = getAdapterPosition();
 
                         if(pos != RecyclerView.NO_POSITION){
-                            recycleViewInterface.onItemClick(pos);
+                            recycleViewInterface.onDetailsClick(pos);
                         }
                     }
                 }
             });
-//            itemView.setOnClickListener(this);
-//            itemView.findViewById(R.id.detailsBtn).setOnClickListener(new View.OnClickListener() {
-//                @Override
-//                public void onClick(View view) {
-//                    startActivity(new Intent(context, GroupDetailsActivity.class));
-//                }
-//            });
-        }
 
-//        @Override
-//        public void onClick(View view) {
-//            listener.onClick(view , getAdapterPosition());
-//        }
-//    }
-//
-//    public interface RecyclerViewClickListener{
-//        void onClick(View v, int position);
+            itemView.findViewById(R.id.joinBtn).setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    if(recycleViewInterface != null){
+                        int pos = getAdapterPosition();
+
+                        if(pos != RecyclerView.NO_POSITION){
+                            recycleViewInterface.onJoinClick(pos);
+                        }
+                    }
+                }
+            });
+        }
     }
 }

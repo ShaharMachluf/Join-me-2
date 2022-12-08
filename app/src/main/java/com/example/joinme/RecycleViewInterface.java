@@ -1,5 +1,6 @@
 package com.example.joinme;
 
 public interface RecycleViewInterface {
-    void onItemClick(int position);
+    void onDetailsClick(int position);
+    void onJoinClick(int position);
 }

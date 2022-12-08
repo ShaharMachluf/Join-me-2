@@ -15,8 +15,10 @@ public class Group {
     private String time; //the time of this meeting
     private String date; // the date of this meeting
     private boolean is_happened; //the group success?
-    private ArrayList<User> participants; //list of all the participants in this group.
+    private ArrayList<String> participants; //list of all the participants in this group.
     private String head_of_group_uid; //the user that create this group.
+
+    public Group(){}
 
     public Group(String title, String city, String time, String date, String head, int min_participants, int max_participants) {
         this.title = title;
@@ -52,7 +54,7 @@ public class Group {
         return is_happened;
     }
 
-    public ArrayList<User> getParticipants() {
+    public ArrayList<String> getParticipants() {
         return participants;
     }
 
@@ -76,7 +78,7 @@ public class Group {
         this.is_happened = is_happened;
     }
 
-    public void setParticipants(ArrayList<User> participants) {
+    public void setParticipants(ArrayList<String> participants) {
         this.participants = participants;
     }
 
@@ -110,5 +112,10 @@ public class Group {
 
     public void setDate(String date) {
         this.date = date;
+    }
+
+    public void addParticipant(String uid){
+        this.participants.add(uid);
+        this.num_of_participant += 1;
     }
 }
