@@ -171,6 +171,7 @@ public class OpenGroupActivity extends AppCompatActivity implements AdapterView.
                 String head_uid = head.getUid();
                 //create group
                 Group currGroup = new Group(title, city, time, date, head_uid, min, max);
+                currGroup.addParticipant(head_uid);
                 //add group to database
                 db.collection("groups").add(currGroup);
                 //move to the main page
@@ -187,7 +188,7 @@ public class OpenGroupActivity extends AppCompatActivity implements AdapterView.
     public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
         title = meetings[i];
         if(title.equals("Category")){
-            onNothingSelected(adapterView); //todo:check this
+            onNothingSelected(adapterView);
         }
     }
 

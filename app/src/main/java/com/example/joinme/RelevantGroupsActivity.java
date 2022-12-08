@@ -156,8 +156,16 @@ public class RelevantGroupsActivity extends AppCompatActivity implements Recycle
                             DocumentSnapshot document = task.getResult();
                             if (document.exists()) {
                                 Group group = document.toObject(Group.class);
-//                                group.setNum_of_participant(group.getNum_of_participant() + 1);
-                                group.addParticipant(firebaseAuth.getCurrentUser().getUid());
+                                ArrayList<String> participants = group.getParticipants();
+                                String uid = firebaseAuth.getCurrentUser().getUid();
+                                //make sure the user is not already in this group
+                                for(int i = 0; i < participants.size(); ++i){
+                                    if(participants.get(i).equals(uid)){
+                                        Toast.makeText(RelevantGroupsActivity.this, "You are already in this group", Toast.LENGTH_SHORT).show();
+                                        return;
+                                    }
+                                }
+                                group.addParticipant(uid);
                                 addParticipantToDb(groupID, group);
                             } else {
                                 Log.d(TAG, "No such document");
