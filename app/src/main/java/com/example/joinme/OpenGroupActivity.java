@@ -146,6 +146,17 @@ public class OpenGroupActivity extends AppCompatActivity implements AdapterView.
                 String date = binding.selectDateEt.getText().toString();
                 int min, max;
                 //check that all of the fields had been filled
+                if(title.equals("Category")){
+                    TextView errorText = (TextView)binding.spinner.getSelectedView();
+                    errorText.setError("");
+                    errorText.setTextColor(Color.RED);//just to highlight that this is an error
+                    errorText.setText("please enter category");//changes the selected item text to this
+                    return;
+                }
+                if(city.isEmpty()){
+                    binding.cityTxt.setError("please enter the location");
+                    return;
+                }
                 try {
                     min = Integer.parseInt(binding.minParticipentsTxt.getText().toString());
                 }catch(NumberFormatException e){
@@ -160,17 +171,6 @@ public class OpenGroupActivity extends AppCompatActivity implements AdapterView.
                 }
                 if(min > max){
                     binding.minParticipentsTxt.setError("Minimum participants must be smaller then maximum participants");
-                    return;
-                }
-                if(title.equals("Category")){
-                    TextView errorText = (TextView)binding.spinner.getSelectedView();
-                    errorText.setError("");
-                    errorText.setTextColor(Color.RED);//just to highlight that this is an error
-                    errorText.setText("please enter category");//changes the selected item text to this
-                    return;
-                }
-                if(city.isEmpty()){
-                    binding.cityTxt.setError("please enter the location");
                     return;
                 }
                 FirebaseUser head = firebaseAuth.getCurrentUser(); //todo: how change this to User object
@@ -223,9 +223,6 @@ public class OpenGroupActivity extends AppCompatActivity implements AdapterView.
 
     @Override
     public void onNothingSelected(AdapterView<?> adapterView) {
-        Toast.makeText(getApplicationContext(),
-                        "please choose category",
-                        Toast.LENGTH_LONG)
-                .show();
+
     }
 }

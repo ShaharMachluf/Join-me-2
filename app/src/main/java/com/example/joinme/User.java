@@ -14,7 +14,17 @@ public class User{
     private String phone;
     private String mail;
     private String birth_date;
-    private ArrayList<String> my_groups; // list of all the groups that this user participated in.
+    private ArrayList<String> my_groups; // list of all the groups that this user is head of.
+
+    public ArrayList<String> getGroups_I_joined() {
+        return groups_I_joined;
+    }
+
+    public void setGroups_I_joined(ArrayList<String> groups_I_joined) {
+        this.groups_I_joined = groups_I_joined;
+    }
+
+    private ArrayList<String> groups_I_joined; // list of all the groups that this user participated in.
     private int num_of_reports; //number of reports on this user.
     private int success_creating_groups; //number of groups that success and this user is the head of them.
 
@@ -27,6 +37,7 @@ public class User{
         this.birth_date = birth_date;
         this.uid = uid;
         this.my_groups = new ArrayList<>();
+        this.groups_I_joined = new ArrayList<>();
         this.num_of_reports = 0;
         this.success_creating_groups = 0;
     }
@@ -89,5 +100,9 @@ public class User{
 
     public void addGroup(String gid){
         this.my_groups.add(gid);
+    }
+
+    public void addGroupIJoined(String gid){
+        this.groups_I_joined.add(gid);
     }
 }

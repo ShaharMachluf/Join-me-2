@@ -124,9 +124,6 @@ public class FindGroupActivity extends AppCompatActivity implements AdapterView.
 
     @Override
     public void onNothingSelected(AdapterView<?> adapterView) {
-            Toast.makeText(getApplicationContext(),
-                            "please choose category",
-                            Toast.LENGTH_LONG)
-                    .show();
+
     }
 }

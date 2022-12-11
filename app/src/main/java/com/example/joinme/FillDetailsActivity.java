@@ -110,7 +110,11 @@ public class FillDetailsActivity extends AppCompatActivity {
                     }
 
                     if(TextUtils.isEmpty(binding.PhoneTxt.toString())) {
-                        binding.FNameTxt.setError("please enter your phone number");
+                        binding.PhoneTxt.setError("please enter your phone number");
+                        return;
+                    }
+                    if(TextUtils.isEmpty(date)) {
+                        binding.etSelectDate.setError("please enter your phone number");
                         return;
                     }
                     //get all the details
