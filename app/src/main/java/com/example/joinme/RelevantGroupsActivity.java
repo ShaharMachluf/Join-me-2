@@ -30,6 +30,7 @@ import com.google.firebase.firestore.QuerySnapshot;
 import org.checkerframework.checker.nullness.qual.NonNull;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 
 public class RelevantGroupsActivity extends AppCompatActivity implements RecycleViewInterface{
     FirebaseFirestore db = FirebaseFirestore.getInstance();
@@ -80,6 +81,7 @@ public class RelevantGroupsActivity extends AppCompatActivity implements Recycle
         String [] today = new String[3];
         if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
             today = java.time.LocalDate.now().toString().split("-");
+            Log.d(TAG, "the date is: " + Arrays.toString(today));
         }
         if(city.equals("")) {
             String[] finalToday = today;
@@ -190,7 +192,7 @@ public class RelevantGroupsActivity extends AppCompatActivity implements Recycle
         Toast.makeText(this, "Joined group successfully", Toast.LENGTH_SHORT).show();
     }
 
-    //*
+//    //*
 //    private boolean checkDate(int todayYear, int todayMonth, int todayDay, int groupDateYear, int groupDateMonth, int groupDateDay){
 //        if(todayYear > groupDateYear){
 //            return false;
@@ -215,7 +217,7 @@ public class RelevantGroupsActivity extends AppCompatActivity implements Recycle
         for (QueryDocumentSnapshot document : task.getResult()) {
             String [] groupDate = document.getString("date").split("/");
             if(document.getLong("max_participants") > document.getLong("num_of_participant") &&
-                    logic.checkDate(Integer.parseInt(finalToday[2]), Integer.parseInt(finalToday[1]), Integer.parseInt(finalToday[0]),
+                    logic.checkDate(Integer.parseInt(finalToday[0]), Integer.parseInt(finalToday[1]), Integer.parseInt(finalToday[2]),
                             Integer.parseInt(groupDate[2]), Integer.parseInt(groupDate[1]), Integer.parseInt(groupDate[0]))) {
                 contacts.add(new Contact(document.getString("title"), document.getString("city"), document.getString("date") + " " + document.getString("time"), document.getId()));
                 Log.d(TAG, document.getId() + " => " + document.getString("city"));
