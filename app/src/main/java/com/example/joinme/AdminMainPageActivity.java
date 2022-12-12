@@ -45,6 +45,13 @@ public class AdminMainPageActivity extends AppCompatActivity {
                 checkUser();
             }
         });
+
+        binding.deleteUserBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivity(new Intent(AdminMainPageActivity.this, DeleteUserActivity.class));
+            }
+        });
     }
 
     private void checkUser() {
@@ -60,14 +67,7 @@ public class AdminMainPageActivity extends AppCompatActivity {
             //get user info
             String email = firebaseUser.getEmail();
             //set email
-            binding.emailTv.setText(email);
-//            String uid = firebaseUser.getUid();
-//            Admin currAdmin = new Admin("chen", email);
-//            //insert
-//            // Add a new document with a generated ID
-//            db.collection("admins").document(uid).set(currAdmin);
-////                    .add(currAdmin);
-//            Toast.makeText(AdminMainPageActivity.this, "enter new admin", Toast.LENGTH_SHORT).show();
+            binding.emailTv.setText("Admin");
         }
     }
 }

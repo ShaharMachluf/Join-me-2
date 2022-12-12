@@ -85,9 +85,11 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(new Intent(MainActivity.this, AdminMainPageActivity.class));
                 finish();
             }
-            Log.d(TAG, "checkUser: Already logged in");
-            startActivity(new Intent(this, MainPageActivity.class));
-            finish();
+            else {
+                Log.d(TAG, "checkUser: Already logged in");
+                startActivity(new Intent(this, MainPageActivity.class));
+                finish();
+            }
         }
     }
 

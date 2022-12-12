@@ -184,7 +184,7 @@ public class OpenGroupActivity extends AppCompatActivity implements AdapterView.
                     binding.minParticipentsTxt.setError("Minimum participants must be smaller then maximum participants");
                     return;
                 }
-                FirebaseUser head = firebaseAuth.getCurrentUser(); //todo: how change this to User object
+                FirebaseUser head = firebaseAuth.getCurrentUser();
                 String head_uid = head.getUid();
                 //create group
                 Group currGroup = new Group(title, city, time, date, head_uid, min, max);

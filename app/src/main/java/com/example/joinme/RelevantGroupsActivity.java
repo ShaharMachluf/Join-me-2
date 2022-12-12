@@ -192,22 +192,6 @@ public class RelevantGroupsActivity extends AppCompatActivity implements Recycle
         Toast.makeText(this, "Joined group successfully", Toast.LENGTH_SHORT).show();
     }
 
-//    //*
-//    private boolean checkDate(int todayYear, int todayMonth, int todayDay, int groupDateYear, int groupDateMonth, int groupDateDay){
-//        if(todayYear > groupDateYear){
-//            return false;
-//        }
-//        if(todayYear == groupDateYear){
-//            if(todayMonth > groupDateMonth){
-//                return false;
-//            }
-//            if(todayMonth == groupDateMonth){
-//                return todayDay <= groupDateDay;
-//            }
-//        }
-//        return true;
-//    }
-
     private void presentRelevantGroups(@NonNull Task<QuerySnapshot> task, String[] finalToday){
         RecyclerView recyclerView = findViewById(R.id.rvBox);
         if (task.getResult().isEmpty()){
