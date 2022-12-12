@@ -39,6 +39,7 @@ public class RelevantGroupsActivity extends AppCompatActivity implements Recycle
     private static final int RC_SIGN_IN = 100;
     private static final String TAG = "GOOGLE_SIGN_IN_TAG";
     ArrayList<Contact> contacts = new ArrayList<>();
+    Logic logic = new Logic();
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -190,20 +191,20 @@ public class RelevantGroupsActivity extends AppCompatActivity implements Recycle
     }
 
     //*
-    private boolean checkDate(int todayYear, int todayMonth, int todayDay, int groupDateYear, int groupDateMonth, int groupDateDay){
-        if(todayYear > groupDateYear){
-            return false;
-        }
-        if(todayYear == groupDateYear){
-            if(todayMonth > groupDateMonth){
-                return false;
-            }
-            if(todayMonth == groupDateMonth){
-                return todayDay <= groupDateDay;
-            }
-        }
-        return true;
-    }
+//    private boolean checkDate(int todayYear, int todayMonth, int todayDay, int groupDateYear, int groupDateMonth, int groupDateDay){
+//        if(todayYear > groupDateYear){
+//            return false;
+//        }
+//        if(todayYear == groupDateYear){
+//            if(todayMonth > groupDateMonth){
+//                return false;
+//            }
+//            if(todayMonth == groupDateMonth){
+//                return todayDay <= groupDateDay;
+//            }
+//        }
+//        return true;
+//    }
 
     private void presentRelevantGroups(@NonNull Task<QuerySnapshot> task, String[] finalToday){
         RecyclerView recyclerView = findViewById(R.id.rvBox);
@@ -214,7 +215,7 @@ public class RelevantGroupsActivity extends AppCompatActivity implements Recycle
         for (QueryDocumentSnapshot document : task.getResult()) {
             String [] groupDate = document.getString("date").split("/");
             if(document.getLong("max_participants") > document.getLong("num_of_participant") &&
-                    checkDate(Integer.parseInt(finalToday[2]), Integer.parseInt(finalToday[1]), Integer.parseInt(finalToday[0]),
+                    logic.checkDate(Integer.parseInt(finalToday[2]), Integer.parseInt(finalToday[1]), Integer.parseInt(finalToday[0]),
                             Integer.parseInt(groupDate[2]), Integer.parseInt(groupDate[1]), Integer.parseInt(groupDate[0]))) {
                 contacts.add(new Contact(document.getString("title"), document.getString("city"), document.getString("date") + " " + document.getString("time"), document.getId()));
                 Log.d(TAG, document.getId() + " => " + document.getString("city"));

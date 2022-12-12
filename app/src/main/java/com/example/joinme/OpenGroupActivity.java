@@ -36,6 +36,7 @@ import java.util.Locale;
 
 public class OpenGroupActivity extends AppCompatActivity implements AdapterView.OnItemSelectedListener {
     FirebaseFirestore db = FirebaseFirestore.getInstance();
+    Logic logic = new Logic();
     // create array of Strings of categories
     String[] meetings = {"Category", "Minnian", "Football", "Basketball", "Group games", "Volunteer", "Hang out"};
     //todo: check that "category" not chosen.
@@ -112,6 +113,8 @@ public class OpenGroupActivity extends AppCompatActivity implements AdapterView.
 
                         month = month+1;
                         date = dayOfMonth+"/"+month+"/"+year;
+                        int [] groupDate = {dayOfMonth, month, year};
+
                         binding.selectDateEt.setText(date);
 
                     }
@@ -155,6 +158,14 @@ public class OpenGroupActivity extends AppCompatActivity implements AdapterView.
                 }
                 if(city.isEmpty()){
                     binding.cityTxt.setError("please enter the location");
+                    return;
+                }
+                String [] today = new String[3];
+                if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
+                    today = java.time.LocalDate.now().toString().split("-");
+                }
+                if(!logic.checkDate(Integer.parseInt(today[2]), Integer.parseInt(today[1]), Integer.parseInt(today[0]), year, month, day)){
+                    binding.selectDateEt.setError("please enter legal date");
                     return;
                 }
                 try {
