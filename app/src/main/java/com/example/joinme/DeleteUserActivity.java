@@ -9,17 +9,21 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Gravity;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.LinearLayout;
+import android.widget.PopupWindow;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.joinme.databinding.ActivityDeleteUserBinding;
-import com.example.joinme.databinding.ActivityFindGroupBinding;
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInClient;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
@@ -27,7 +31,7 @@ import com.google.firebase.firestore.QuerySnapshot;
 import java.util.ArrayList;
 import java.util.List;
 
-public class DeleteUserActivity extends AppCompatActivity {
+public class DeleteUserActivity extends AppCompatActivity implements RecycleViewInterface{
 
     FirebaseFirestore db = FirebaseFirestore.getInstance();
     //view binding
@@ -36,10 +40,11 @@ public class DeleteUserActivity extends AppCompatActivity {
     private FirebaseAuth firebaseAuth;
     private static final int RC_SIGN_IN = 100;
     private static final String TAG = "DELETE_USER_TAG";
-    ArrayList<UserRow> userRows = new ArrayList<>();
+    List<UserRow> userRows = new ArrayList<>();
     private SearchView searchView;
     RecyclerView recyclerView;
-    DeleteUserAdapter adapter = new DeleteUserAdapter(this, userRows);
+    DeleteUserAdapter adapter = new DeleteUserAdapter(this, userRows, DeleteUserActivity.this);
+    androidx.constraintlayout.widget.ConstraintLayout parent;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,7 +54,11 @@ public class DeleteUserActivity extends AppCompatActivity {
         //init firebase auth
         firebaseAuth = FirebaseAuth.getInstance();
         mGoogleSignInClient = GoogleSignIn.getClient(this, MainActivity.googleSignInOptions);
-        searchView = findViewById(R.id.searchView);
+//        SearchManager searchManager = (SearchManager)getSystemService(Context.SEARCH_SERVICE);
+//        SearchableInfo searchableInfo = searchManager.getSearchableInfo(getComponentName());
+        parent = findViewById(R.id.delPage);
+        searchView = findViewById(R.id.searchV);
+//        searchView.setSearchableInfo(searchableInfo);
         searchView.clearFocus();
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
@@ -59,17 +68,18 @@ public class DeleteUserActivity extends AppCompatActivity {
 
             @Override
             public boolean onQueryTextChange(String newText) {
-                fileList(newText);
+               fileList(newText);
                 return true;
             }
         });
-        recyclerView = findViewById(R.id.usersRcv);
 
+        recyclerView = findViewById(R.id.usersRcv);
         setUpUserRows();
 
 //        DeleteUserAdapter adapter = new DeleteUserAdapter(this, userRows);
         recyclerView.setAdapter(adapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
+
 
         //handle click, logout
         binding.logoutBtn.setOnClickListener(new View.OnClickListener() {
@@ -92,10 +102,11 @@ public class DeleteUserActivity extends AppCompatActivity {
     }
 
     private void fileList(String text) {
-        ArrayList<UserRow> filteredList = new ArrayList<>();
+        List<UserRow> filteredList = new ArrayList<>();
         for(UserRow user: userRows){
             if(user.getName().toLowerCase().contains(text.toLowerCase())){
                 filteredList.add(user);
+                Log.d(TAG, user.getName());
             }
         }
         if(filteredList.isEmpty()){
@@ -103,16 +114,11 @@ public class DeleteUserActivity extends AppCompatActivity {
         }
         else{
             adapter.setFilteredList(filteredList);
+
         }
     }
 
     private void setUpUserRows(){
-//        String[] UserNames = {"Chen Shtyn", "Tavor Levine"};
-//        String[] Mails = {"chen@gmail", "tavor@gmail"};
-//
-//        for(int i=0; i<2; ++i){
-//            userRows.add(new UserRow(UserNames[i], Mails[i]));
-//        }
         db.collection("usersById").get()
                 .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
                     @Override
@@ -124,10 +130,10 @@ public class DeleteUserActivity extends AppCompatActivity {
                                 nonResultTxt.setText("No matching users were found");
                             }
                             for (QueryDocumentSnapshot document : task.getResult()) {
-                                userRows.add(new UserRow(document.getString("name"), document.getString("mail")));
+                                userRows.add(new UserRow(document.getString("name"), document.getString("mail"),document.getId()));
                                 Log.d(TAG, document.getId() + " => " + document.getData());
                             }
-                            DeleteUserAdapter adapter = new DeleteUserAdapter(DeleteUserActivity.this, userRows);
+//                            DeleteUserAdapter adapter = new DeleteUserAdapter(DeleteUserActivity.this, userRows, DeleteUserActivity.this);
                             recyclerView.setAdapter(adapter);
                             recyclerView.setLayoutManager(new LinearLayoutManager(DeleteUserActivity.this));
                         } else {
@@ -135,5 +141,43 @@ public class DeleteUserActivity extends AppCompatActivity {
                         }
                     }
                 });
+    }
+
+    @Override
+    public void onDetailsClick(int position) {
+
+    }
+
+    @Override
+    public void onJoinClick(int position) {
+
+    }
+
+    @Override
+    public void onDeleteClick(int position) {
+//        onButtonShowPopupWindowClick();
+//        db.collection("usersById").document(userRows.get(position).getUid()).delete();
+//        FirebaseUser user = FirebaseAuth.getInstance().deleteUser(userRows.get(position).getUid());
+//        userRows.remove(position);
+
+    }
+
+    public void onButtonShowPopupWindowClick() {
+
+        // inflate the layout of the popup window
+        LayoutInflater inflater = (LayoutInflater)
+                getSystemService(LAYOUT_INFLATER_SERVICE);
+        View popupView = inflater.inflate(R.layout.delete_user_popup, null);
+
+        // create the popup window
+        int width = LinearLayout.LayoutParams.WRAP_CONTENT;
+        int height = LinearLayout.LayoutParams.WRAP_CONTENT;
+        boolean focusable = true; // lets taps outside the popup also dismiss it
+        final PopupWindow popupWindow = new PopupWindow(popupView, width, height, focusable);
+
+        // show the popup window
+        // which view you pass in doesn't matter, it is only used for the window tolken
+        popupWindow.showAtLocation(parent, Gravity.CENTER, 0, 0);
+
     }
 }

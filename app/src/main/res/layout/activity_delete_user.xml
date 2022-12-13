@@ -2,25 +2,25 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/delPage"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".DeleteUserActivity">
 
 
     <androidx.appcompat.widget.SearchView
-        android:id="@+id/searchView"
+        android:id="@+id/searchV"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_margin="8dp"
+        android:background="@drawable/search_view_bg"
+        app:iconifiedByDefault="false"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.181"
-        android:background="@drawable/search_view_bg"
-        app:queryHint="Search Here ..."
-        app:iconifiedByDefault="false"/>
+        app:layout_constraintVertical_bias="0.163"
+        app:queryHint="Search Here ..." />
 
     <Button
         android:id="@+id/logoutBtn"
@@ -49,12 +49,12 @@
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/usersRcv"
-        android:layout_width="370dp"
-        android:layout_height="440dp"
+        android:layout_width="372dp"
+        android:layout_height="378dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.421"
+        app:layout_constraintHorizontal_bias="0.355"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/searchView"
+        app:layout_constraintTop_toBottomOf="@+id/searchV"
         app:layout_constraintVertical_bias="1.0" />
 </androidx.constraintlayout.widget.ConstraintLayout>
