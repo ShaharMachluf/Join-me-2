@@ -11,6 +11,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class DeleteUserAdapter extends RecyclerView.Adapter<DeleteUserAdapter.MyViewHolder> {
 
@@ -20,6 +21,11 @@ public class DeleteUserAdapter extends RecyclerView.Adapter<DeleteUserAdapter.My
     public DeleteUserAdapter(Context context, ArrayList<UserRow> userRow){
         this.context = context;
         this.userRow = userRow;
+    }
+
+    public void setFilteredList(ArrayList<UserRow> filteredList){
+        this.userRow = filteredList;
+        notifyDataSetChanged();
     }
 
     @NonNull

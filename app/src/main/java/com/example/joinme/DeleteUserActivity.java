@@ -2,6 +2,7 @@ package com.example.joinme;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.SearchView;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -10,6 +11,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.joinme.databinding.ActivityDeleteUserBinding;
 import com.example.joinme.databinding.ActivityFindGroupBinding;
@@ -23,6 +25,7 @@ import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class DeleteUserActivity extends AppCompatActivity {
 
@@ -34,6 +37,9 @@ public class DeleteUserActivity extends AppCompatActivity {
     private static final int RC_SIGN_IN = 100;
     private static final String TAG = "DELETE_USER_TAG";
     ArrayList<UserRow> userRows = new ArrayList<>();
+    private SearchView searchView;
+    RecyclerView recyclerView;
+    DeleteUserAdapter adapter = new DeleteUserAdapter(this, userRows);
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,12 +49,25 @@ public class DeleteUserActivity extends AppCompatActivity {
         //init firebase auth
         firebaseAuth = FirebaseAuth.getInstance();
         mGoogleSignInClient = GoogleSignIn.getClient(this, MainActivity.googleSignInOptions);
+        searchView = findViewById(R.id.searchView);
+        searchView.clearFocus();
+        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+                return false;
+            }
 
-        RecyclerView recyclerView = findViewById(R.id.usersRcv);
+            @Override
+            public boolean onQueryTextChange(String newText) {
+                fileList(newText);
+                return true;
+            }
+        });
+        recyclerView = findViewById(R.id.usersRcv);
 
         setUpUserRows();
 
-        DeleteUserAdapter adapter = new DeleteUserAdapter(this, userRows);
+//        DeleteUserAdapter adapter = new DeleteUserAdapter(this, userRows);
         recyclerView.setAdapter(adapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
 
@@ -70,6 +89,21 @@ public class DeleteUserActivity extends AppCompatActivity {
                 startActivity(new Intent(DeleteUserActivity.this, AdminMainPageActivity.class));
             }
         });
+    }
+
+    private void fileList(String text) {
+        ArrayList<UserRow> filteredList = new ArrayList<>();
+        for(UserRow user: userRows){
+            if(user.getName().toLowerCase().contains(text.toLowerCase())){
+                filteredList.add(user);
+            }
+        }
+        if(filteredList.isEmpty()){
+            Toast.makeText(this, "No users found", Toast.LENGTH_SHORT).show();
+        }
+        else{
+            adapter.setFilteredList(filteredList);
+        }
     }
 
     private void setUpUserRows(){
