@@ -12,6 +12,7 @@ import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.PopupWindow;
 import android.widget.TextView;
@@ -24,6 +25,7 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
@@ -155,20 +157,30 @@ public class DeleteUserActivity extends AppCompatActivity implements RecycleView
 
     @Override
     public void onDeleteClick(int position) {
-//        onButtonShowPopupWindowClick();
+        onButtonShowPopupWindowClick(position);
+//        db.collection("usersById").document(userRows.get(position).getUid()).get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+//            @Override
+//            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+//                DocumentSnapshot document = task.getResult();
+//                if(document.exists()){
+//                    User block_user = document.toObject(User.class);
+//                    String bid = db.collection("blockUsers").document().getId();
+//                    db.collection("blockUsers").document(bid).set(block_user);
+//                }
+//            }
+//        });
 //        db.collection("usersById").document(userRows.get(position).getUid()).delete();
-//        FirebaseUser user = FirebaseAuth.getInstance().deleteUser(userRows.get(position).getUid());
 //        userRows.remove(position);
-
     }
 
-    public void onButtonShowPopupWindowClick() {
+    public void onButtonShowPopupWindowClick(int pos) {
 
         // inflate the layout of the popup window
         LayoutInflater inflater = (LayoutInflater)
                 getSystemService(LAYOUT_INFLATER_SERVICE);
         View popupView = inflater.inflate(R.layout.delete_user_popup, null);
-
+        TextView tvMsg = popupView.findViewById(R.id.msgTxt);
+        tvMsg.setText("Are you sure you want to delete " + userRows.get(pos).getName() + "?");
         // create the popup window
         int width = LinearLayout.LayoutParams.WRAP_CONTENT;
         int height = LinearLayout.LayoutParams.WRAP_CONTENT;
