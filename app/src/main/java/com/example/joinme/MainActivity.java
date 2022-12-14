@@ -31,6 +31,7 @@ import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.GoogleAuthProvider;
+import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
@@ -81,6 +82,7 @@ public class MainActivity extends AppCompatActivity {
         FirebaseUser firebaseUser = firebaseAuth.getCurrentUser();
         if(firebaseUser != null){
             String email = firebaseUser.getEmail();
+            String uid = firebaseUser.getUid();
             //admin logged in
             if(email.equals("jiayhb@gmail.com")){
                 Log.d(TAG, "onSuccess: Admin logged in...\n"+email);
@@ -89,13 +91,11 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(new Intent(MainActivity.this, AdminMainPageActivity.class));
                 finish();
             }
-//            else if(blocks_user(email)) {
-//
-//            }
             else {
-                Log.d(TAG, "checkUser: Already logged in");
-                startActivity(new Intent(this, MainPageActivity.class));
-                finish();
+//                Log.d(TAG, "checkUser: Already logged in");
+//                startActivity(new Intent(this, MainPageActivity.class));
+//                finish();
+                blocked_user(uid);
             }
         }
     }
@@ -159,11 +159,12 @@ public class MainActivity extends AppCompatActivity {
                         }
                         else {
                             //existing account
-                            Log.d(TAG, "onSuccess: Existing user...\n" + email);
-                            Toast.makeText(MainActivity.this, "Existing user...\n" + email, Toast.LENGTH_SHORT).show();
-                            //start profile activity
-                            startActivity(new Intent(MainActivity.this, MainPageActivity.class));
-                            finish();
+//                            Log.d(TAG, "onSuccess: Existing user...\n" + email);
+//                            Toast.makeText(MainActivity.this, "Existing user...\n" + email, Toast.LENGTH_SHORT).show();
+//                            //start profile activity
+//                            startActivity(new Intent(MainActivity.this, MainPageActivity.class));
+//                            finish();
+                            blocked_user(uid);
                         }
                     }
                 })
@@ -175,24 +176,43 @@ public class MainActivity extends AppCompatActivity {
                     }
                 });
     }
-}
-//add return
-//    private boolean blocks_user(String email) {
-//    boolean flag = false;
-//        db.collection("blockUsers").get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+
+    private void blocked_user(String uid) {
+        db.collection("blockUsers").document(uid).get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                DocumentSnapshot document = task.getResult();
+                if (task.isSuccessful()) {
+                    if (document.exists()) {
+                        Log.d(TAG, document.getId());
+                        Toast.makeText(MainActivity.this, "You are blocked", Toast.LENGTH_SHORT).show();
+                        firebaseAuth.signOut();
+                        googleSignInClient.signOut();
+                    } else {
+                        //existing account
+                        //start profile activity
+                        startActivity(new Intent(MainActivity.this, MainPageActivity.class));
+                        finish();
+                    }
+                } else {
+                    Log.d(TAG, "Failed with: ", task.getException());
+                }
+            }
+        });
+    }
+
 //            @Override
 //            public void onComplete(@NonNull Task<QuerySnapshot> task) {
 //                if (task.isSuccessful()) {
-//                    for (QueryDocumentSnapshot document : task.getResult()) {
-//                        if(document.getString("mail").equals(email)) {
-//                            flag = true;
-//                        }
-//                    }
+//                    QuerySnapshot document = task.getResult();
+//                    Toast.makeText(MainActivity.this, "You are blocked", Toast.LENGTH_SHORT).show();
+//                    firebaseAuth.signOut();
+//                    googleSignInClient.signOut();
 //                } else {
-//                    Log.d(TAG, "Error getting documents: ", task.getException());
+//                    //existing account
+//                    //start profile activity
+//                    startActivity(new Intent(MainActivity.this, MainPageActivity.class));
+//                    finish();
 //                }
 //            }
-//        });
-//
-//    }
-//    }
+}
