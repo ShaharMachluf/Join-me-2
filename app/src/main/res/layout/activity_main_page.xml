@@ -43,7 +43,7 @@
         app:layout_constraintVertical_bias="0.129" />
 
     <TextView
-        android:id="@+id/textView2"
+        android:id="@+id/welcomeTxt"
         style="@style/TextAppearance.MaterialComponents.Caption"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -58,10 +58,10 @@
         style="@style/TextAppearance.MaterialComponents.Body1"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Email"
+        android:text="Name"
         app:layout_constraintBottom_toTopOf="@+id/createGroupBtn"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView2" />
+        app:layout_constraintTop_toBottomOf="@+id/welcomeTxt" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -5,14 +5,11 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
 
 public class DeleteUserAdapter extends RecyclerView.Adapter<DeleteUserAdapter.MyViewHolder> {
@@ -29,12 +26,6 @@ public class DeleteUserAdapter extends RecyclerView.Adapter<DeleteUserAdapter.My
     public void setFilteredList(List<UserRow> filteredList){
         this.userRows = filteredList;
         notifyDataSetChanged();
-//        int old_size = getItemCount();
-//        this.userRows.clear();
-//        this.userRows.addAll(filteredList);
-//        notifyItemRangeRemoved(0, old_size);
-//        notifyItemRangeInserted(0, getItemCount());
-
     }
 
     @NonNull
@@ -74,7 +65,7 @@ public class DeleteUserAdapter extends RecyclerView.Adapter<DeleteUserAdapter.My
 
             tvName = itemView.findViewById(R.id.nameTxt);
             tvMail = itemView.findViewById(R.id.mailTxt);
-            itemView.findViewById(R.id.deleteBtn).setOnClickListener(new View.OnClickListener() {
+            itemView.findViewById(R.id.blockBtn).setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
                     if(recycleViewInterface != null){
