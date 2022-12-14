@@ -50,9 +50,15 @@ public class OpenGroupActivity extends AppCompatActivity implements AdapterView.
     String title;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        /** onCreate() is called when the when the activity is first created.
+         *  @param  savedInstanceState –is a reference to the Bundle object that is passed to the onCreate method of each Android activity.
+         *                             Activities have the ability, under special circumstances,to restore themselves to a previous state
+         *                             using the data stored in this package.
+         */
+
         super.onCreate(savedInstanceState);
-        binding = ActivityOpenGroupBinding.inflate(getLayoutInflater());
-        setContentView(binding.getRoot());
+        binding = ActivityOpenGroupBinding.inflate(getLayoutInflater()); //Using this function this binding variable can be used to access GUI components.
+        setContentView(binding.getRoot());                               //Set the activity content to an explicit view.
         //init firebase auth
         firebaseAuth = FirebaseAuth.getInstance();
         mGoogleSignInClient = GoogleSignIn.getClient(this, MainActivity.googleSignInOptions);
@@ -76,26 +82,21 @@ public class OpenGroupActivity extends AppCompatActivity implements AdapterView.
             }
         });
 
-        // Take the instance of Spinner and
-        // apply OnItemSelectedListener on it which
-        // tells which item of spinner is clicked
+        // Take the instance of Spinner and apply OnItemSelectedListener on it which tells which item of spinner is clicked
         Spinner spino = findViewById(R.id.spinner);
         spino.setOnItemSelectedListener(this);
+
         // Create the instance of ArrayAdapter
         // having the list of meetings
-        ArrayAdapter ad
-                = new ArrayAdapter(
-                this,
-                android.R.layout.simple_spinner_item,
-                meetings);
+        ArrayAdapter ad = new ArrayAdapter(this, android.R.layout.simple_spinner_item,  meetings);
+
         // set simple layout resource file
         // for each item of spinner
-        ad.setDropDownViewResource(
-                android.R.layout
-                        .simple_spinner_dropdown_item);
+        ad.setDropDownViewResource(android.R.layout   .simple_spinner_dropdown_item);
         // Set the ArrayAdapter (ad) data on the
         // Spinner which binds data to spinner
         spino.setAdapter(ad);
+
         //get date of the meeting
         final Calendar calendar = Calendar.getInstance();
         final int year = calendar.get(Calendar.YEAR);
@@ -104,16 +105,16 @@ public class OpenGroupActivity extends AppCompatActivity implements AdapterView.
         binding.selectDateEt.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                /**
+                 * you can double-click on the date of birth and a pop-up calendar window will open
+                 */
                 DatePickerDialog dialog = new DatePickerDialog(OpenGroupActivity.this, new DatePickerDialog.OnDateSetListener() {
                     @Override
                     public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
-
                         month = month+1;
                         date = dayOfMonth+"/"+month+"/"+year;
                         int [] groupDate = {dayOfMonth, month, year};
-
                         binding.selectDateEt.setText(date);
-
                     }
                 },year, month,day);
                 dialog.show();
@@ -144,6 +145,7 @@ public class OpenGroupActivity extends AppCompatActivity implements AdapterView.
                 String city = binding.cityTxt.getText().toString();
                 String time = binding.SelectTimeEdt.getText().toString();
                 String date = binding.selectDateEt.getText().toString();
+
                 String[] groupDate = date.split("/");
                 int min, max;
                 //check that all of the fields had been filled
@@ -159,6 +161,9 @@ public class OpenGroupActivity extends AppCompatActivity implements AdapterView.
                     return;
                 }
                 String [] today = new String[3];
+
+                //if true it means the device running the app has Android SDK 26 or up
+                //otherwise- the SDK version is lower than 26. (SDK 25 or lower)
                 if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
                     today = java.time.LocalDate.now().toString().split("-");
                 }
@@ -206,7 +211,6 @@ public class OpenGroupActivity extends AppCompatActivity implements AdapterView.
                                 User user = document.toObject(User.class);
                                 user.addGroup(gid);
                                 db.collection("usersById").document(user.getUid()).set(user);
-
                                 Toast.makeText(OpenGroupActivity.this, "Group created successfully", Toast.LENGTH_SHORT).show();
                                 //move to the main page
                                 startActivity(new Intent(OpenGroupActivity.this, MainPageActivity.class));
@@ -224,6 +228,16 @@ public class OpenGroupActivity extends AppCompatActivity implements AdapterView.
 
     @Override
     public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+        /**
+         * Callback method to be invoked when an item in this view has been selected. This callback is invoked only when the newly selected position is different from the previously selected position or if there was no selected item.
+         * Implementers can call getItemAtPosition(position) if they need to access the data associated with the selected item.
+         * Parameters
+         * parent
+         * @param AdapterView: The AdapterView where the selection happened
+         * @param view - View: The view within the AdapterView that was clicked
+         * @param position - int: The position of the view in the adapter
+         * @param id - long: The row id of the item that is selected
+         */
         title = meetings[i];
         if(title.equals("Category")){
             onNothingSelected(adapterView);
