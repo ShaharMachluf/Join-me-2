@@ -48,7 +48,13 @@ public class MainActivity extends AppCompatActivity {
     private static final String TAG = "GOOGLE_SIGN_IN_TAG";
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {            //onCreate() is called when the when the activity is first created.
+    protected void onCreate(Bundle savedInstanceState) { 
+        /** onCreate() is called when the when the activity is first created.
+         *  @param  savedInstanceState –is a reference to the Bundle object that is passed to the onCreate method of each Android activity.
+         *                             Activities have the ability, under special circumstances,to restore themselves to a previous state
+         *                             using the data stored in this package.
+         */
+        
         super.onCreate(savedInstanceState);
         binding = ActivityMainBinding.inflate(getLayoutInflater()); //Using this function this binding variable can be used to access GUI components.
         setContentView(binding.getRoot());                          //Set the activity content to an explicit view.
@@ -77,6 +83,9 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void checkUser() {
+         /**
+         This function checks the user and starts profile activity according to the type of user-administrator or normal user.
+         */
         //if user is already signed in then go to main page
         FirebaseUser firebaseUser = firebaseAuth.getCurrentUser();
         if(firebaseUser != null){
@@ -97,7 +106,15 @@ public class MainActivity extends AppCompatActivity {
     }
 
     @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {   
+        /**
+         * onActivityResult is a callback when there is an action done with intent such as a selection, button click, etc.
+         * @param requestCode – The integer request code originally supplied to startActivityForResult(), allowing you to identify who this result came from.
+         * @param  resultCode – The integer result code returned by the child activity through its setResult().
+         * @param  data – An Intent, which can return result data to the caller (various data can be attached to Intent "extras").
+         */
+        
+        //super().onActivityResult()  is use to handle the error or exception during execution of Intent.
         super.onActivityResult(requestCode, resultCode, data);
 
         //result returned from launching the Intent from GoogleSignInApi.getSignInIntent(...);
@@ -118,6 +135,11 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void firebaseAuthWithGoogleAccount(GoogleSignInAccount account) {
+         /**
+         * firebaseAuthWithGoogleAccount begin firebase auth with google account
+         * @param account –holds the basic account information of the signed in Google user.
+         */
+        
         Log.d(TAG, "firebaseAuthWithGoogleAccount: begin firebase auth with google account");
         AuthCredential credential = GoogleAuthProvider.getCredential(account.getIdToken(), null);
         firebaseAuth.signInWithCredential(credential)
@@ -160,6 +182,7 @@ public class MainActivity extends AppCompatActivity {
                         }
                     }
                 })
+                 //adds a listener that is called if the Task fails.
                 .addOnFailureListener(new OnFailureListener() {
                     @Override
                     public void onFailure(@NonNull Exception e) {
@@ -170,6 +193,13 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void blocked_user(String uid) {
+         /**
+         * This function looks for the user id of the user in the blocked users collection, 
+         * if the user is indeed in the collection he will not be allowed to enter the application.
+         * 
+         * @param uid – holds the user id.
+         */
+        
         db.collection("blockUsers").document(uid).get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
             @Override
             public void onComplete(@NonNull Task<DocumentSnapshot> task) {
