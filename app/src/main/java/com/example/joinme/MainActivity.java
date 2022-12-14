@@ -40,18 +40,18 @@ public class MainActivity extends AppCompatActivity {
 
     private ActivityMainBinding binding;
     FirebaseFirestore db = FirebaseFirestore.getInstance();
-    private static final int RC_SIGN_IN = 100;
-    private GoogleSignInClient googleSignInClient;
-    public static GoogleSignInOptions googleSignInOptions;
-    private FirebaseAuth firebaseAuth;
+    private static final int RC_SIGN_IN = 100;              //Request code used to invoke sign in user interactions.
+    private GoogleSignInClient googleSignInClient;          //A client for interacting with the Google Sign In API.
+    public static GoogleSignInOptions googleSignInOptions;  //GoogleSignInOptions contains options used to configure the Auth.GOOGLE_SIGN_IN_API
+    private FirebaseAuth firebaseAuth;                      //The entry point of the Firebase Authentication SDK.
 
     private static final String TAG = "GOOGLE_SIGN_IN_TAG";
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(Bundle savedInstanceState) {            //onCreate() is called when the when the activity is first created.
         super.onCreate(savedInstanceState);
-        binding = ActivityMainBinding.inflate(getLayoutInflater());
-        setContentView(binding.getRoot());
+        binding = ActivityMainBinding.inflate(getLayoutInflater()); //Using this function this binding variable can be used to access GUI components.
+        setContentView(binding.getRoot());                          //Set the activity content to an explicit view.
 
         //confirm google signin
         googleSignInOptions = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
@@ -101,6 +101,7 @@ public class MainActivity extends AppCompatActivity {
         super.onActivityResult(requestCode, resultCode, data);
 
         //result returned from launching the Intent from GoogleSignInApi.getSignInIntent(...);
+        //requestCode – The integer request code originally supplied to startActivityForResult(), allowing you to identify who this result came from.
         if(requestCode == RC_SIGN_IN){
             Log.d(TAG, "onActivityResult: Google Signin intent result");
             Task<GoogleSignInAccount> accountTask = GoogleSignIn.getSignedInAccountFromIntent(data);
