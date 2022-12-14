@@ -29,17 +29,22 @@ public class GroupDetailsActivity extends AppCompatActivity {
 
     FirebaseFirestore db = FirebaseFirestore.getInstance();
     private ActivityGroupDetailsBinding binding;
-    private GoogleSignInClient mGoogleSignInClient;
+    private GoogleSignInClient mGoogleSignInClient;     //A client for interacting with the Google Sign In API.
     private FirebaseAuth firebaseAuth;
-    private static final int RC_SIGN_IN = 100;
+    private static final int RC_SIGN_IN = 100;              //Request code used to invoke sign in user interactions.
     private static final String TAG = "GOOGLE_SIGN_IN_TAG";
     public String uid;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        /** onCreate() is called when the when the activity is first created.
+         *  @param  savedInstanceState –is a reference to the Bundle object that is passed to the onCreate method of each Android activity.
+         *                             Activities have the ability, under special circumstances,to restore themselves to a previous state
+         *                             using the data stored in this package.
+         */
         super.onCreate(savedInstanceState);
-        binding = ActivityGroupDetailsBinding.inflate(getLayoutInflater());
-        setContentView(binding.getRoot());
+        binding = ActivityGroupDetailsBinding.inflate(getLayoutInflater());//Using this function this binding variable can be used to access GUI components.
+        setContentView(binding.getRoot());                                //Set the activity content to an explicit view.
         //init firebase auth
         firebaseAuth = FirebaseAuth.getInstance();
         mGoogleSignInClient = GoogleSignIn.getClient(this, MainActivity.googleSignInOptions);
