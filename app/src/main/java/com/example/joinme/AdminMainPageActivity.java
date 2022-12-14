@@ -52,6 +52,13 @@ public class AdminMainPageActivity extends AppCompatActivity {
                 startActivity(new Intent(AdminMainPageActivity.this, DeleteUserActivity.class));
             }
         });
+
+        binding.statisticsBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivity(new Intent(AdminMainPageActivity.this, StatisticsActivity.class));
+            }
+        });
     }
 
     private void checkUser() {
