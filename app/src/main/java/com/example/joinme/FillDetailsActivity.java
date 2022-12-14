@@ -46,9 +46,15 @@ public class FillDetailsActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        /** onCreate() is called when the when the activity is first created.
+         *  @param  savedInstanceState –is a reference to the Bundle object that is passed to the onCreate method of each Android activity.
+         *                             Activities have the ability, under special circumstances,to restore themselves to a previous state
+         *                             using the data stored in this package.
+         */
+
         super.onCreate(savedInstanceState);
-        binding = ActivityFillDetailsBinding.inflate(getLayoutInflater());
-        setContentView(binding.getRoot());
+        binding = ActivityFillDetailsBinding.inflate(getLayoutInflater());  //Using this function this binding variable can be used to access GUI components.
+        setContentView(binding.getRoot());                                  //Set the activity content to an explicit view.
         //init firebase auth
         firebaseAuth = FirebaseAuth.getInstance();
         mGoogleSignInClient = GoogleSignIn.getClient(this, MainActivity.googleSignInOptions);
@@ -69,6 +75,10 @@ public class FillDetailsActivity extends AppCompatActivity {
     }
 
     private void checkUser() {
+        /**
+         This function checks the current user, if it is null then the user is not logged in and therefore he will have to log in.
+         Note: CurrentUser may also return null because the authentication object has not finished initializing.
+         */
         //get current user
         FirebaseUser firebaseUser = firebaseAuth.getCurrentUser();
         if(firebaseUser == null){
@@ -88,14 +98,15 @@ public class FillDetailsActivity extends AppCompatActivity {
             binding.etSelectDate.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
+                    /**
+                     * you can double-click on the date of birth and a pop-up calendar window will open
+                     */
                     DatePickerDialog dialog = new DatePickerDialog(FillDetailsActivity.this, new DatePickerDialog.OnDateSetListener() {
                         @Override
                         public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
-
                             month = month+1;
                             date = dayOfMonth+"/"+month+"/"+year;
                             binding.etSelectDate.setText(date);
-
                         }
                     },year, month,day);
                     dialog.show();
@@ -105,6 +116,11 @@ public class FillDetailsActivity extends AppCompatActivity {
 
                 @Override
                 public void onClick(View view) {
+                    /**
+                     * When creating a new user, a screen opens where he enters the login information
+                     * (all details - an empty window will lead to an error message)
+                     */
+                    //Returns true if the string is null or 0-length.
                     if(TextUtils.isEmpty(binding.FNameTxt.toString())){
                         binding.FNameTxt.setError("please enter your first name");
                         return;
