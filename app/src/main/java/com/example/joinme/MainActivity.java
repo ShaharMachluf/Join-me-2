@@ -1,6 +1,7 @@
 //used this video https://www.youtube.com/watch?v=gD9uQf5UU-g&ab_channel=AtifPervaiz
 
 package com.example.joinme;
+
 import androidx.activity.result.ActivityResult;
 import androidx.activity.result.ActivityResultCallback;
 import androidx.activity.result.ActivityResultLauncher;
@@ -21,6 +22,7 @@ import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.google.android.gms.auth.api.signin.GoogleSignInClient;
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
 import com.google.android.gms.common.api.ApiException;
+import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
@@ -29,26 +31,27 @@ import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.GoogleAuthProvider;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.google.firebase.firestore.QuerySnapshot;
 
 public class MainActivity extends AppCompatActivity {
+
     private ActivityMainBinding binding;
+    FirebaseFirestore db = FirebaseFirestore.getInstance();
     private static final int RC_SIGN_IN = 100;              //Request code used to invoke sign in user interactions.
     private GoogleSignInClient googleSignInClient;          //A client for interacting with the Google Sign In API.
     public static GoogleSignInOptions googleSignInOptions;  //GoogleSignInOptions contains options used to configure the Auth.GOOGLE_SIGN_IN_API
     private FirebaseAuth firebaseAuth;                      //The entry point of the Firebase Authentication SDK.
+
     private static final String TAG = "GOOGLE_SIGN_IN_TAG";
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        /** onCreate() is called when the when the activity is first created.
-         *  @param  savedInstanceState –is a reference to the Bundle object that is passed to the onCreate method of each Android activity.
-         *                             Activities have the ability, under special circumstances,to restore themselves to a previous state
-         *                             using the data stored in this package.
-         */
-        
+    protected void onCreate(Bundle savedInstanceState) {            //onCreate() is called when the when the activity is first created.
         super.onCreate(savedInstanceState);
         binding = ActivityMainBinding.inflate(getLayoutInflater()); //Using this function this binding variable can be used to access GUI components.
-        setContentView(binding.getRoot()); //Set the activity content to an explicit view.
+        setContentView(binding.getRoot());                          //Set the activity content to an explicit view.
 
         //confirm google signin
         googleSignInOptions = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
@@ -67,21 +70,18 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View v) {
                 //begin google sign in
                 Log.d(TAG, "onClick: begin Google SignIn");
-                Intent intent = googleSignInClient.getSignInIntent(); //Gets an Intent to start the Google Sign In flow by calling Activity
-//                activityLauncher.launch(intent);
+                Intent intent = googleSignInClient.getSignInIntent();
                 startActivityForResult(intent, RC_SIGN_IN);
             }
         });
     }
 
     private void checkUser() {
-        /**
-         This function checks the user and starts profile activity according to the type of user-administrator or normal user.
-         */
         //if user is already signed in then go to main page
         FirebaseUser firebaseUser = firebaseAuth.getCurrentUser();
         if(firebaseUser != null){
             String email = firebaseUser.getEmail();
+            String uid = firebaseUser.getUid();
             //admin logged in
             if(email.equals("jiayhb@gmail.com")){
                 Log.d(TAG, "onSuccess: Admin logged in...\n"+email);
@@ -91,22 +91,13 @@ public class MainActivity extends AppCompatActivity {
                 finish();
             }
             else {
-                Log.d(TAG, "checkUser: Already logged in");
-                startActivity(new Intent(this, MainPageActivity.class));
-                finish();
+                blocked_user(uid);
             }
         }
     }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        /**
-         * onActivityResult is a callback when there is an action done with intent such as a selection, button click, etc.
-         * @param requestCode – The integer request code originally supplied to startActivityForResult(), allowing you to identify who this result came from.
-         * @param  resultCode – The integer result code returned by the child activity through its setResult().
-         * @param  data – An Intent, which can return result data to the caller (various data can be attached to Intent "extras").
-         */
-        //super().onActivityResult()  is use to handle the error or exception during execution of Intent.
         super.onActivityResult(requestCode, resultCode, data);
 
         //result returned from launching the Intent from GoogleSignInApi.getSignInIntent(...);
@@ -127,10 +118,6 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void firebaseAuthWithGoogleAccount(GoogleSignInAccount account) {
-        /**
-         * firebaseAuthWithGoogleAccount begin firebase auth with google account
-         * @param account –holds the basic account information of the signed in Google user.
-         */
         Log.d(TAG, "firebaseAuthWithGoogleAccount: begin firebase auth with google account");
         AuthCredential credential = GoogleAuthProvider.getCredential(account.getIdToken(), null);
         firebaseAuth.signInWithCredential(credential)
@@ -152,7 +139,6 @@ public class MainActivity extends AppCompatActivity {
                         //admin logged in
                         if(email.equals("jiayhb@gmail.com")){
                             Log.d(TAG, "onSuccess: Admin logged in...\n"+email);
-                            //A toast provides simple feedback about an operation in a small popup automatically and they disappear after a timeout.
                             Toast.makeText(MainActivity.this, "Admin logged in...\n"+email, Toast.LENGTH_SHORT).show();
                             //start profile activity
                             startActivity(new Intent(MainActivity.this, AdminMainPageActivity.class));
@@ -170,15 +156,10 @@ public class MainActivity extends AppCompatActivity {
                         }
                         else {
                             //existing account
-                            Log.d(TAG, "onSuccess: Existing user...\n" + email);
-                            Toast.makeText(MainActivity.this, "Existing user...\n" + email, Toast.LENGTH_SHORT).show();
-                            //start profile activity
-                            startActivity(new Intent(MainActivity.this, MainPageActivity.class));
-                            finish();
+                            blocked_user(uid);
                         }
                     }
                 })
-                //Adds a listener that is called if the Task fails.
                 .addOnFailureListener(new OnFailureListener() {
                     @Override
                     public void onFailure(@NonNull Exception e) {
@@ -186,5 +167,29 @@ public class MainActivity extends AppCompatActivity {
                         Log.d(TAG, "onFailure: Loggin failed "+e.getMessage());
                     }
                 });
+    }
+
+    private void blocked_user(String uid) {
+        db.collection("blockUsers").document(uid).get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                DocumentSnapshot document = task.getResult();
+                if (task.isSuccessful()) {
+                    if (document.exists()) {
+                        Log.d(TAG, document.getId());
+                        Toast.makeText(MainActivity.this, "You are blocked", Toast.LENGTH_SHORT).show();
+                        firebaseAuth.signOut();
+                        googleSignInClient.signOut();
+                    } else {
+                        //existing account
+                        //start profile activity
+                        startActivity(new Intent(MainActivity.this, MainPageActivity.class));
+                        finish();
+                    }
+                } else {
+                    Log.d(TAG, "Failed with: ", task.getException());
+                }
+            }
+        });
     }
 }
