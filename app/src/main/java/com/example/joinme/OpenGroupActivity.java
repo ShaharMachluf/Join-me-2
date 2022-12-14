@@ -39,7 +39,6 @@ public class OpenGroupActivity extends AppCompatActivity implements AdapterView.
     Logic logic = new Logic();
     // create array of Strings of categories
     String[] meetings = {"Category", "Minnian", "Football", "Basketball", "Group games", "Volunteer", "Hang out"};
-    //todo: check that "category" not chosen.
     //view binding
     private ActivityOpenGroupBinding binding;
     private GoogleSignInClient mGoogleSignInClient;
@@ -57,7 +56,6 @@ public class OpenGroupActivity extends AppCompatActivity implements AdapterView.
         //init firebase auth
         firebaseAuth = FirebaseAuth.getInstance();
         mGoogleSignInClient = GoogleSignIn.getClient(this, MainActivity.googleSignInOptions);
-//        checkUser();
 
         //handle click, logout
         binding.logoutBtn.setOnClickListener(new View.OnClickListener() {
@@ -68,7 +66,6 @@ public class OpenGroupActivity extends AppCompatActivity implements AdapterView.
                 Intent signInIntent = mGoogleSignInClient.getSignInIntent();
                 //starting the activity for result
                 startActivityForResult(signInIntent, RC_SIGN_IN);
-//                checkUser();
             }
         });
         //handle click, back
@@ -147,6 +144,7 @@ public class OpenGroupActivity extends AppCompatActivity implements AdapterView.
                 String city = binding.cityTxt.getText().toString();
                 String time = binding.SelectTimeEdt.getText().toString();
                 String date = binding.selectDateEt.getText().toString();
+                String[] groupDate = date.split("/");
                 int min, max;
                 //check that all of the fields had been filled
                 if(title.equals("Category")){
@@ -164,7 +162,7 @@ public class OpenGroupActivity extends AppCompatActivity implements AdapterView.
                 if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
                     today = java.time.LocalDate.now().toString().split("-");
                 }
-                if(!logic.checkDate(Integer.parseInt(today[0]), Integer.parseInt(today[1]), Integer.parseInt(today[2]), year, month, day)){
+                if(!logic.checkDate(Integer.parseInt(today[0]), Integer.parseInt(today[1]), Integer.parseInt(today[2]), Integer.parseInt(groupDate[2]), Integer.parseInt(groupDate[1]), Integer.parseInt(groupDate[0]))){
                     binding.selectDateEt.setError("please enter legal date");
                     return;
                 }

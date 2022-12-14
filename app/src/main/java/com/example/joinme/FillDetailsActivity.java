@@ -41,6 +41,7 @@ public class FillDetailsActivity extends AppCompatActivity {
     private GoogleSignInClient mGoogleSignInClient;
     private static final int RC_SIGN_IN = 100;
     private FirebaseAuth firebaseAuth;
+    Logic logic = new Logic();
     private static final String TAG = "GOOGLE_SIGN_IN_TAG";
 
     @Override
@@ -113,7 +114,12 @@ public class FillDetailsActivity extends AppCompatActivity {
                         binding.PhoneTxt.setError("please enter your phone number");
                         return;
                     }
-                    if(TextUtils.isEmpty(date)) {
+                    String [] today = new String[3];
+                    if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
+                        today = java.time.LocalDate.now().toString().split("-");
+                    }
+                    String[] groupDate = date.split("/");
+                    if(TextUtils.isEmpty(date) || logic.checkDate(Integer.parseInt(today[0]), Integer.parseInt(today[1]), Integer.parseInt(today[2]), Integer.parseInt(groupDate[2]), Integer.parseInt(groupDate[1]), Integer.parseInt(groupDate[0]))) {
                         binding.etSelectDate.setError("please enter your phone number");
                         return;
                     }

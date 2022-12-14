@@ -47,7 +47,6 @@ public class FindGroupActivity extends AppCompatActivity implements AdapterView.
         //init firebase auth
         firebaseAuth = FirebaseAuth.getInstance();
         mGoogleSignInClient = GoogleSignIn.getClient(this, MainActivity.googleSignInOptions);
-//        checkUser();
 
         //handle click, logout
         binding.logoutBtn.setOnClickListener(new View.OnClickListener() {
@@ -58,7 +57,6 @@ public class FindGroupActivity extends AppCompatActivity implements AdapterView.
                 Intent signInIntent = mGoogleSignInClient.getSignInIntent();
                 //starting the activity for result
                 startActivityForResult(signInIntent, RC_SIGN_IN);
-//                checkUser();
             }
         });
         //handle click, back

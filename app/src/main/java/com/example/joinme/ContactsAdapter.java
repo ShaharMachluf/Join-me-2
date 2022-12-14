@@ -21,7 +21,6 @@ class ContactsAdapter extends RecyclerView.Adapter<ContactsAdapter.MyViewHolder>
         this.context = context;
         this.contacts = contacts;
         this.recycleViewInterface = recycleViewInterface;
-//        this.listener = listener;
     }
     @NonNull
     @Override

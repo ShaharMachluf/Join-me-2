@@ -49,7 +49,6 @@ public class RelevantGroupsActivity extends AppCompatActivity implements Recycle
         //init firebase auth
         firebaseAuth = FirebaseAuth.getInstance();
         mGoogleSignInClient = GoogleSignIn.getClient(this, MainActivity.googleSignInOptions);
-//        checkUser();
         setContentView(binding.getRoot());
         setUpContact();
         //handle click, logout
@@ -61,7 +60,6 @@ public class RelevantGroupsActivity extends AppCompatActivity implements Recycle
                 Intent signInIntent = mGoogleSignInClient.getSignInIntent();
                 //starting the activity for result
                 startActivityForResult(signInIntent, RC_SIGN_IN);
-//                checkUser();
             }
         });
         //handle click, back

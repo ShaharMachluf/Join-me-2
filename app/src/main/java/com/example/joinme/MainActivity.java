@@ -71,7 +71,6 @@ public class MainActivity extends AppCompatActivity {
                 //begin google sign in
                 Log.d(TAG, "onClick: begin Google SignIn");
                 Intent intent = googleSignInClient.getSignInIntent();
-//                activityLauncher.launch(intent);
                 startActivityForResult(intent, RC_SIGN_IN);
             }
         });
@@ -92,9 +91,6 @@ public class MainActivity extends AppCompatActivity {
                 finish();
             }
             else {
-//                Log.d(TAG, "checkUser: Already logged in");
-//                startActivity(new Intent(this, MainPageActivity.class));
-//                finish();
                 blocked_user(uid);
             }
         }
@@ -159,11 +155,6 @@ public class MainActivity extends AppCompatActivity {
                         }
                         else {
                             //existing account
-//                            Log.d(TAG, "onSuccess: Existing user...\n" + email);
-//                            Toast.makeText(MainActivity.this, "Existing user...\n" + email, Toast.LENGTH_SHORT).show();
-//                            //start profile activity
-//                            startActivity(new Intent(MainActivity.this, MainPageActivity.class));
-//                            finish();
                             blocked_user(uid);
                         }
                     }
@@ -200,19 +191,4 @@ public class MainActivity extends AppCompatActivity {
             }
         });
     }
-
-//            @Override
-//            public void onComplete(@NonNull Task<QuerySnapshot> task) {
-//                if (task.isSuccessful()) {
-//                    QuerySnapshot document = task.getResult();
-//                    Toast.makeText(MainActivity.this, "You are blocked", Toast.LENGTH_SHORT).show();
-//                    firebaseAuth.signOut();
-//                    googleSignInClient.signOut();
-//                } else {
-//                    //existing account
-//                    //start profile activity
-//                    startActivity(new Intent(MainActivity.this, MainPageActivity.class));
-//                    finish();
-//                }
-//            }
 }
