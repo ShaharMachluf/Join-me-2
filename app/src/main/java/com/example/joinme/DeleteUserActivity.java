@@ -7,6 +7,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
+import android.nfc.Tag;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Gravity;
@@ -56,11 +57,8 @@ public class DeleteUserActivity extends AppCompatActivity implements RecycleView
         //init firebase auth
         firebaseAuth = FirebaseAuth.getInstance();
         mGoogleSignInClient = GoogleSignIn.getClient(this, MainActivity.googleSignInOptions);
-//        SearchManager searchManager = (SearchManager)getSystemService(Context.SEARCH_SERVICE);
-//        SearchableInfo searchableInfo = searchManager.getSearchableInfo(getComponentName());
         parent = findViewById(R.id.delPage);
         searchView = findViewById(R.id.searchV);
-//        searchView.setSearchableInfo(searchableInfo);
         searchView.clearFocus();
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
@@ -78,7 +76,6 @@ public class DeleteUserActivity extends AppCompatActivity implements RecycleView
         recyclerView = findViewById(R.id.usersRcv);
         setUpUserRows();
 
-//        DeleteUserAdapter adapter = new DeleteUserAdapter(this, userRows);
         recyclerView.setAdapter(adapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
 
@@ -135,7 +132,6 @@ public class DeleteUserActivity extends AppCompatActivity implements RecycleView
                                 userRows.add(new UserRow(document.getString("name"), document.getString("mail"),document.getId()));
                                 Log.d(TAG, document.getId() + " => " + document.getData());
                             }
-//                            DeleteUserAdapter adapter = new DeleteUserAdapter(DeleteUserActivity.this, userRows, DeleteUserActivity.this);
                             recyclerView.setAdapter(adapter);
                             recyclerView.setLayoutManager(new LinearLayoutManager(DeleteUserActivity.this));
                         } else {
@@ -158,19 +154,6 @@ public class DeleteUserActivity extends AppCompatActivity implements RecycleView
     @Override
     public void onDeleteClick(int position) {
         onButtonShowPopupWindowClick(position);
-//        db.collection("usersById").document(userRows.get(position).getUid()).get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
-//            @Override
-//            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
-//                DocumentSnapshot document = task.getResult();
-//                if(document.exists()){
-//                    User block_user = document.toObject(User.class);
-//                    String bid = db.collection("blockUsers").document().getId();
-//                    db.collection("blockUsers").document(bid).set(block_user);
-//                }
-//            }
-//        });
-//        db.collection("usersById").document(userRows.get(position).getUid()).delete();
-//        userRows.remove(position);
     }
 
     public void onButtonShowPopupWindowClick(int pos) {
@@ -180,6 +163,8 @@ public class DeleteUserActivity extends AppCompatActivity implements RecycleView
                 getSystemService(LAYOUT_INFLATER_SERVICE);
         View popupView = inflater.inflate(R.layout.delete_user_popup, null);
         TextView tvMsg = popupView.findViewById(R.id.msgTxt);
+        Button yesBtn = popupView.findViewById(R.id.yesBtn);
+        Button noBtn = popupView.findViewById(R.id.noBtn);
         tvMsg.setText("Are you sure you want to delete " + userRows.get(pos).getName() + "?");
         // create the popup window
         int width = LinearLayout.LayoutParams.WRAP_CONTENT;
@@ -190,6 +175,44 @@ public class DeleteUserActivity extends AppCompatActivity implements RecycleView
         // show the popup window
         // which view you pass in doesn't matter, it is only used for the window tolken
         popupWindow.showAtLocation(parent, Gravity.CENTER, 0, 0);
+        yesBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                popupWindow.dismiss();
+                String curr_uid = userRows.get(pos).getUid();
+                Log.d(TAG, "yes");
+                db.collection("usersById").document(userRows.get(pos).getUid()).get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                @Override
+                public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                    DocumentSnapshot document = task.getResult();
+                    if(document.exists()){
+                        User block_user = document.toObject(User.class);
+                        Log.d(TAG, "the user= " + block_user.toString());
+                        db.collection("blockUsers").document(curr_uid).set(block_user);
+                        }
+                    }
+                });
+                try {
+                    Thread.sleep(2000);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+                db.collection("usersById").document(curr_uid).delete();
+                userRows.remove(pos);
+                    }
+                });
+
+        noBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Log.d(TAG, "no");
+                popupWindow.dismiss();
+
+            }
+        });
 
     }
+
+
+
 }

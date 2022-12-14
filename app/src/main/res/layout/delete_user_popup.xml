@@ -27,7 +27,8 @@
         android:text="yes"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.306"
+        app:layout_constraintEnd_toStartOf="@+id/noBtn"
+        app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/msgTxt"
         app:layout_constraintVertical_bias="0.261" />
@@ -37,10 +38,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="no"
-        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.264"
+        app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toEndOf="@+id/yesBtn"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.727" />
+        app:layout_constraintTop_toTopOf="@+id/yesBtn" />
 </androidx.constraintlayout.widget.ConstraintLayout>

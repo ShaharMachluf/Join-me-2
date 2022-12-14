@@ -22,6 +22,7 @@ import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.google.android.gms.auth.api.signin.GoogleSignInClient;
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
 import com.google.android.gms.common.api.ApiException;
+import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
@@ -30,11 +31,14 @@ import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.GoogleAuthProvider;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.google.firebase.firestore.QuerySnapshot;
 
 public class MainActivity extends AppCompatActivity {
 
     private ActivityMainBinding binding;
-
+    FirebaseFirestore db = FirebaseFirestore.getInstance();
     private static final int RC_SIGN_IN = 100;
     private GoogleSignInClient googleSignInClient;
     public static GoogleSignInOptions googleSignInOptions;
@@ -85,6 +89,9 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(new Intent(MainActivity.this, AdminMainPageActivity.class));
                 finish();
             }
+//            else if(blocks_user(email)) {
+//
+//            }
             else {
                 Log.d(TAG, "checkUser: Already logged in");
                 startActivity(new Intent(this, MainPageActivity.class));
@@ -169,3 +176,23 @@ public class MainActivity extends AppCompatActivity {
                 });
     }
 }
+//add return
+//    private boolean blocks_user(String email) {
+//    boolean flag = false;
+//        db.collection("blockUsers").get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+//            @Override
+//            public void onComplete(@NonNull Task<QuerySnapshot> task) {
+//                if (task.isSuccessful()) {
+//                    for (QueryDocumentSnapshot document : task.getResult()) {
+//                        if(document.getString("mail").equals(email)) {
+//                            flag = true;
+//                        }
+//                    }
+//                } else {
+//                    Log.d(TAG, "Error getting documents: ", task.getException());
+//                }
+//            }
+//        });
+//
+//    }
+//    }
