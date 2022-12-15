@@ -46,7 +46,7 @@ public class StatisticsActivity extends AppCompatActivity {
         firebaseAuth = FirebaseAuth.getInstance();
         mGoogleSignInClient = GoogleSignIn.getClient(this, MainActivity.googleSignInOptions);
         pieChart = findViewById(R.id.piechart);
-        forPieChart = new HashMap<String, Long>();
+//        forPieChart = new HashMap<String, String>();
 
         try {
             createPieChart();
@@ -75,57 +75,19 @@ public class StatisticsActivity extends AppCompatActivity {
     }
 
     private void createPieChart() throws InterruptedException {
-        countCategory("Minnian");
-//        Thread.currentThread().wait();
-        countCategory("Football");
-//        Thread.currentThread().wait();
-        countCategory("Basketball");
-//        Thread.currentThread().wait();
-        countCategory("Group games");
-//        Thread.currentThread().wait();
-        countCategory("Volunteer");
-//        Thread.currentThread().wait();
-        countCategory("Hang out");
-//        Thread.currentThread().wait();
+        countCategory("Minnian", "#FFBB86FC");
+        countCategory("Football", "#00FFFF");
+        countCategory("Basketball", "#0000FF");
+        countCategory("Group games", "#00FF00");
+        countCategory("Volunteer", "#800000");
+        countCategory("Hang out", "#FFFF00");
 
-
-        // Set the data and color to the pie chart
-        pieChart.addPieSlice(
-                new PieModel(
-                        "Minnian",
-                        forPieChart.get("Minnian"),
-                        Color.parseColor("@color/purple_200")));
-        pieChart.addPieSlice(
-                new PieModel(
-                        "Football",
-                        forPieChart.get("Football"),
-                        Color.parseColor("@color/aqua")));
-        pieChart.addPieSlice(
-                new PieModel(
-                        "Basketball",
-                        forPieChart.get("Basketball"),
-                        Color.parseColor("@color/blue")));
-        pieChart.addPieSlice(
-                new PieModel(
-                        "Group games",
-                        forPieChart.get("Group games"),
-                        Color.parseColor("@color/lime")));
-        pieChart.addPieSlice(
-                new PieModel(
-                        "Volunteer",
-                        forPieChart.get("Volunteer"),
-                        Color.parseColor("@color/maroon")));
-        pieChart.addPieSlice(
-                new PieModel(
-                        "Hang out",
-                        forPieChart.get("Hang out"),
-                        Color.parseColor("@color/yellow")));
-
+        Thread.sleep(3000);
         // To animate the pie chart
         pieChart.startAnimation();
     }
 
-    private void countCategory(String category){
+    private void countCategory(String category, String color){
         CollectionReference collection = db.collection("groups");
         Query query = collection.whereEqualTo("title", category);
         AggregateQuery countQuery = query.count();
@@ -133,8 +95,11 @@ public class StatisticsActivity extends AppCompatActivity {
             if (task.isSuccessful()) {
                 AggregateQuerySnapshot snapshot = task.getResult();
                 Log.d(TAG, "Count: " + snapshot.getCount());
-                forPieChart.put(category, snapshot.getCount());
-//                Thread.currentThread().notify();
+                pieChart.addPieSlice(
+                        new PieModel(
+                                category,
+                                snapshot.getCount(),
+                                Color.parseColor(color)));
             } else {
                 Log.d(TAG, "Count failed: ", task.getException());
             }

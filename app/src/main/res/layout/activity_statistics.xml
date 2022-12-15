@@ -8,8 +8,8 @@
 
     <ScrollView
         android:id="@+id/scrollView2"
-        android:layout_width="match_parent"
-        android:layout_height="430dp"
+        android:layout_width="379dp"
+        android:layout_height="408dp"
         android:layout_alignParentStart="true"
         android:layout_alignParentTop="true"
         android:layout_alignParentEnd="true"
@@ -17,9 +17,10 @@
         android:layout_marginTop="171dp"
         android:layout_marginBottom="2dp"
         app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.0"
-        tools:layout_editor_absoluteX="144dp">
+        app:layout_constraintVertical_bias="1.0">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -30,22 +31,22 @@
                 android:id="@+id/categoryAmountTxt"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:gravity="center"
                 android:text="Amount of groups from each category" />
 
-            <org.eazegraph.lib.charts.PieChart xmlns:app="http://schemas.android.com/apk/res-auto"
+            <!--Creating another linear layout -->
+            <!-- to display pie chart details -->
+
+            <org.eazegraph.lib.charts.PieChart
                 android:id="@+id/piechart"
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
+                android:layout_width="151dp"
+                android:layout_height="121dp"
                 android:layout_marginLeft="15dp"
                 android:layout_marginTop="15dp"
                 android:layout_marginBottom="15dp"
                 android:layout_weight="1"
-                android:padding="6dp"
+                android:padding="6dp" />
 
-                />
-
-            <!--Creating another linear layout -->
-            <!-- to display pie chart details -->
             <LinearLayout
                 android:layout_width="215dp"
                 android:layout_height="match_parent"
@@ -85,7 +86,7 @@
                     <View
                         android:layout_width="15dp"
                         android:layout_height="match_parent"
-                        android:background="@color/aqua"/>
+                        android:background="@color/aqua" />
 
                     <!--Text view to display Football text -->
                     <TextView
@@ -107,7 +108,7 @@
                     <View
                         android:layout_width="15dp"
                         android:layout_height="match_parent"
-                        android:background="@color/blue"/>
+                        android:background="@color/blue" />
 
                     <!--Text view to display Basketball text -->
                     <TextView
@@ -119,6 +120,7 @@
                 </LinearLayout>
 
                 <!--Linear layout to display Group games-->
+
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="15dp"
@@ -129,7 +131,28 @@
                     <View
                         android:layout_width="15dp"
                         android:layout_height="match_parent"
-                        android:background="@color/lime"/>
+                        android:background="@color/maroon" />
+
+                    <!--Text view to display Volunteer text -->
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:paddingLeft="10dp"
+                        android:text="Volunteer" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="15dp"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginTop="5dp">
+
+                    <!--View to display the blue color icon-->
+                    <View
+                        android:layout_width="15dp"
+                        android:layout_height="match_parent"
+                        android:background="@color/lime" />
 
                     <!--Text view to display Group games text -->
                     <TextView
@@ -141,26 +164,6 @@
                 </LinearLayout>
 
                 <!--Linear layout to display Volunteer-->
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="15dp"
-                    android:layout_gravity="center_vertical"
-                    android:layout_marginTop="5dp">
-
-                    <!--View to display the blue color icon-->
-                    <View
-                        android:layout_width="15dp"
-                        android:layout_height="match_parent"
-                        android:background="@color/maroon"/>
-
-                    <!--Text view to display Volunteer text -->
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:paddingLeft="10dp"
-                        android:text="Volunteer" />
-
-                </LinearLayout>
 
                 <!--Linear layout to display Hang out-->
                 <LinearLayout
@@ -173,7 +176,7 @@
                     <View
                         android:layout_width="15dp"
                         android:layout_height="match_parent"
-                        android:background="@color/yellow"/>
+                        android:background="@color/yellow" />
 
                     <!--Text view to display Hang out text -->
                     <TextView
@@ -218,12 +221,14 @@
         android:id="@+id/statisticsTxt"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="TextView"
+        android:text="Statistics"
         android:textSize="14sp"
         android:textStyle="bold"
         app:layout_constraintBottom_toTopOf="@+id/scrollView2"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.671" />
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>
