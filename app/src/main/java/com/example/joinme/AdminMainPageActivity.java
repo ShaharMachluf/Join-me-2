@@ -19,12 +19,18 @@ public class AdminMainPageActivity extends AppCompatActivity {
     FirebaseFirestore db = FirebaseFirestore.getInstance();
     //view binding
     private ActivityAdminMainPageBinding binding;
-    private GoogleSignInClient mGoogleSignInClient;
-    private static final int RC_SIGN_IN = 100;
-    private FirebaseAuth firebaseAuth;
+    private GoogleSignInClient mGoogleSignInClient;   //A client for interacting with the Google Sign In API.
+    private static final int RC_SIGN_IN = 100;        //Request code used to invoke sign in user interactions.
+    private FirebaseAuth firebaseAuth;                //The entry point of the Firebase Authentication SDK.
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+         /** onCreate() is called when the when the activity is first created.
+         *  @param  savedInstanceState –is a reference to the Bundle object that is passed to the onCreate method of each Android activity.
+         *                             Activities have the ability, under special circumstances,to restore themselves to a previous state
+         *                             using the data stored in this package.
+         */
         super.onCreate(savedInstanceState);
         binding = ActivityAdminMainPageBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
@@ -62,6 +68,10 @@ public class AdminMainPageActivity extends AppCompatActivity {
     }
 
     private void checkUser() {
+         /**
+         This function checks the current user, if it is null then the user is not logged in and therefore he will have to log in.
+         Note: CurrentUser may also return null because the authentication object has not finished initializing.
+         */
         //get current user
         FirebaseUser firebaseUser = firebaseAuth.getCurrentUser();
         if(firebaseUser == null){

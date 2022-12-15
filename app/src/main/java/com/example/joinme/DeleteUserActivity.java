@@ -39,9 +39,9 @@ public class DeleteUserActivity extends AppCompatActivity implements RecycleView
     FirebaseFirestore db = FirebaseFirestore.getInstance();
     //view binding
     private ActivityDeleteUserBinding binding;
-    private GoogleSignInClient mGoogleSignInClient;
-    private FirebaseAuth firebaseAuth;
-    private static final int RC_SIGN_IN = 100;
+    private GoogleSignInClient mGoogleSignInClient;   //A client for interacting with the Google Sign In API.
+    private static final int RC_SIGN_IN = 100;        //Request code used to invoke sign in user interactions.
+    private FirebaseAuth firebaseAuth;                //The entry point of the Firebase Authentication SDK.
     private static final String TAG = "DELETE_USER_TAG";
     List<UserRow> userRows = new ArrayList<>();
     private SearchView searchView;
@@ -51,23 +51,42 @@ public class DeleteUserActivity extends AppCompatActivity implements RecycleView
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        /** onCreate() is called when the when the activity is first created.
+         *  @param  savedInstanceState –is a reference to the Bundle object that is passed to the onCreate method of each Android activity.
+         *                             Activities have the ability, under special circumstances,to restore themselves to a previous state
+         *                             using the data stored in this package.
+         */
+
         super.onCreate(savedInstanceState);
+
+        //The LayoutInflater takes an XML file as input and builds the View objects from it.
         binding = ActivityDeleteUserBinding.inflate(getLayoutInflater());
+
+        //Set the activity content to an explicit view. This view is placed directly into the activity's view hierarchy
         setContentView(binding.getRoot());
+
         //init firebase auth
-        firebaseAuth = FirebaseAuth.getInstance();
+        firebaseAuth = FirebaseAuth.getInstance();      //Returns an instance of this class corresponding to the default FirebaseApp instance
         mGoogleSignInClient = GoogleSignIn.getClient(this, MainActivity.googleSignInOptions);
-        parent = findViewById(R.id.delPage);
+        parent = findViewById(R.id.delPage);            //Finds a view that was identified by the android:id XML attribute that was processed in onCreate.
         searchView = findViewById(R.id.searchV);
         searchView.clearFocus();
+
+        //Sets a listener for user actions within the SearchView.
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {
-                return false;
+                //Called when the user submits the query.
+                return false;  // we return false to let the SearchView handle the submission by launching any associated intent.
+
             }
 
             @Override
             public boolean onQueryTextChange(String newText) {
+                /** Called when the query text is changed by the user.
+                 *  @param newText – the new content of the query text field.
+                 *  @return true because we sent the action to the fileList function to handle it.
+                 */
                fileList(newText);
                 return true;
             }
@@ -76,8 +95,8 @@ public class DeleteUserActivity extends AppCompatActivity implements RecycleView
         recyclerView = findViewById(R.id.usersRcv);
         setUpUserRows();
 
-        recyclerView.setAdapter(adapter);
-        recyclerView.setLayoutManager(new LinearLayoutManager(this));
+        recyclerView.setAdapter(adapter); //Set a new adapter to provide child views on demand.
+        recyclerView.setLayoutManager(new LinearLayoutManager(this)); //Set the RecyclerView.LayoutManager that this RecyclerView will use.
 
 
         //handle click, logout
@@ -101,6 +120,9 @@ public class DeleteUserActivity extends AppCompatActivity implements RecycleView
     }
 
     private void fileList(String text) {
+        /**
+         * Search of the user received as input in the list (doesn't matter if written in lowercase or uppercase letters)
+         */
         List<UserRow> filteredList = new ArrayList<>();
         for(UserRow user: userRows){
             if(user.getName().toLowerCase().contains(text.toLowerCase())){
@@ -132,8 +154,8 @@ public class DeleteUserActivity extends AppCompatActivity implements RecycleView
                                 userRows.add(new UserRow(document.getString("name"), document.getString("mail"),document.getId()));
                                 Log.d(TAG, document.getId() + " => " + document.getData());
                             }
-                            recyclerView.setAdapter(adapter);
-                            recyclerView.setLayoutManager(new LinearLayoutManager(DeleteUserActivity.this));
+                            recyclerView.setAdapter(adapter); //Set a new adapter to provide child views on demand.
+                            recyclerView.setLayoutManager(new LinearLayoutManager(DeleteUserActivity.this)); // Set the RecyclerView.LayoutManager that this RecyclerView will use.
                         } else {
                             Log.d(TAG, "Error getting documents: ", task.getException());
                         }
@@ -159,25 +181,34 @@ public class DeleteUserActivity extends AppCompatActivity implements RecycleView
     public void onButtonShowPopupWindowClick(int pos) {
 
         // inflate the layout of the popup window
-        LayoutInflater inflater = (LayoutInflater)
-                getSystemService(LAYOUT_INFLATER_SERVICE);
+        LayoutInflater inflater = (LayoutInflater) getSystemService(LAYOUT_INFLATER_SERVICE);
+        //Inflate a new view hierarchy from the specified xml resource.
         View popupView = inflater.inflate(R.layout.delete_user_popup, null);
+
+        //confirm the deletion of the user
         TextView tvMsg = popupView.findViewById(R.id.msgTxt);
         Button yesBtn = popupView.findViewById(R.id.yesBtn);
         Button noBtn = popupView.findViewById(R.id.noBtn);
         tvMsg.setText("Are you sure you want to delete " + userRows.get(pos).getName() + "?");
+
         // create the popup window
         int width = LinearLayout.LayoutParams.WRAP_CONTENT;
         int height = LinearLayout.LayoutParams.WRAP_CONTENT;
         boolean focusable = true; // lets taps outside the popup also dismiss it
+
+        //This class represents a popup window that can be used to display an arbitrary view.
+        //The popup window is a floating container that appears on top of the current activity.
         final PopupWindow popupWindow = new PopupWindow(popupView, width, height, focusable);
 
         // show the popup window
-        // which view you pass in doesn't matter, it is only used for the window tolken
+        // which view you pass in doesn't matter, it is only used for the window token
         popupWindow.showAtLocation(parent, Gravity.CENTER, 0, 0);
         yesBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                /**
+                 * If we click Yes in the window, the user enters the collection of the blocked users
+                 */
                 popupWindow.dismiss();
                 String curr_uid = userRows.get(pos).getUid();
                 Log.d(TAG, "yes");
@@ -205,6 +236,9 @@ public class DeleteUserActivity extends AppCompatActivity implements RecycleView
         noBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                /**
+                 * If we click in the window no, the window will close
+                 */
                 Log.d(TAG, "no");
                 popupWindow.dismiss();
 

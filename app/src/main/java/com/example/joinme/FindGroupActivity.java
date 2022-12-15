@@ -18,6 +18,7 @@ import com.example.joinme.databinding.ActivityFindGroupBinding;
 import com.example.joinme.databinding.ActivityOpenGroupBinding;
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInClient;
+import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
@@ -34,16 +35,21 @@ public class FindGroupActivity extends AppCompatActivity implements AdapterView.
     String[] meetings = {"Category", "Minnian", "Football", "Basketball", "Group games", "Volunteer", "Hang out"};
     //view binding
     private ActivityFindGroupBinding binding;
-    private GoogleSignInClient mGoogleSignInClient;
+    private GoogleSignInClient mGoogleSignInClient;     //A client for interacting with the Google Sign In API.
     private FirebaseAuth firebaseAuth;
-    private static final int RC_SIGN_IN = 100;
+    private static final int RC_SIGN_IN = 100;              //Request code used to invoke sign in user interactions.
     String title;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        /** onCreate() is called when the when the activity is first created.
+         *  @param  savedInstanceState –is a reference to the Bundle object that is passed to the onCreate method of each Android activity.
+         *                             Activities have the ability, under special circumstances,to restore themselves to a previous state
+         *                             using the data stored in this package.
+         */
         super.onCreate(savedInstanceState);
-        binding = ActivityFindGroupBinding.inflate(getLayoutInflater());
-        setContentView(binding.getRoot());
+        binding = ActivityFindGroupBinding.inflate(getLayoutInflater()); //Using this function this binding variable can be used to access GUI components.
+        setContentView(binding.getRoot());                               //Set the activity content to an explicit view.
         //init firebase auth
         firebaseAuth = FirebaseAuth.getInstance();
         mGoogleSignInClient = GoogleSignIn.getClient(this, MainActivity.googleSignInOptions);
@@ -67,23 +73,18 @@ public class FindGroupActivity extends AppCompatActivity implements AdapterView.
             }
         });
 
-        // Take the instance of Spinner and
-        // apply OnItemSelectedListener on it which
-        // tells which item of spinner is clicked
+        // Take the instance of Spinner and apply OnItemSelectedListener on it which tells which item of spinner is clicked
         Spinner spino = findViewById(R.id.spinner);
         spino.setOnItemSelectedListener(this);
+
         // Create the instance of ArrayAdapter
         // having the list of meetings
-        ArrayAdapter ad
-                = new ArrayAdapter(
-                this,
-                android.R.layout.simple_spinner_item,
-                meetings);
+        ArrayAdapter ad = new ArrayAdapter(this, android.R.layout.simple_spinner_item, meetings);
+
         // set simple layout resource file
         // for each item of spinner
-        ad.setDropDownViewResource(
-                android.R.layout
-                        .simple_spinner_dropdown_item);
+        ad.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+
         // Set the ArrayAdapter (ad) data on the
         // Spinner which binds data to spinner
         spino.setAdapter(ad);

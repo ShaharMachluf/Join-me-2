@@ -18,6 +18,7 @@ public class DeleteUserAdapter extends RecyclerView.Adapter<DeleteUserAdapter.My
     List<UserRow> userRows;
 
     public DeleteUserAdapter(Context context, List<UserRow> userRows, RecycleViewInterface rvi){
+        // Pass in the contact array into the constructor
         this.context = context;
         this.userRows = userRows;
         recycleViewInterface = rvi;
@@ -33,6 +34,7 @@ public class DeleteUserAdapter extends RecyclerView.Adapter<DeleteUserAdapter.My
     public DeleteUserAdapter.MyViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         //this is where you inflate the layout (giving a look to our rows)
         LayoutInflater inflater = LayoutInflater.from(context);
+        //inflate a new view hierarchy from the specified xml resource. Throws
         View view = inflater.inflate(R.layout.users_recycle_view_row, parent, false);
 
         return new DeleteUserAdapter.MyViewHolder(view, recycleViewInterface);
@@ -42,7 +44,6 @@ public class DeleteUserAdapter extends RecyclerView.Adapter<DeleteUserAdapter.My
     public void onBindViewHolder(@NonNull DeleteUserAdapter.MyViewHolder holder, int position) {
         //assigning values to the views we created in users_recycle_view_row layout file
         //based on the position of the recycler view
-
         holder.tvName.setText(userRows.get(position).getName());
         holder.tvMail.setText(userRows.get(position).getMail());
         Log.d("SET TEXT", userRows.get(position).getName());
@@ -61,11 +62,17 @@ public class DeleteUserAdapter extends RecyclerView.Adapter<DeleteUserAdapter.My
         TextView tvName, tvMail;
 
         public MyViewHolder(@NonNull View itemView, RecycleViewInterface recycleViewInterface) {
-            super(itemView);
+            /**
+             * We also create a constructor that accepts the entire item row and does the view lookups to find each subview
+             */
 
+            // stores the itemView in a public final member variable that can be used to access the context from any ViewHolder instance.
+            super(itemView);
+            //  entering the name and email of the user who needs to be blocked
             tvName = itemView.findViewById(R.id.nameTxt);
             tvMail = itemView.findViewById(R.id.mailTxt);
             itemView.findViewById(R.id.blockBtn).setOnClickListener(new View.OnClickListener() {
+                //"Block User" button
                 @Override
                 public void onClick(View view) {
                     if(recycleViewInterface != null){
