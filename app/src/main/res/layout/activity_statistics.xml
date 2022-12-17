@@ -48,8 +48,8 @@
                 android:padding="6dp" />
 
             <LinearLayout
-                android:layout_width="172dp"
-                android:layout_height="112dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
                 android:layout_marginLeft="20dp"
                 android:layout_weight="1"
                 android:gravity="center_vertical"
@@ -58,7 +58,7 @@
                 <!--Linear layout to display Minnian-->
                 <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="15dp"
+                    android:layout_height="17dp"
                     android:layout_gravity="center_vertical">
 
                     <!--View to display the purple color icon-->
@@ -78,7 +78,7 @@
 
                 <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="15dp"
+                    android:layout_height="17dp"
                     android:layout_gravity="center_vertical"
                     android:layout_marginTop="5dp">
 
@@ -100,7 +100,7 @@
                 <!--Linear layout to display Basketball-->
                 <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="15dp"
+                    android:layout_height="17dp"
                     android:layout_gravity="center_vertical"
                     android:layout_marginTop="5dp">
 
@@ -123,7 +123,7 @@
 
                 <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="15dp"
+                    android:layout_height="17dp"
                     android:layout_gravity="center_vertical"
                     android:layout_marginTop="5dp">
 
@@ -144,7 +144,7 @@
 
                 <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="15dp"
+                    android:layout_height="19dp"
                     android:layout_gravity="center_vertical"
                     android:layout_marginTop="5dp">
 
@@ -168,7 +168,7 @@
                 <!--Linear layout to display Hang out-->
                 <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="15dp"
+                    android:layout_height="19dp"
                     android:layout_gravity="center_vertical"
                     android:layout_marginTop="5dp">
 
@@ -210,6 +210,46 @@
                     android:layout_width="match_parent"
                     android:layout_height="357dp"
                     android:layout_marginLeft="15dp"/>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="29dp"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginTop="5dp"
+                    android:layout_marginLeft="15dp">
+
+                    <View
+                        android:layout_width="15dp"
+                        android:layout_height="17dp"
+                        android:background="@color/blue" />
+
+                    <TextView
+                        android:layout_width="71dp"
+                        android:layout_height="29dp"
+                        android:paddingLeft="10dp"
+                        android:text="General" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="26dp"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginTop="5dp"
+                    android:layout_marginLeft="15dp">
+
+                    <View
+                        android:layout_width="15dp"
+                        android:layout_height="17dp"
+                        android:background="@color/teal_200" />
+
+                    <TextView
+                        android:layout_width="87dp"
+                        android:layout_height="25dp"
+                        android:paddingLeft="10dp"
+                        android:text="Happened" />
+
+                </LinearLayout>
 
                 <!--            &lt;!&ndash;line graph view where we will-->
                 <!--            be displaying our data&ndash;&gt;-->

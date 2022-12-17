@@ -96,12 +96,9 @@ public class StatisticsActivity extends AppCompatActivity {
     }
 
     private void createPieChart() throws InterruptedException {
-        countCategory("Minnian", "#FFBB86FC");//todo:change to for loop
-        countCategory("Football", "#00FFFF");
-        countCategory("Basketball", "#0000FF");
-        countCategory("Group games", "#00FF00");
-        countCategory("Volunteer", "#800000");
-        countCategory("Hang out", "#FFFF00");
+        for(int i=0; i < categories.length; ++i){
+            countCategory(categories[i], colors[i]);
+        }
 
         Thread.sleep(3000);
         // To animate the pie chart
@@ -138,7 +135,7 @@ public class StatisticsActivity extends AppCompatActivity {
             BarData barData = new BarData(barDataSet);
             barChart.setData(barData);
             barChart.invalidate();
-            barDataSet.setColors(Color.GREEN, Color.CYAN, Color.GREEN, Color.CYAN,Color.GREEN, Color.CYAN,Color.GREEN, Color.CYAN,Color.GREEN, Color.CYAN,Color.GREEN, Color.CYAN);
+            barDataSet.setColors(Color.BLUE, Color.CYAN, Color.BLUE, Color.CYAN,Color.BLUE, Color.CYAN,Color.BLUE, Color.CYAN,Color.BLUE, Color.CYAN,Color.BLUE, Color.CYAN);
             barDataSet.setValueTextColor(Color.BLACK);
             barDataSet.setStackLabels(categories);
             barDataSet.setValueTextSize(10f);
