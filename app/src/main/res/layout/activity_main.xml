@@ -12,7 +12,7 @@
         android:layout_width="177dp"
         android:layout_height="162dp"
         android:layout_centerHorizontal="true"
-        android:src="@drawable/google" />
+        android:src="@drawable/joinme" />
 
     <TextView
         android:id="@+id/captionTv"
