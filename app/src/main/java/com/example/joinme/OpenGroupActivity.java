@@ -69,9 +69,10 @@ public class OpenGroupActivity extends AppCompatActivity implements AdapterView.
             public void onClick(View v) {
                 firebaseAuth.signOut();
                 mGoogleSignInClient.signOut();
-                Intent signInIntent = mGoogleSignInClient.getSignInIntent();
-                //starting the activity for result
-                startActivityForResult(signInIntent, RC_SIGN_IN);
+//                Intent signInIntent = mGoogleSignInClient.getSignInIntent();
+//                //starting the activity for result
+//                startActivityForResult(signInIntent, RC_SIGN_IN);
+                startActivity(new Intent(OpenGroupActivity.this, MainActivity.class));
             }
         });
         //handle click, back

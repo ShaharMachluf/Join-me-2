@@ -105,9 +105,10 @@ public class DeleteUserActivity extends AppCompatActivity implements RecycleView
             public void onClick(View v) {
                 firebaseAuth.signOut();
                 mGoogleSignInClient.signOut();
-                Intent signInIntent = mGoogleSignInClient.getSignInIntent();
+//                Intent signInIntent = mGoogleSignInClient.getSignInIntent();
                 //starting the activity for result
-                startActivityForResult(signInIntent, RC_SIGN_IN);
+//                startActivityForResult(signInIntent, RC_SIGN_IN);
+                startActivity(new Intent(DeleteUserActivity.this, MainActivity.class));
             }
         });
         //handle click, back

@@ -57,9 +57,10 @@ public class GroupDetailsActivity extends AppCompatActivity {
             public void onClick(View v) {
                 firebaseAuth.signOut();
                 mGoogleSignInClient.signOut();
-                Intent signInIntent = mGoogleSignInClient.getSignInIntent();
-                //starting the activity for result
-                startActivityForResult(signInIntent, RC_SIGN_IN);
+//                Intent signInIntent = mGoogleSignInClient.getSignInIntent();
+//                //starting the activity for result
+//                startActivityForResult(signInIntent, RC_SIGN_IN);
+                startActivity(new Intent(GroupDetailsActivity.this, MainActivity.class));
             }
         });
         //handle click, back
@@ -67,7 +68,6 @@ public class GroupDetailsActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 startActivity(new Intent(GroupDetailsActivity.this, RelevantGroupsActivity.class));
-                //todo: check if the pass to the relevant groups page ok
             }
         });
     }
