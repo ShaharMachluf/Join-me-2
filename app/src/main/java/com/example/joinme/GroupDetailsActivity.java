@@ -34,6 +34,7 @@ public class GroupDetailsActivity extends AppCompatActivity {
     private static final int RC_SIGN_IN = 100;              //Request code used to invoke sign in user interactions.
     private static final String TAG = "GOOGLE_SIGN_IN_TAG";
     public String uid;
+    public String title;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -57,9 +58,6 @@ public class GroupDetailsActivity extends AppCompatActivity {
             public void onClick(View v) {
                 firebaseAuth.signOut();
                 mGoogleSignInClient.signOut();
-//                Intent signInIntent = mGoogleSignInClient.getSignInIntent();
-//                //starting the activity for result
-//                startActivityForResult(signInIntent, RC_SIGN_IN);
                 startActivity(new Intent(GroupDetailsActivity.this, MainActivity.class));
             }
         });
@@ -67,7 +65,12 @@ public class GroupDetailsActivity extends AppCompatActivity {
         binding.backBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(GroupDetailsActivity.this, RelevantGroupsActivity.class));
+                Intent intent = new Intent(GroupDetailsActivity.this, RelevantGroupsActivity.class);
+                intent.putExtra("Title", title);
+                intent.putExtra("City", "");
+                startActivity(intent);
+
+                finish();
             }
         });
     }
@@ -82,6 +85,7 @@ public class GroupDetailsActivity extends AppCompatActivity {
                             DocumentSnapshot document = task.getResult();
                             if (document.exists()) {
                                 binding.titleTxt.setText(document.getString("title"));
+                                title = document.getString("title");
                                 binding.addressTxt.setText(document.getString("city"));
                                 binding.dateTxt.setText(document.getString("date"));
                                 binding.timeTxt.setText(document.getString("time"));
