@@ -123,7 +123,7 @@ public class StatisticsActivity extends AppCompatActivity {
     }
 
     private void createBarChart() throws InterruptedException {
-        getBarData(0, 0);//todo: add description below
+        getBarData(0, 0);
     }
 
     private void getBarData(int i, int j) throws InterruptedException {
