@@ -41,6 +41,8 @@ public class RelevantGroupsActivity extends AppCompatActivity implements Recycle
     private static final String TAG = "GOOGLE_SIGN_IN_TAG";
     ArrayList<Contact> contacts = new ArrayList<>();
     Logic logic = new Logic();
+//    RecyclerView recyclerView;
+    ContactsAdapter adapter = new ContactsAdapter(RelevantGroupsActivity.this, contacts, RelevantGroupsActivity.this);
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -64,9 +66,6 @@ public class RelevantGroupsActivity extends AppCompatActivity implements Recycle
             public void onClick(View v) {
                 firebaseAuth.signOut();
                 mGoogleSignInClient.signOut();
-//                Intent signInIntent = mGoogleSignInClient.getSignInIntent();
-//                //starting the activity for result
-//                startActivityForResult(signInIntent, RC_SIGN_IN);
                 startActivity(new Intent(RelevantGroupsActivity.this, MainActivity.class));
             }
         });
@@ -231,7 +230,7 @@ public class RelevantGroupsActivity extends AppCompatActivity implements Recycle
 
         //Here we need to create the adapter which will actually populate the data into the RecyclerView.
         // The adapter's role is to convert an object at a position into a list row item to be inserted.
-        ContactsAdapter adapter = new ContactsAdapter(RelevantGroupsActivity.this, contacts, RelevantGroupsActivity.this);
+//        ContactsAdapter adapter = new ContactsAdapter(RelevantGroupsActivity.this, contacts, RelevantGroupsActivity.this);
         recyclerView.setAdapter(adapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(RelevantGroupsActivity.this));
 

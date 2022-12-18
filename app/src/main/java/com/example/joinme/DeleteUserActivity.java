@@ -45,7 +45,6 @@ public class DeleteUserActivity extends AppCompatActivity implements RecycleView
     private static final String TAG = "DELETE_USER_TAG";
     List<UserRow> userRows = new ArrayList<>();
     private SearchView searchView;
-    RecyclerView recyclerView;
     DeleteUserAdapter adapter = new DeleteUserAdapter(this, userRows, DeleteUserActivity.this);
     androidx.constraintlayout.widget.ConstraintLayout parent;
 
@@ -92,12 +91,7 @@ public class DeleteUserActivity extends AppCompatActivity implements RecycleView
             }
         });
 
-        recyclerView = findViewById(R.id.usersRcv);
         setUpUserRows();
-
-        recyclerView.setAdapter(adapter); //Set a new adapter to provide child views on demand.
-        recyclerView.setLayoutManager(new LinearLayoutManager(this)); //Set the RecyclerView.LayoutManager that this RecyclerView will use.
-
 
         //handle click, logout
         binding.logoutBtn.setOnClickListener(new View.OnClickListener() {
@@ -105,9 +99,6 @@ public class DeleteUserActivity extends AppCompatActivity implements RecycleView
             public void onClick(View v) {
                 firebaseAuth.signOut();
                 mGoogleSignInClient.signOut();
-//                Intent signInIntent = mGoogleSignInClient.getSignInIntent();
-                //starting the activity for result
-//                startActivityForResult(signInIntent, RC_SIGN_IN);
                 startActivity(new Intent(DeleteUserActivity.this, MainActivity.class));
             }
         });
@@ -231,6 +222,8 @@ public class DeleteUserActivity extends AppCompatActivity implements RecycleView
                 }
                 db.collection("usersById").document(curr_uid).delete();
                 userRows.remove(pos);
+                Toast.makeText(DeleteUserActivity.this, "user blocked successfully", Toast.LENGTH_SHORT).show();
+                adapter.notifyDataSetChanged();
                     }
                 });
 
