@@ -213,8 +213,8 @@ public class RelevantGroupsActivity extends AppCompatActivity implements Recycle
     //Displaying the list in which the relevant groups appear
     private void presentRelevantGroups(@NonNull Task<QuerySnapshot> task, String[] finalToday){
         RecyclerView recyclerView = findViewById(R.id.rvBox);
+        TextView nonResultTxt = findViewById(R.id.nonResultTxt);
         if (task.getResult().isEmpty()){
-            TextView nonResultTxt = findViewById(R.id.nonResultTxt);
             nonResultTxt.setText("No matching groups were found");
         }
         for (QueryDocumentSnapshot document : task.getResult()) {
@@ -228,9 +228,12 @@ public class RelevantGroupsActivity extends AppCompatActivity implements Recycle
             }
         }
 
+        if(contacts.isEmpty()){
+            nonResultTxt.setText("No matching groups were found");
+        }
+
         //Here we need to create the adapter which will actually populate the data into the RecyclerView.
         // The adapter's role is to convert an object at a position into a list row item to be inserted.
-//        ContactsAdapter adapter = new ContactsAdapter(RelevantGroupsActivity.this, contacts, RelevantGroupsActivity.this);
         recyclerView.setAdapter(adapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(RelevantGroupsActivity.this));
 
