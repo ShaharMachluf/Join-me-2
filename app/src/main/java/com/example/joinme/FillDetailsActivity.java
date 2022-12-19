@@ -136,7 +136,7 @@ public class FillDetailsActivity extends AppCompatActivity {
                     }
                     String[] groupDate = date.split("/");
                     if(TextUtils.isEmpty(date) || logic.checkDate(Integer.parseInt(today[0]), Integer.parseInt(today[1]), Integer.parseInt(today[2]), Integer.parseInt(groupDate[2]), Integer.parseInt(groupDate[1]), Integer.parseInt(groupDate[0]))) {
-                        binding.etSelectDate.setError("please enter your phone number");
+                        binding.etSelectDate.setError("please enter your birthday");
                         return;
                     }
                     //get all the details

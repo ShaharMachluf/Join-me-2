@@ -165,8 +165,12 @@ public class OpenGroupActivity extends AppCompatActivity implements AdapterView.
                 if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
                     today = java.time.LocalDate.now().toString().split("-");
                 }
-                if(!logic.checkDate(Integer.parseInt(today[0]), Integer.parseInt(today[1]), Integer.parseInt(today[2]), Integer.parseInt(groupDate[2]), Integer.parseInt(groupDate[1]), Integer.parseInt(groupDate[0]))){
+                if(date.isEmpty() || !logic.checkDate(Integer.parseInt(today[0]), Integer.parseInt(today[1]), Integer.parseInt(today[2]), Integer.parseInt(groupDate[2]), Integer.parseInt(groupDate[1]), Integer.parseInt(groupDate[0]))){
                     binding.selectDateEt.setError("please enter legal date");
+                    return;
+                }
+                if(time.isEmpty()){
+                    binding.SelectTimeEdt.setError("please enter time");
                     return;
                 }
                 try {
