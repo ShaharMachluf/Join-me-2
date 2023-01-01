@@ -8,8 +8,12 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.joinme.databinding.ActivityFillDetailsBinding;
 import com.example.joinme.databinding.ActivityFindGroupBinding;
@@ -73,6 +77,34 @@ public class GroupDetailsActivity extends AppCompatActivity {
                 finish();
             }
         });
+    }
+
+    // menu
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        switch (item.getItemId()){
+            case R.id.item1:
+                Toast.makeText(this,"my history groups",Toast.LENGTH_SHORT).show();
+                return true;
+            case R.id.item2:
+                Toast.makeText(this,"update my details",Toast.LENGTH_SHORT).show();
+                startActivity(new Intent(GroupDetailsActivity.this, FillDetailsActivity.class));
+                return true;
+            case R.id.item3:
+                Toast.makeText(this,"log out",Toast.LENGTH_SHORT).show();
+                firebaseAuth.signOut();
+                mGoogleSignInClient.signOut();
+                startActivity(new Intent(GroupDetailsActivity.this, MainActivity.class));
+                return true;
+            default: return super.onOptionsItemSelected(item);
+        }
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.our_menu, menu);
+        return true;
     }
 
     //get all the details of the group and present them

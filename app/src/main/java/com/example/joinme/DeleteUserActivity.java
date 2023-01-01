@@ -111,6 +111,7 @@ public class DeleteUserActivity extends AppCompatActivity implements RecycleView
         });
     }
 
+
     private void fileList(String text) {
         /**
          * Search of the user received as input in the list (doesn't matter if written in lowercase or uppercase letters)

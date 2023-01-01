@@ -7,6 +7,9 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ListView;
@@ -77,6 +80,34 @@ public class RelevantGroupsActivity extends AppCompatActivity implements Recycle
             }
         });
 
+    }
+
+    // menu
+    @Override
+    public boolean onOptionsItemSelected(@androidx.annotation.NonNull MenuItem item) {
+        switch (item.getItemId()){
+            case R.id.item1:
+                Toast.makeText(this,"my history groups",Toast.LENGTH_SHORT).show();
+                return true;
+            case R.id.item2:
+                Toast.makeText(this,"update my details",Toast.LENGTH_SHORT).show();
+                startActivity(new Intent(RelevantGroupsActivity.this, FillDetailsActivity.class));
+                return true;
+            case R.id.item3:
+                Toast.makeText(this,"log out",Toast.LENGTH_SHORT).show();
+                firebaseAuth.signOut();
+                mGoogleSignInClient.signOut();
+                startActivity(new Intent(RelevantGroupsActivity.this, MainActivity.class));
+                return true;
+            default: return super.onOptionsItemSelected(item);
+        }
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.our_menu, menu);
+        return true;
     }
 
     private void setUpContact(){
