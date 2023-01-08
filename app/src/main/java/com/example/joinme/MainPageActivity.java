@@ -87,6 +87,10 @@ public class MainPageActivity extends AppCompatActivity {
             case R.id.item1:
                 Toast.makeText(this,"my history groups",Toast.LENGTH_SHORT).show();
                 return true;
+            case R.id.subitem1:
+                Toast.makeText(this, "created group", Toast.LENGTH_SHORT).show();
+                startActivity(new Intent(MainPageActivity.this, HistoryCreatedActivity.class));
+                return true;
             case R.id.item2:
                 Toast.makeText(this,"update my details",Toast.LENGTH_SHORT).show();
                 startActivity(new Intent(MainPageActivity.this, FillDetailsActivity.class));
