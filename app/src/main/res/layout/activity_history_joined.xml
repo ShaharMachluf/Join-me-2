@@ -4,16 +4,16 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".HistoryCreatedActivity">
+    tools:context=".HistoryJoinedActivity">
 
-<!--    <androidx.recyclerview.widget.RecyclerView-->
-<!--        android:id="@+id/historyCreatedRecycleView"-->
-<!--        android:layout_width="407dp"-->
-<!--        android:layout_height="506dp"-->
-<!--        app:layout_constraintEnd_toEndOf="parent"-->
-<!--        tools:layout_editor_absoluteY="95dp" />-->
+    <!--    <androidx.recyclerview.widget.RecyclerView-->
+    <!--        android:id="@+id/historyCreatedRecycleView"-->
+    <!--        android:layout_width="407dp"-->
+    <!--        android:layout_height="506dp"-->
+    <!--        app:layout_constraintEnd_toEndOf="parent"-->
+    <!--        tools:layout_editor_absoluteY="95dp" />-->
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/rvCreatedBox"
+        android:id="@+id/rvJoinedBox"
         android:layout_width="380dp"
         android:layout_height="450dp"
         app:layout_constraintBottom_toBottomOf="parent"

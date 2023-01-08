@@ -10,17 +10,21 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class DetailsAdapter extends RecyclerView.Adapter<DetailsAdapter.MyViewHolder> {
     private final RecycleViewInterface recycleViewInterface;
     Context context;
-    ArrayList<DetailsForRecycleHistory> details;
+    List<DetailsForRecycleHistory> details;
 
-    public DetailsAdapter(Context context, ArrayList<DetailsForRecycleHistory> details, RecycleViewInterface rvi){
+    public DetailsAdapter(Context context, List<DetailsForRecycleHistory> details, RecycleViewInterface rvi){
         this.context = context;
         this.details = details;
         this.recycleViewInterface = rvi;
     }
+
+
+
     @NonNull
     @Override
     public DetailsAdapter.MyViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {

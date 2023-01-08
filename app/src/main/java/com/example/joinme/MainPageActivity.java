@@ -2,6 +2,8 @@
 package com.example.joinme;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+
+import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -90,6 +92,10 @@ public class MainPageActivity extends AppCompatActivity {
             case R.id.subitem1:
                 Toast.makeText(this, "created group", Toast.LENGTH_SHORT).show();
                 startActivity(new Intent(MainPageActivity.this, HistoryCreatedActivity.class));
+                return true;
+            case R.id.subitem2:
+                Toast.makeText(this, "joined group", Toast.LENGTH_SHORT).show();
+                startActivity(new Intent(MainPageActivity.this, HistoryJoinedActivity.class));
                 return true;
             case R.id.item2:
                 Toast.makeText(this,"update my details",Toast.LENGTH_SHORT).show();

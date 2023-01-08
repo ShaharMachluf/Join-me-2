@@ -1,8 +1,10 @@
 package com.example.joinme.api;
 
+import com.example.joinme.DetailsForRecycleHistory;
 import com.example.joinme.Group;
 import com.example.joinme.User;
 import com.example.joinme.UserRow;
+import com.google.android.gms.common.internal.safeparcel.SafeParcelable;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -13,6 +15,7 @@ import retrofit2.http.Field;
 import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.GET;
 import retrofit2.http.POST;
+import retrofit2.http.Query;
 
 public interface API {
 
@@ -22,16 +25,15 @@ public interface API {
     );
 
     //todo: the next functions not implement in the activitys
-    @FormUrlEncoded
+
     @GET("presentMyCreatedHistory")
-    Call<ResponseBody> presentMyCreatedHistory(
-            @Field("uid") String uid
+    Call<ArrayList<DetailsForRecycleHistory>> presentMyCreatedHistory(
+            @Query("uid") String uid
     );
 
-    @FormUrlEncoded
     @GET("presentMyJoinedHistory")
-    Call<ResponseBody> presentMyJoinedHistory(
-            @Field("uid") String uid
+    Call<ArrayList<DetailsForRecycleHistory>> presentMyJoinedHistory(
+            @Query("uid") String uid
     );
 
 //    @FormUrlEncoded
@@ -45,16 +47,14 @@ public interface API {
     Call<ResponseBody> presentReportedUsers(
     );
 
-    @FormUrlEncoded
     @GET("presentGroupParticipants")
     Call<ResponseBody> presentGroupParticipants(
-            @Field("gid") String gid
+            @Query("gid") String gid
     );
 
-    @FormUrlEncoded
     @GET("checkBlockedUser")
     Call<ResponseBody> checkBlockedUser(
-            @Field("uid") String uid
+            @Query("uid") String uid
     );
 
     @FormUrlEncoded
