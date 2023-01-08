@@ -90,6 +90,7 @@ public class DeleteUserActivity extends AppCompatActivity implements RecycleView
         parent = findViewById(R.id.delPage);            //Finds a view that was identified by the android:id XML attribute that was processed in onCreate.
         searchView = findViewById(R.id.searchV);
         searchView.clearFocus();
+
         //Sets a listener for user actions within the SearchView.
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
@@ -150,6 +151,7 @@ public class DeleteUserActivity extends AppCompatActivity implements RecycleView
 
         }
     }
+
 
 
     @Override
