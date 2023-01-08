@@ -6,19 +6,25 @@ import androidx.appcompat.widget.SearchView;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+
+import android.content.Context;
 import android.content.Intent;
 import android.nfc.Tag;
+import android.os.AsyncTask;
 import android.os.Bundle;
+
 import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.PopupWindow;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.joinme.api.RetrofitClient;
 import com.example.joinme.databinding.ActivityDeleteUserBinding;
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInClient;
@@ -30,9 +36,23 @@ import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
+import com.google.gson.Gson;
+import com.google.gson.JsonObject;
 
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
+import java.net.ProtocolException;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
+
+import okhttp3.ResponseBody;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class DeleteUserActivity extends AppCompatActivity implements RecycleViewInterface{
 
@@ -70,7 +90,6 @@ public class DeleteUserActivity extends AppCompatActivity implements RecycleView
         parent = findViewById(R.id.delPage);            //Finds a view that was identified by the android:id XML attribute that was processed in onCreate.
         searchView = findViewById(R.id.searchV);
         searchView.clearFocus();
-
         //Sets a listener for user actions within the SearchView.
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
@@ -86,12 +105,13 @@ public class DeleteUserActivity extends AppCompatActivity implements RecycleView
                  *  @param newText – the new content of the query text field.
                  *  @return true because we sent the action to the fileList function to handle it.
                  */
-               fileList(newText);
+               filterList(newText);
                 return true;
             }
         });
 
         setUpUserRows();
+
 
         //handle click, logout
         binding.logoutBtn.setOnClickListener(new View.OnClickListener() {
@@ -111,7 +131,7 @@ public class DeleteUserActivity extends AppCompatActivity implements RecycleView
         });
     }
 
-    private void fileList(String text) {
+    private void filterList(String text) {
         /**
          * Search of the user received as input in the list (doesn't matter if written in lowercase or uppercase letters)
          */
@@ -131,29 +151,6 @@ public class DeleteUserActivity extends AppCompatActivity implements RecycleView
         }
     }
 
-    private void setUpUserRows(){
-        db.collection("usersById").get()
-                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-                    @Override
-                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                        if (task.isSuccessful()) {
-                            RecyclerView recyclerView = findViewById(R.id.usersRcv);
-                            if (task.getResult().isEmpty()){
-                                TextView nonResultTxt = findViewById(R.id.nonResultTxt);
-                                nonResultTxt.setText("No matching users were found");
-                            }
-                            for (QueryDocumentSnapshot document : task.getResult()) {
-                                userRows.add(new UserRow(document.getString("name"), document.getString("mail"),document.getId()));
-                                Log.d(TAG, document.getId() + " => " + document.getData());
-                            }
-                            recyclerView.setAdapter(adapter); //Set a new adapter to provide child views on demand.
-                            recyclerView.setLayoutManager(new LinearLayoutManager(DeleteUserActivity.this)); // Set the RecyclerView.LayoutManager that this RecyclerView will use.
-                        } else {
-                            Log.d(TAG, "Error getting documents: ", task.getException());
-                        }
-                    }
-                });
-    }
 
     @Override
     public void onDetailsClick(int position) {
@@ -242,5 +239,32 @@ public class DeleteUserActivity extends AppCompatActivity implements RecycleView
     }
 
 
+    private void setUpUserRows(){
+        Call<ArrayList<UserRow>> call = RetrofitClient
+                .getInstance()
+                .getAPI()
+                .presentUsersToBlock();
+        call.enqueue(new Callback<ArrayList<UserRow>>() {
+            @Override
+            public void onResponse(Call<ArrayList<UserRow>>call, Response<ArrayList<UserRow>> response) {
+                if(response.isSuccessful()){
+                    userRows = response.body();
+                    filterList("");
+                    RecyclerView recyclerView = findViewById(R.id.usersRcv);
+                    recyclerView.setAdapter(adapter); //Set a new adapter to provide child views on demand.
+                    recyclerView.setLayoutManager(new LinearLayoutManager(DeleteUserActivity.this)); // Set the RecyclerView.LayoutManager that this RecyclerView will use.
+                }
+            }
 
+            @Override
+            public void onFailure(Call<ArrayList<UserRow>> call, Throwable t) {
+                Log.d("Fail", t.getMessage());
+            }
+        });
+
+    }
 }
+
+
+
+
