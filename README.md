@@ -73,3 +73,8 @@ Youth and adults who want to connect with a group of people.
 The software is engineered so that it is divided logically and physically into different sections: the data management, the logical part (data processing) and the display functions.
 This separation into several machines ensures that the services are provided without sharing the resources and that these services are delivered in the best way.
 In this way it is easier to manage them because when there is a problem in a certain section it does not affect the rest of the system and if there is a problem you can easily know which part is responsible for it.
+
+## USE CASE DIAGRAM:
+
+![alt text](https://github.com/ShaharMachluf/Join-me-2/blob/master/logo/diagram.png) 
+
