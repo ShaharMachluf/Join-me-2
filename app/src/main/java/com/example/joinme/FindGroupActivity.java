@@ -123,7 +123,7 @@ public class FindGroupActivity extends AppCompatActivity implements AdapterView.
                 return true;
             case R.id.item2:
                 Toast.makeText(this,"update my details",Toast.LENGTH_SHORT).show();
-                startActivity(new Intent(FindGroupActivity.this, FillDetailsActivity.class));
+                startActivity(new Intent(FindGroupActivity.this, UpdateDetailsActivity.class));
                 return true;
             case R.id.item3:
                 Toast.makeText(this,"log out",Toast.LENGTH_SHORT).show();

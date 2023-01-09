@@ -91,7 +91,7 @@ public class RelevantGroupsActivity extends AppCompatActivity implements Recycle
                 return true;
             case R.id.item2:
                 Toast.makeText(this,"update my details",Toast.LENGTH_SHORT).show();
-                startActivity(new Intent(RelevantGroupsActivity.this, FillDetailsActivity.class));
+                startActivity(new Intent(RelevantGroupsActivity.this, UpdateDetailsActivity.class));
                 return true;
             case R.id.item3:
                 Toast.makeText(this,"log out",Toast.LENGTH_SHORT).show();

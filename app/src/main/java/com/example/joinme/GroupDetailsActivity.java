@@ -88,7 +88,7 @@ public class GroupDetailsActivity extends AppCompatActivity {
                 return true;
             case R.id.item2:
                 Toast.makeText(this,"update my details",Toast.LENGTH_SHORT).show();
-                startActivity(new Intent(GroupDetailsActivity.this, FillDetailsActivity.class));
+                startActivity(new Intent(GroupDetailsActivity.this, UpdateDetailsActivity.class));
                 return true;
             case R.id.item3:
                 Toast.makeText(this,"log out",Toast.LENGTH_SHORT).show();

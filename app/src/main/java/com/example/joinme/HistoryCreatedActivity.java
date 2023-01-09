@@ -1,10 +1,16 @@
 package com.example.joinme;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
+import android.widget.Toast;
 
 import com.example.joinme.databinding.ActivityHistoryCreatedBinding;
 import com.example.joinme.databinding.ActivityOpenGroupBinding;
@@ -34,6 +40,41 @@ public class HistoryCreatedActivity extends AppCompatActivity implements Recycle
         //DetailsAdapter adapter = new DetailsAdapter(this, details); // todo: check it need to be here acording to the video
 //        recyclerView.setAdapter(adapter);
 //        recyclerView.setLayoutManager(new LinearLayoutManager(this));
+    }
+    // menu
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        switch (item.getItemId()){
+            case R.id.item1:
+                Toast.makeText(this,"my history groups",Toast.LENGTH_SHORT).show();
+                return true;
+            case R.id.subitem1:
+                Toast.makeText(this, "created group", Toast.LENGTH_SHORT).show();
+                startActivity(new Intent(HistoryCreatedActivity.this, HistoryCreatedActivity.class));
+                return true;
+            case R.id.item2:
+                Toast.makeText(this,"update my details",Toast.LENGTH_SHORT).show();
+                startActivity(new Intent(HistoryCreatedActivity.this, UpdateDetailsActivity.class));
+                return true;
+            case R.id.item3:
+                Toast.makeText(this,"log out",Toast.LENGTH_SHORT).show();
+                firebaseAuth.signOut();
+                mGoogleSignInClient.signOut();
+                Intent signInIntent = mGoogleSignInClient.getSignInIntent();
+                //starting the activity for result
+                //startActivityForResult(signInIntent, RC_SIGN_IN);
+                //checkUser();
+                startActivity(new Intent(HistoryCreatedActivity.this, MainActivity.class));
+                return true;
+            default: return super.onOptionsItemSelected(item);
+        }
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.our_menu, menu);
+        return true;
     }
 
     private void setUpDetails(){
