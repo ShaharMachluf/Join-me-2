@@ -9,10 +9,10 @@
 <!-- markdownlint-disable -->
 <table>
   <tr>
-    <td align="center"><a href="https://github.com/ShaharMachluf"><br /><sub><b>Lior Atiya</b></sub></a><br /> </td>
-    <td align="center"><a href="https://github.com/RazElbaz"><br /><sub><b>Ofir Ovadia</b></sub></a><br /> </td>
-    <td align="center"><a href="https://github.com/chenshtynmetz"><br /><sub><b>Ofir Ovadia</b></sub></a><br /> </td>
-    <td align="center"><a href="https://github.com/tavorlevine"><br /><sub><b>Ofir Ovadia</b></sub></a><br /> </td>
+    <td align="center"><a href="https://github.com/ShaharMachluf"><br /><sub><b>Shahar Machluf</b></sub></a><br /> </td>
+    <td align="center"><a href="https://github.com/RazElbaz"><br /><sub><b>Raz Elbaz</b></sub></a><br /> </td>
+    <td align="center"><a href="https://github.com/chenshtynmetz"><br /><sub><b>Chen Shtynmetz</b></sub></a><br /> </td>
+    <td align="center"><a href="https://github.com/tavorlevine"><br /><sub><b>Tavor Levine</b></sub></a><br /> </td>
   </tr>
 </table>
 
