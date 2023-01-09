@@ -27,7 +27,7 @@ public class HistoryJoinedActivity extends AppCompatActivity implements RecycleV
     private GoogleSignInClient mGoogleSignInClient;
     ArrayList<DetailsForRecycleHistory> details = new ArrayList<>();
     FirebaseUser firebaseUser = firebaseAuth.getCurrentUser();
-    DetailsAdapter adapter = new DetailsAdapter(this, details, HistoryJoinedActivity.this);
+    JoinedDetailsAdapter adapter = new JoinedDetailsAdapter(this, details, HistoryJoinedActivity.this);
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

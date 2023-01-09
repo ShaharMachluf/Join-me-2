@@ -6,14 +6,14 @@ public class DetailsForRecycleHistory {
     private String date;
     private String time;
     private boolean is_happened;
-    private String id;
+    private String gid;
 
 
     public DetailsForRecycleHistory(String category, String location, String date, String time, boolean is_happened, String id) {
         this.title = category;
         this.city = location;
         this.date = date;
-        this.id = id;
+        this.gid = id;
         this.is_happened = is_happened;
         this.time = time;
     }
@@ -44,11 +44,11 @@ public class DetailsForRecycleHistory {
 
 
     public String getId() {
-        return id;
+        return gid;
     }
 
     public void setId(String id) {
-        this.id = id;
+        this.gid = id;
     }
 
     public String getTime() {

@@ -1,14 +1,25 @@
 package com.example.joinme;
 
+import android.provider.ContactsContract;
+
 public class UserRow {
     String name;
     String mail;
     String uid;
+    String phone;
+
+    public UserRow(String name, String mail, String uid, String phone) {
+        this.name = name;
+        this.mail = mail;
+        this.uid = uid;
+        this.phone = phone;
+    }
 
     public UserRow(String name, String mail, String uid) {
         this.name = name;
         this.mail = mail;
         this.uid = uid;
+        this.phone = "";
     }
 
     public String getName() {
@@ -21,5 +32,9 @@ public class UserRow {
 
     public String getUid() {
         return uid;
+    }
+
+    public String getPhone() {
+        return phone;
     }
 }

@@ -48,7 +48,7 @@ public interface API {
     );
 
     @GET("presentGroupParticipants")
-    Call<ResponseBody> presentGroupParticipants(
+    Call<ArrayList<UserRow>> presentGroupParticipants(
             @Query("gid") String gid
     );
 

@@ -4,7 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="@drawable/border">
+    android:background="@drawable/border"
+    >
 
     <androidx.cardview.widget.CardView
         android:layout_width="match_parent"
@@ -21,8 +22,8 @@
     </androidx.cardview.widget.CardView>
 
     <androidx.constraintlayout.widget.ConstraintLayout
-        android:layout_width="411dp"
-        android:layout_height="160dp"
+        android:layout_width="416dp"
+        android:layout_height="103dp"
         app:barrierAllowsGoneWidgets="false"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -65,10 +66,10 @@
             android:text="Location"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintHorizontal_bias="0.093"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.851" />
+            app:layout_constraintVertical_bias="0.84" />
 
         <TextView
             android:id="@+id/dateTxt"
@@ -79,22 +80,10 @@
             android:text="Date"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.353"
+            app:layout_constraintHorizontal_bias="0.501"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.88" />
-
-        <Switch
-            android:id="@+id/happenedSwich"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Happened"
-            app:layout_constraintBottom_toBottomOf="@+id/dateTxt"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.98"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.747" />
+            app:layout_constraintVertical_bias="0.883" />
 
         <Button
             android:id="@+id/participantsBtn"
@@ -103,11 +92,10 @@
             android:text="Participants"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.927"
+            app:layout_constraintHorizontal_bias="0.95"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="1.0" />
-
+            app:layout_constraintVertical_bias="0.963" />
         <!--            android:layout_width="126dp"-->
         <!--            android:layout_height="47dp"-->
         <!--            android:text="TextView"-->

@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.widget.Toast;
@@ -60,7 +61,6 @@ public class HistoryCreatedActivity extends AppCompatActivity implements Recycle
                 if(response.isSuccessful()) {
                     Log.d("here", "response");
                     for(int i=0; i<response.body().size(); i++){
-//                        Log.d("Check", response.body().get(i).getCategory());
                         details.add(response.body().get(i));
                     }
                     RecyclerView recyclerView = findViewById(R.id.rvCreatedBox);
@@ -79,7 +79,11 @@ public class HistoryCreatedActivity extends AppCompatActivity implements Recycle
 
     @Override
     public void onDetailsClick(int position) {
-
+        Intent intent = new Intent(HistoryCreatedActivity.this, ParticipantsActivity.class);
+        Log.d("ID ", details.get(position).getId());
+        String gid = details.get(position).getId();
+        intent.putExtra("ID", gid);
+        startActivity(intent);
     }
 
     @Override
