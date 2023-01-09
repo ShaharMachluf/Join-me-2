@@ -6,6 +6,18 @@
     android:layout_height="match_parent"
     tools:context=".HistoryCreatedActivity">
 
+    <Button
+        android:id="@+id/backBtn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Back"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.049"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.045"
+        tools:text="Back" />
 <!--    <androidx.recyclerview.widget.RecyclerView-->
 <!--        android:id="@+id/historyCreatedRecycleView"-->
 <!--        android:layout_width="407dp"-->
@@ -13,14 +25,14 @@
 <!--        app:layout_constraintEnd_toEndOf="parent"-->
 <!--        tools:layout_editor_absoluteY="95dp" />-->
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/rvBox"
+        android:id="@+id/rvCreatedBox"
         android:layout_width="380dp"
         android:layout_height="450dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintHorizontal_bias="0.516"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.026" />
+        app:layout_constraintVertical_bias="0.895" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

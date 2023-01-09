@@ -87,17 +87,6 @@
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintVertical_bias="0.846" />
 
-        <Switch
-            android:id="@+id/happenedSwich"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Happened"
-            app:layout_constraintBottom_toBottomOf="@+id/dateTxt"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.816"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.747" />
 
         <Button
             android:id="@+id/participantsBtn"
@@ -107,10 +96,10 @@
             android:textSize="10sp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.808"
+            app:layout_constraintHorizontal_bias="0.839"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.974" />
+            app:layout_constraintVertical_bias="0.81" />
 
         <!--            android:layout_width="126dp"-->
         <!--            android:layout_height="47dp"-->

@@ -1,32 +1,37 @@
 package com.example.joinme;
 
 public class DetailsForRecycleHistory {
-    private String category;
-    private String location;
+    private String title;
+    private String city;
     private String date;
-    private String id;
+    private String time;
+    private boolean is_happened;
+    private String gid;
 
-    public DetailsForRecycleHistory(String category, String location, String date) {
-        this.category = category;
-        this.location = location;
+
+    public DetailsForRecycleHistory(String category, String location, String date, String time, boolean is_happened, String id) {
+        this.title = category;
+        this.city = location;
         this.date = date;
-        this.id = id;
+        this.gid = id;
+        this.is_happened = is_happened;
+        this.time = time;
     }
 
     public String getCategory() {
-        return category;
+        return title;
     }
 
     public void setCategory(String category) {
-        this.category = category;
+        this.title = category;
     }
 
     public String getLocation() {
-        return location;
+        return city;
     }
 
     public void setLocation(String location) {
-        this.location = location;
+        this.city = location;
     }
 
     public String getDate() {
@@ -39,10 +44,26 @@ public class DetailsForRecycleHistory {
 
 
     public String getId() {
-        return id;
+        return gid;
     }
 
     public void setId(String id) {
-        this.id = id;
+        this.gid = id;
+    }
+
+    public String getTime() {
+        return time;
+    }
+
+    public boolean isIs_happened() {
+        return is_happened;
+    }
+
+    public void setTime(String time) {
+        this.time = time;
+    }
+
+    public void setIs_happened(boolean is_happened) {
+        this.is_happened = is_happened;
     }
 }

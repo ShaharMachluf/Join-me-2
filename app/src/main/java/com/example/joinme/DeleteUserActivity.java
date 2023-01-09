@@ -113,16 +113,6 @@ public class DeleteUserActivity extends AppCompatActivity implements RecycleView
 
         setUpUserRows();
 
-
-        //handle click, logout
-        binding.logoutBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                firebaseAuth.signOut();
-                mGoogleSignInClient.signOut();
-                startActivity(new Intent(DeleteUserActivity.this, MainActivity.class));
-            }
-        });
         //handle click, back
         binding.backBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -167,6 +157,11 @@ public class DeleteUserActivity extends AppCompatActivity implements RecycleView
     @Override
     public void onDeleteClick(int position) {
         onButtonShowPopupWindowClick(position);
+    }
+
+    @Override
+    public void onReportClick(int position) {
+
     }
 
     public void onButtonShowPopupWindowClick(int pos) {

@@ -1,7 +1,6 @@
 package com.example.joinme;
 
 import android.content.Context;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,12 +12,12 @@ import androidx.recyclerview.widget.RecyclerView;
 import java.util.ArrayList;
 import java.util.List;
 
-public class DetailsAdapter extends RecyclerView.Adapter<DetailsAdapter.MyViewHolder>{
+public class JoinedDetailsAdapter extends RecyclerView.Adapter<DetailsAdapter.MyViewHolder>{
     private final RecycleViewInterface recycleViewInterface;
     Context context;
     List<DetailsForRecycleHistory> details;
 
-    public DetailsAdapter(Context context, List<DetailsForRecycleHistory> details, RecycleViewInterface rvi){
+    public JoinedDetailsAdapter(Context context, List<DetailsForRecycleHistory> details, RecycleViewInterface rvi){
         this.context = context;
         this.details = details;
         this.recycleViewInterface = rvi;
@@ -31,7 +30,7 @@ public class DetailsAdapter extends RecyclerView.Adapter<DetailsAdapter.MyViewHo
     public DetailsAdapter.MyViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         // This is where you inflate the layout (Giving a look to our rows)
         LayoutInflater inflater = LayoutInflater.from(context);
-        View view = inflater.inflate(R.layout.recycle_view_row_history_created, parent, false);
+        View view = inflater.inflate(R.layout.recycle_view_row_history_joined, parent, false);
         return new DetailsAdapter.MyViewHolder(view, recycleViewInterface);
     }
 
@@ -42,7 +41,6 @@ public class DetailsAdapter extends RecyclerView.Adapter<DetailsAdapter.MyViewHo
         holder.tvCategory.setText(details.get(position).getCategory());
         holder.tvLocation.setText(details.get(position).getLocation());
         holder.tvDate.setText(details.get(position).getDate());
-        Log.d("ID ", details.get(position).getId());
     }
 
     @Override

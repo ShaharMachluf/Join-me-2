@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".RelevantGroupsActivity">
+    tools:context=".HistoryJoinedActivity">
 
     <Button
         android:id="@+id/backBtn"
@@ -18,28 +18,21 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.045"
         tools:text="Back" />
-
+    <!--    <androidx.recyclerview.widget.RecyclerView-->
+    <!--        android:id="@+id/historyCreatedRecycleView"-->
+    <!--        android:layout_width="407dp"-->
+    <!--        android:layout_height="506dp"-->
+    <!--        app:layout_constraintEnd_toEndOf="parent"-->
+    <!--        tools:layout_editor_absoluteY="95dp" />-->
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/rvBox"
-        android:layout_width="380dp"
-        android:layout_height="450dp"
+        android:id="@+id/rvJoinedBox"
+        android:layout_width="377dp"
+        android:layout_height="463dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.424"
+        app:layout_constraintHorizontal_bias="0.483"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="1.0" />
-
-    <TextView
-        android:id="@+id/nonResultTxt"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.498"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.203" />
-
 
 </androidx.constraintlayout.widget.ConstraintLayout>
