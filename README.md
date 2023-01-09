@@ -46,10 +46,15 @@ Youth and adults who want to connect with a group of people.
 ## System description:
 1. The participant (regular/manager) needs to log in to the application - using a Google account.
 2. The user has various options in the application:
+
 -Create a group
+
 -joining the group
+
 -Receiving a list of groups he participated in
+
 -Report untrusted users
+
 3. The administrator has various options in the application:
 -Same options as a normal user
 -Removing untrusted users
