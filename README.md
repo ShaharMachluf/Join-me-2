@@ -2,6 +2,20 @@
 
 # Join-me
 
+## Teammates ✨
+
+<!-- ALL-CONTRIBUTORS-LIST:START - Do not remove or modify this section -->
+<!-- prettier-ignore-start -->
+<!-- markdownlint-disable -->
+<table>
+  <tr>
+    <td align="center"><a href="https://github.com/ShaharMachluf"><br /><sub><b>Lior Atiya</b></sub></a><br /> </td>
+    <td align="center"><a href="https://github.com/RazElbaz"><br /><sub><b>Ofir Ovadia</b></sub></a><br /> </td>
+    <td align="center"><a href="https://github.com/chenshtynmetz"><br /><sub><b>Ofir Ovadia</b></sub></a><br /> </td>
+    <td align="center"><a href="https://github.com/tavorlevine"><br /><sub><b>Ofir Ovadia</b></sub></a><br /> </td>
+  </tr>
+</table>
+
 ## Introduction:
 As part of a software engineering course, we conduct a development simulation, which includes most of the stages of the software life cycle, including experiencing teamwork and creating objects characteristic of each stage.
 
