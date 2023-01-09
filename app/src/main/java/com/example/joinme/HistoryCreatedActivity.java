@@ -60,6 +60,7 @@ public class HistoryCreatedActivity extends AppCompatActivity implements Recycle
                 if(response.isSuccessful()) {
                     Log.d("here", "response");
                     for(int i=0; i<response.body().size(); i++){
+//                        Log.d("Check", response.body().get(i).getCategory());
                         details.add(response.body().get(i));
                     }
                     RecyclerView recyclerView = findViewById(R.id.rvCreatedBox);

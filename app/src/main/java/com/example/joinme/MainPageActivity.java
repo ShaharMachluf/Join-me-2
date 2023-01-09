@@ -51,19 +51,6 @@ public class MainPageActivity extends AppCompatActivity {
         mGoogleSignInClient = GoogleSignIn.getClient(this, MainActivity.googleSignInOptions);
         checkUser();
 
-        //handle click, logout
-        binding.logoutBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                firebaseAuth.signOut();
-                mGoogleSignInClient.signOut();
-                Intent signInIntent = mGoogleSignInClient.getSignInIntent();
-                //starting the activity for result
-                startActivityForResult(signInIntent, RC_SIGN_IN);
-                checkUser();
-            }
-        });
-
         binding.createGroupBtn.setOnClickListener(new View.OnClickListener() {
             //open group button
             @Override

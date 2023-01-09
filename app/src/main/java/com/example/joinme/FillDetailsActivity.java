@@ -59,19 +59,6 @@ public class FillDetailsActivity extends AppCompatActivity {
         firebaseAuth = FirebaseAuth.getInstance();
         mGoogleSignInClient = GoogleSignIn.getClient(this, MainActivity.googleSignInOptions);
         checkUser();
-
-        //handle click, logout
-        binding.logoutBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                firebaseAuth.signOut();
-                mGoogleSignInClient.signOut();
-                Intent signInIntent = mGoogleSignInClient.getSignInIntent();
-                //starting the activity for result
-                startActivityForResult(signInIntent, RC_SIGN_IN);
-                checkUser();
-            }
-        });
     }
 
     private void checkUser() {

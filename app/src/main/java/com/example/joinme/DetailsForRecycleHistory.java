@@ -1,8 +1,8 @@
 package com.example.joinme;
 
 public class DetailsForRecycleHistory {
-    private String category;
-    private String location;
+    private String title;
+    private String city;
     private String date;
     private String time;
     private boolean is_happened;
@@ -10,8 +10,8 @@ public class DetailsForRecycleHistory {
 
 
     public DetailsForRecycleHistory(String category, String location, String date, String time, boolean is_happened, String id) {
-        this.category = category;
-        this.location = location;
+        this.title = category;
+        this.city = location;
         this.date = date;
         this.id = id;
         this.is_happened = is_happened;
@@ -19,19 +19,19 @@ public class DetailsForRecycleHistory {
     }
 
     public String getCategory() {
-        return category;
+        return title;
     }
 
     public void setCategory(String category) {
-        this.category = category;
+        this.title = category;
     }
 
     public String getLocation() {
-        return location;
+        return city;
     }
 
     public void setLocation(String location) {
-        this.location = location;
+        this.city = location;
     }
 
     public String getDate() {

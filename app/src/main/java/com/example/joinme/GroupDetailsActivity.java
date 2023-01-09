@@ -56,15 +56,6 @@ public class GroupDetailsActivity extends AppCompatActivity {
         String id = getIntent().getStringExtra("ID");
         getDetailsFromDb(id);
 
-        //handle click, logout
-        binding.logoutBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                firebaseAuth.signOut();
-                mGoogleSignInClient.signOut();
-                startActivity(new Intent(GroupDetailsActivity.this, MainActivity.class));
-            }
-        });
         //handle click, back
         binding.backBtn.setOnClickListener(new View.OnClickListener() {
             @Override

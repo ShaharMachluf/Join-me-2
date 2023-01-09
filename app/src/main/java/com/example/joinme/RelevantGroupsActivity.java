@@ -63,15 +63,6 @@ public class RelevantGroupsActivity extends AppCompatActivity implements Recycle
         setContentView(binding.getRoot());
         setUpContact();
 
-        //handle click, logout
-        binding.logoutBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                firebaseAuth.signOut();
-                mGoogleSignInClient.signOut();
-                startActivity(new Intent(RelevantGroupsActivity.this, MainActivity.class));
-            }
-        });
         //handle click, back
         binding.backBtn.setOnClickListener(new View.OnClickListener() {
             @Override
