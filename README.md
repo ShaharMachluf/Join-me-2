@@ -19,11 +19,14 @@ As part of a software engineering course, we conduct a development simulation, w
 • Using any database (for example Firebase, MySQL, SQL MS, etc.).
 
 • Regarding a display component (Android): implementation of at least 3 of the following: notifications, sensors, screen ,dialog, menu, broadcast, switching to another device component (camera/phone/messages, etc.)
-Functional requirements:
 
 • Regarding the display (Internet, Windows):) Use of templates from the MV* family
 
 • The display must look professional and include human engineering as taught in the course (you can use the templates available online).
 
+• The system must be designed (structural design) based on accepted templates (layers, microservices, clean code)
 
+## JION ME:
+### The project's description:
 
+The project aims to solve a social problem in which people avoid various and occasional activities due to a lack of people. First and foremost, our app was created out of a desire to connect different people, while creating new friendships and fulfilling a variety of needs. Any person who desires in his heart to perform any activity, whether it is a multi-participant game, prayer, social entertainment, etc., can open a group or alternatively join an existing group depending on the place and time that suits him.
