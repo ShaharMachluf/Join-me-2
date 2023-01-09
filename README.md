@@ -56,13 +56,13 @@ Youth and adults who want to connect with a group of people.
      - Report untrusted users
 
 3. The administrator has various options in the application:
-     -Same options as a normal user
+     - Same options as a normal user
      
-     -Removing untrusted users
+     - Removing untrusted users
      
-     -Displaying statistics
+     - Displaying statistics
      
-     -View a history of all created groups
+     - View a history of all created groups
 
 
 ## The actual system structure:
