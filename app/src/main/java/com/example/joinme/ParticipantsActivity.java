@@ -8,6 +8,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.Toast;
 
 import com.example.joinme.api.RetrofitClient;
 import com.example.joinme.databinding.ActivityDeleteUserBinding;
@@ -21,6 +22,7 @@ import com.google.firebase.auth.FirebaseUser;
 import java.util.ArrayList;
 import java.util.List;
 
+import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -99,5 +101,25 @@ public class ParticipantsActivity extends AppCompatActivity implements RecycleVi
     @Override
     public void onDeleteClick(int position) {
 
+    }
+
+    @Override
+    public void onReportClick(int position) {
+        String uid = details.get(position).getUid();
+        Call<ResponseBody> call = RetrofitClient
+                .getInstance()
+                .getAPI()
+                .addReportToUser(uid);
+        call.enqueue(new Callback<ResponseBody>() {
+            @Override
+            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                Toast.makeText(ParticipantsActivity.this, "Report!", Toast.LENGTH_SHORT).show();
+            }
+
+            @Override
+            public void onFailure(Call<ResponseBody> call, Throwable t) {
+                Log.d("report", "error");
+            }
+        });
     }
 }

@@ -1,7 +1,9 @@
 package com.example.joinme;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -23,6 +25,7 @@ import retrofit2.Response;
 
 public class HistoryJoinedActivity extends AppCompatActivity implements RecycleViewInterface {
     private ActivityHistoryJoinedBinding binding;
+    //init firebase auth
     private FirebaseAuth firebaseAuth= FirebaseAuth.getInstance();
     private GoogleSignInClient mGoogleSignInClient;
     ArrayList<DetailsForRecycleHistory> details = new ArrayList<>();
@@ -34,25 +37,21 @@ public class HistoryJoinedActivity extends AppCompatActivity implements RecycleV
         super.onCreate(savedInstanceState);
         binding = ActivityHistoryJoinedBinding.inflate(getLayoutInflater()); //Using this function this binding variable can be used to access GUI components.
         setContentView(binding.getRoot()); //Set the activity content to an explicit view.
-        //init firebase auth
-//        firebaseAuth = FirebaseAuth.getInstance();
         mGoogleSignInClient = GoogleSignIn.getClient(this, MainActivity.googleSignInOptions);
-//        RecyclerView recyclerView = findViewById(R.id.rvBox);
+
+        //handle click, back
+        binding.backBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(HistoryJoinedActivity.this, MainPageActivity.class));
+            }
+        });
+
         setUpDetails();
-        //DetailsAdapter adapter = new DetailsAdapter(this, details); // todo: check it need to be here acording to the video
-//        recyclerView.setAdapter(adapter);
-//        recyclerView.setLayoutManager(new LinearLayoutManager(this));
 
     }
 
     private void setUpDetails(){
-//        String[] categories = {"Football", "Minyan", "Basketball"};
-//        String[] location = {"Ariel", "Tel Aviv", "Yad Binyamin"};
-//        String[] date = {"15.11.2022", "4.1.2023", "11.1.2023"};
-//        for (int i = 0; i < 3; i++) {
-//            details.add(new DetailsForRecycleHistory(categories[i], location[i], date[i]));
-//
-//        }
         Call<ArrayList<DetailsForRecycleHistory>> call = RetrofitClient
                 .getInstance()
                 .getAPI()
@@ -75,14 +74,15 @@ public class HistoryJoinedActivity extends AppCompatActivity implements RecycleV
                 Log.d("Fail", t.getMessage());
             }
         });
-//        RecyclerView recyclerView = findViewById(R.id.rvBox);
-//        recyclerView.setAdapter(adapter);
-//        recyclerView.setLayoutManager(new LinearLayoutManager(HistoryJoinedActivity.this));
     }
 
     @Override
     public void onDetailsClick(int position) {
-
+        Intent intent = new Intent(HistoryJoinedActivity.this, ParticipantsActivity.class);
+        Log.d("ID ", details.get(position).getId());
+        String gid = details.get(position).getId();
+        intent.putExtra("ID", gid);
+        startActivity(intent);
     }
 
     @Override
@@ -92,6 +92,11 @@ public class HistoryJoinedActivity extends AppCompatActivity implements RecycleV
 
     @Override
     public void onDeleteClick(int position) {
+
+    }
+
+    @Override
+    public void onReportClick(int position) {
 
     }
 }

@@ -159,6 +159,11 @@ public class DeleteUserActivity extends AppCompatActivity implements RecycleView
         onButtonShowPopupWindowClick(position);
     }
 
+    @Override
+    public void onReportClick(int position) {
+
+    }
+
     public void onButtonShowPopupWindowClick(int pos) {
 
         // inflate the layout of the popup window

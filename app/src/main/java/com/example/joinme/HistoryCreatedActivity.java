@@ -7,6 +7,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
 import android.widget.Toast;
 
 import com.example.joinme.api.RetrofitClient;
@@ -26,27 +27,29 @@ import retrofit2.Response;
 
 public class HistoryCreatedActivity extends AppCompatActivity implements RecycleViewInterface{
     private ActivityHistoryCreatedBinding binding;
-    private FirebaseAuth firebaseAuth = FirebaseAuth.getInstance();;
+    //init firebase auth
+    private FirebaseAuth firebaseAuth = FirebaseAuth.getInstance();
+    FirebaseUser firebaseUser = firebaseAuth.getCurrentUser();
     private GoogleSignInClient mGoogleSignInClient;
     List<DetailsForRecycleHistory> details = new ArrayList<>();
     DetailsAdapter adapter = new DetailsAdapter(this, details, HistoryCreatedActivity.this);
-    FirebaseUser firebaseUser = firebaseAuth.getCurrentUser();
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         binding = ActivityHistoryCreatedBinding.inflate(getLayoutInflater()); //Using this function this binding variable can be used to access GUI components.
         setContentView(binding.getRoot()); //Set the activity content to an explicit view.
-        //init firebase auth
-//        firebaseAuth = FirebaseAuth.getInstance();
-//        FirebaseUser firebaseUser = firebaseAuth.getCurrentUser();
         mGoogleSignInClient = GoogleSignIn.getClient(this, MainActivity.googleSignInOptions);
-//        RecyclerView recyclerView = findViewById(R.id.rvBox);
 
+        //handle click, back
+        binding.backBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(HistoryCreatedActivity.this, MainPageActivity.class));
+            }
+        });
         setUpDetails();
-        //DetailsAdapter adapter = new DetailsAdapter(this, details); // todo: check it need to be here acording to the video
-//        recyclerView.setAdapter(adapter);
-//        recyclerView.setLayoutManager(new LinearLayoutManager(this));
     }
 
 
@@ -93,6 +96,11 @@ public class HistoryCreatedActivity extends AppCompatActivity implements Recycle
 
     @Override
     public void onDeleteClick(int position) {
+
+    }
+
+    @Override
+    public void onReportClick(int position) {
 
     }
 }

@@ -59,7 +59,7 @@ public class JoinedDetailsAdapter extends RecyclerView.Adapter<DetailsAdapter.My
             tvLocation = itemView.findViewById(R.id.locationTxt);
             tvDate = itemView.findViewById(R.id.dateTxt);
 
-            itemView.setOnClickListener(new View.OnClickListener() {
+            itemView.findViewById(R.id.participantsBtn).setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
                     if(recycleViewInterface != null){

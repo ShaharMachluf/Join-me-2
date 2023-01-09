@@ -80,7 +80,7 @@ public class ParticipantsAdapter extends RecyclerView.Adapter<ParticipantsAdapte
                     if(recycleViewInterface != null){
                         int pos = getAdapterPosition();
                         if(pos != RecyclerView.NO_POSITION){
-                            recycleViewInterface.onDeleteClick(pos);
+                            recycleViewInterface.onReportClick(pos);
                         }
                     }
                 }
