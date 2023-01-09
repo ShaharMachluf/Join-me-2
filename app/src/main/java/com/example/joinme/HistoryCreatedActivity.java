@@ -7,40 +7,55 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.Toast;
 
+import com.example.joinme.api.RetrofitClient;
 import com.example.joinme.databinding.ActivityHistoryCreatedBinding;
 import com.example.joinme.databinding.ActivityOpenGroupBinding;
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInClient;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 
 import java.util.ArrayList;
+import java.util.List;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class HistoryCreatedActivity extends AppCompatActivity implements RecycleViewInterface{
     private ActivityHistoryCreatedBinding binding;
-    private FirebaseAuth firebaseAuth;
+    //init firebase auth
+    private FirebaseAuth firebaseAuth = FirebaseAuth.getInstance();
+    FirebaseUser firebaseUser = firebaseAuth.getCurrentUser();
     private GoogleSignInClient mGoogleSignInClient;
-    ArrayList<DetailsForRecycleHistory> details = new ArrayList<>();
+    List<DetailsForRecycleHistory> details = new ArrayList<>();
     DetailsAdapter adapter = new DetailsAdapter(this, details, HistoryCreatedActivity.this);
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         binding = ActivityHistoryCreatedBinding.inflate(getLayoutInflater()); //Using this function this binding variable can be used to access GUI components.
         setContentView(binding.getRoot()); //Set the activity content to an explicit view.
-        //init firebase auth
-        firebaseAuth = FirebaseAuth.getInstance();
         mGoogleSignInClient = GoogleSignIn.getClient(this, MainActivity.googleSignInOptions);
-//        RecyclerView recyclerView = findViewById(R.id.rvBox);
+
+        //handle click, back
+        binding.backBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(HistoryCreatedActivity.this, MainPageActivity.class));
+            }
+        });
         setUpDetails();
-        //DetailsAdapter adapter = new DetailsAdapter(this, details); // todo: check it need to be here acording to the video
-//        recyclerView.setAdapter(adapter);
-//        recyclerView.setLayoutManager(new LinearLayoutManager(this));
     }
+
     // menu
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
@@ -64,7 +79,7 @@ public class HistoryCreatedActivity extends AppCompatActivity implements Recycle
                 //starting the activity for result
                 //startActivityForResult(signInIntent, RC_SIGN_IN);
                 //checkUser();
-                startActivity(new Intent(HistoryCreatedActivity.this, MainActivity.class));
+                //startActivity(new Intent(MainPageActivity.this, MainActivity.class));
                 return true;
             default: return super.onOptionsItemSelected(item);
         }
@@ -77,22 +92,41 @@ public class HistoryCreatedActivity extends AppCompatActivity implements Recycle
         return true;
     }
 
-    private void setUpDetails(){
-        String[] categories = {"Football", "Minyan", "Basketball"};
-        String[] location = {"Ariel", "Tel Aviv", "Yad Binyamin"};
-        String[] date = {"15.11.2022", "4.1.2023", "11.1.2023"};
-        for (int i = 0; i < 3; i++) {
-            details.add(new DetailsForRecycleHistory(categories[i], location[i], date[i]));
 
-        }
-        RecyclerView recyclerView = findViewById(R.id.rvBox);
-        recyclerView.setAdapter(adapter);
-        recyclerView.setLayoutManager(new LinearLayoutManager(HistoryCreatedActivity.this));
+    private void setUpDetails(){
+        Call<ArrayList<DetailsForRecycleHistory>> call = RetrofitClient
+                .getInstance()
+                .getAPI()
+                .presentMyCreatedHistory(firebaseUser.getUid());
+        call.enqueue(new Callback<ArrayList<DetailsForRecycleHistory>>() {
+            @Override
+            public void onResponse(Call<ArrayList<DetailsForRecycleHistory>> call, Response<ArrayList<DetailsForRecycleHistory>> response) {
+                if(response.isSuccessful()) {
+                    Log.d("here", "response");
+                    for(int i=0; i<response.body().size(); i++){
+                        details.add(response.body().get(i));
+                    }
+                    RecyclerView recyclerView = findViewById(R.id.rvCreatedBox);
+                    recyclerView.setAdapter(adapter);
+                    recyclerView.setLayoutManager(new LinearLayoutManager(HistoryCreatedActivity.this));
+                }
+            }
+
+            @Override
+            public void onFailure(Call<ArrayList<DetailsForRecycleHistory>> call, Throwable t) {
+                Log.d("Fail", t.getMessage());
+            }
+        });
+
     }
 
     @Override
     public void onDetailsClick(int position) {
-
+        Intent intent = new Intent(HistoryCreatedActivity.this, ParticipantsActivity.class);
+        Log.d("ID ", details.get(position).getId());
+        String gid = details.get(position).getId();
+        intent.putExtra("ID", gid);
+        startActivity(intent);
     }
 
     @Override
@@ -102,6 +136,11 @@ public class HistoryCreatedActivity extends AppCompatActivity implements Recycle
 
     @Override
     public void onDeleteClick(int position) {
+
+    }
+
+    @Override
+    public void onReportClick(int position) {
 
     }
 }

@@ -2,9 +2,11 @@ package com.example.joinme;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -12,35 +14,46 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.joinme.api.RetrofitClient;
 import com.example.joinme.databinding.ActivityHistoryCreatedBinding;
+import com.example.joinme.databinding.ActivityHistoryJoinedBinding;
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInClient;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 
 import java.util.ArrayList;
 
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+
 public class HistoryJoinedActivity extends AppCompatActivity implements RecycleViewInterface {
-    private ActivityHistoryCreatedBinding binding;
-    private FirebaseAuth firebaseAuth;
+    private ActivityHistoryJoinedBinding binding;
+    //init firebase auth
+    private FirebaseAuth firebaseAuth= FirebaseAuth.getInstance();
     private GoogleSignInClient mGoogleSignInClient;
     ArrayList<DetailsForRecycleHistory> details = new ArrayList<>();
-    DetailsAdapter adapter = new DetailsAdapter(this, details, HistoryJoinedActivity.this);
+    FirebaseUser firebaseUser = firebaseAuth.getCurrentUser();
+    JoinedDetailsAdapter adapter = new JoinedDetailsAdapter(this, details, HistoryJoinedActivity.this);
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        binding = ActivityHistoryCreatedBinding.inflate(getLayoutInflater()); //Using this function this binding variable can be used to access GUI components.
+        binding = ActivityHistoryJoinedBinding.inflate(getLayoutInflater()); //Using this function this binding variable can be used to access GUI components.
         setContentView(binding.getRoot()); //Set the activity content to an explicit view.
-        //init firebase auth
-        firebaseAuth = FirebaseAuth.getInstance();
         mGoogleSignInClient = GoogleSignIn.getClient(this, MainActivity.googleSignInOptions);
-//        RecyclerView recyclerView = findViewById(R.id.rvBox);
-        setUpDetails();
-        //DetailsAdapter adapter = new DetailsAdapter(this, details); // todo: check it need to be here acording to the video
-//        recyclerView.setAdapter(adapter);
-//        recyclerView.setLayoutManager(new LinearLayoutManager(this));
-    }
 
+        //handle click, back
+        binding.backBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(HistoryJoinedActivity.this, MainPageActivity.class));
+            }
+        });
+
+        setUpDetails();
+    }
     // menu
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
@@ -64,7 +77,7 @@ public class HistoryJoinedActivity extends AppCompatActivity implements RecycleV
                 //starting the activity for result
                 //startActivityForResult(signInIntent, RC_SIGN_IN);
                 //checkUser();
-                startActivity(new Intent(HistoryJoinedActivity.this, MainActivity.class));
+                //startActivity(new Intent(MainPageActivity.this, MainActivity.class));
                 return true;
             default: return super.onOptionsItemSelected(item);
         }
@@ -78,21 +91,37 @@ public class HistoryJoinedActivity extends AppCompatActivity implements RecycleV
     }
 
     private void setUpDetails(){
-        String[] categories = {"Football", "Minyan", "Basketball"};
-        String[] location = {"Ariel", "Tel Aviv", "Yad Binyamin"};
-        String[] date = {"15.11.2022", "4.1.2023", "11.1.2023"};
-        for (int i = 0; i < 3; i++) {
-            details.add(new DetailsForRecycleHistory(categories[i], location[i], date[i]));
+        Call<ArrayList<DetailsForRecycleHistory>> call = RetrofitClient
+                .getInstance()
+                .getAPI()
+                .presentMyJoinedHistory(firebaseUser.getUid());
+        call.enqueue(new Callback<ArrayList<DetailsForRecycleHistory>>() {
+            @Override
+            public void onResponse(Call<ArrayList<DetailsForRecycleHistory>> call, Response<ArrayList<DetailsForRecycleHistory>> response) {
+                if(response.isSuccessful()) {
+                    for(int i=0; i<response.body().size(); i++){
+                        details.add(response.body().get(i));
+                    }
+                    RecyclerView recyclerView = findViewById(R.id.rvJoinedBox);
+                    recyclerView.setAdapter(adapter);
+                    recyclerView.setLayoutManager(new LinearLayoutManager(HistoryJoinedActivity.this));
+                }
+            }
 
-        }
-        RecyclerView recyclerView = findViewById(R.id.rvBox);
-        recyclerView.setAdapter(adapter);
-        recyclerView.setLayoutManager(new LinearLayoutManager(HistoryJoinedActivity.this));
+            @Override
+            public void onFailure(Call<ArrayList<DetailsForRecycleHistory>> call, Throwable t) {
+                Log.d("Fail", t.getMessage());
+            }
+        });
     }
 
     @Override
     public void onDetailsClick(int position) {
-
+        Intent intent = new Intent(HistoryJoinedActivity.this, ParticipantsActivity.class);
+        Log.d("ID ", details.get(position).getId());
+        String gid = details.get(position).getId();
+        intent.putExtra("ID", gid);
+        startActivity(intent);
     }
 
     @Override
@@ -102,6 +131,11 @@ public class HistoryJoinedActivity extends AppCompatActivity implements RecycleV
 
     @Override
     public void onDeleteClick(int position) {
+
+    }
+
+    @Override
+    public void onReportClick(int position) {
 
     }
 }
