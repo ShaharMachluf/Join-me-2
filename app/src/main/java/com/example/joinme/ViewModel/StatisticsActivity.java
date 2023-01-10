@@ -1,17 +1,15 @@
-package com.example.joinme;
+package com.example.joinme.ViewModel;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.LayoutInflater;
 import android.view.View;
 
-import com.example.joinme.databinding.ActivityFindGroupBinding;
+import com.example.joinme.R;
 import com.example.joinme.databinding.ActivityStatisticsBinding;
 import com.github.mikephil.charting.charts.BarChart;
 import com.github.mikephil.charting.components.XAxis;
@@ -40,8 +38,6 @@ import org.eazegraph.lib.charts.PieChart;
 import org.eazegraph.lib.models.PieModel;
 
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashMap;
 import java.util.List;
 
 public class StatisticsActivity extends AppCompatActivity {

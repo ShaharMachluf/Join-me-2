@@ -1,4 +1,4 @@
-package com.example.joinme;
+package com.example.joinme.ViewModel;
 
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -9,7 +9,9 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import java.util.ArrayList;
+import com.example.joinme.R;
+import com.example.joinme.Model.DetailsForRecycleHistory;
+
 import java.util.List;
 
 public class JoinedDetailsAdapter extends RecyclerView.Adapter<JoinedDetailsAdapter.MyViewHolder>{

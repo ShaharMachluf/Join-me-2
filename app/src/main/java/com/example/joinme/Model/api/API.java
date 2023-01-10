@@ -1,13 +1,11 @@
-package com.example.joinme.api;
+package com.example.joinme.Model.api;
 
-import com.example.joinme.DetailsForRecycleHistory;
-import com.example.joinme.Group;
-import com.example.joinme.User;
-import com.example.joinme.UserRow;
-import com.google.android.gms.common.internal.safeparcel.SafeParcelable;
+import com.example.joinme.Model.DetailsForRecycleHistory;
+import com.example.joinme.Model.Group;
+import com.example.joinme.Model.User;
+import com.example.joinme.Model.UserRow;
 
 import java.util.ArrayList;
-import java.util.List;
 
 import okhttp3.ResponseBody;
 import retrofit2.Call;

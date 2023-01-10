@@ -1,5 +1,5 @@
 //https://guides.codepath.com/android/using-the-recyclerview
-package com.example.joinme;
+package com.example.joinme.ViewModel;
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -7,6 +7,10 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
+
+import com.example.joinme.R;
+import com.example.joinme.Model.Contact;
+
 import java.util.ArrayList;
 
 class ContactsAdapter extends RecyclerView.Adapter<ContactsAdapter.MyViewHolder>{

@@ -1,4 +1,4 @@
-package com.example.joinme;
+package com.example.joinme.ViewModel;
 
 import android.content.Context;
 import android.util.Log;
@@ -9,6 +9,9 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
+
+import com.example.joinme.R;
+import com.example.joinme.Model.UserRow;
 
 import java.util.List;
 
@@ -37,7 +40,7 @@ public class ParticipantsAdapter extends RecyclerView.Adapter<ParticipantsAdapte
         //inflate a new view hierarchy from the specified xml resource. Throws
         View view = inflater.inflate(R.layout.participants_recycle_view_row, parent, false);
 
-        return new ParticipantsAdapter.MyViewHolder(view, recycleViewInterface);
+        return new ParticipantsAdapter.MyViewHolder(view, recycleViewInterface, this.context);
     }
 
     @Override
@@ -62,7 +65,7 @@ public class ParticipantsAdapter extends RecyclerView.Adapter<ParticipantsAdapte
 
         TextView tvName, tvMail, tvPhone;
 
-        public MyViewHolder(@NonNull View itemView, RecycleViewInterface recycleViewInterface) {
+        public MyViewHolder(@NonNull View itemView, RecycleViewInterface recycleViewInterface, Context context) {
             /**
              * We also create a constructor that accepts the entire item row and does the view lookups to find each subview
              */

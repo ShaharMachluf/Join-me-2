@@ -1,9 +1,7 @@
-package com.example.joinme;
+package com.example.joinme.ViewModel;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
 
 import android.app.DatePickerDialog;
 import android.content.Intent;
@@ -17,15 +15,15 @@ import android.view.View;
 import android.widget.DatePicker;
 import android.widget.Toast;
 
-import com.example.joinme.api.RetrofitClient;
-import com.example.joinme.databinding.ActivityFillDetailsBinding;
+import com.example.joinme.R;
+import com.example.joinme.Model.Logic;
+import com.example.joinme.Model.User;
+import com.example.joinme.Model.api.RetrofitClient;
 import com.example.joinme.databinding.ActivityUpdateDetailsBinding;
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInClient;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.firestore.FirebaseFirestore;
 
-import java.util.ArrayList;
 import java.util.Calendar;
 
 import okhttp3.ResponseBody;
@@ -34,7 +32,7 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 public class UpdateDetailsActivity extends AppCompatActivity {
-    String date;
+    String date = "";
     //view binding
     private ActivityUpdateDetailsBinding binding;
     private GoogleSignInClient mGoogleSignInClient;
@@ -42,6 +40,7 @@ public class UpdateDetailsActivity extends AppCompatActivity {
     private FirebaseAuth firebaseAuth;
     Logic logic = new Logic();
     private static final String TAG = "GOOGLE_SIGN_IN_TAG";
+    User curr_user;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -55,13 +54,14 @@ public class UpdateDetailsActivity extends AppCompatActivity {
         call.enqueue(new Callback<User>() {
             @Override
             public void onResponse(Call<User> call, Response<User> response) {
-                User curr_user = response.body();
+                curr_user = response.body();
                 binding.PhoneTxt.setText(curr_user.getPhone());
                 String name = curr_user.getName();
                 String[] splitName = name.split(" ");
                 binding.FNameTxt.setText(splitName[0]);
                 binding.LNameTxt.setText(splitName[1]);
                 binding.etSelectDate.setText(curr_user.getBirth_date());
+//                date = curr_user.getBirth_date();
             }
 
             @Override
@@ -69,7 +69,6 @@ public class UpdateDetailsActivity extends AppCompatActivity {
                 Log.d("Fail", t.getMessage());
             }
         });
-
         //prepare calendar
         final Calendar calendar = Calendar.getInstance();
         final int year = calendar.get(Calendar.YEAR);
@@ -114,9 +113,13 @@ public class UpdateDetailsActivity extends AppCompatActivity {
                 if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
                     today = java.time.LocalDate.now().toString().split("-");
                 }
+                if(TextUtils.isEmpty(date)){
+                    date = curr_user.getBirth_date();
+                }
                 String[] groupDate = date.split("/");
-                if(TextUtils.isEmpty(date) || logic.checkDate(Integer.parseInt(today[0]), Integer.parseInt(today[1]), Integer.parseInt(today[2]), Integer.parseInt(groupDate[2]), Integer.parseInt(groupDate[1]), Integer.parseInt(groupDate[0]))) {
-                    binding.etSelectDate.setError("please enter your birthday");
+                if(logic.checkDate(Integer.parseInt(today[0]), Integer.parseInt(today[1]), Integer.parseInt(today[2]), Integer.parseInt(groupDate[2]), Integer.parseInt(groupDate[1]), Integer.parseInt(groupDate[0]))) {
+                    Log.d("birthday", String.valueOf(TextUtils.isEmpty(date)));
+                    binding.etSelectDate.setError("invalid date");
                     return;
                 }
                 //get all the details

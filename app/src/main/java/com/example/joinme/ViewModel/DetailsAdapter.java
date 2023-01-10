@@ -1,4 +1,4 @@
-package com.example.joinme;
+package com.example.joinme.ViewModel;
 
 import android.content.Context;
 import android.util.Log;
@@ -13,13 +13,11 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.joinme.api.RetrofitClient;
+import com.example.joinme.R;
+import com.example.joinme.Model.DetailsForRecycleHistory;
+import com.example.joinme.Model.Logic;
 
-import java.util.ArrayList;
 import java.util.List;
-
-import okhttp3.ResponseBody;
-import retrofit2.Call;
 
 public class DetailsAdapter extends RecyclerView.Adapter<DetailsAdapter.MyViewHolder>{
     private final RecycleViewInterface recycleViewInterface;
@@ -73,7 +71,6 @@ public class DetailsAdapter extends RecyclerView.Adapter<DetailsAdapter.MyViewHo
             tvLocation = itemView.findViewById(R.id.locationTxt);
             tvDate = itemView.findViewById(R.id.dateTxt);
             sw = (Switch) itemView.findViewById(R.id.happenedSwich);
-
             sw.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 if (isChecked) {
@@ -109,7 +106,17 @@ public class DetailsAdapter extends RecyclerView.Adapter<DetailsAdapter.MyViewHo
 
                 }
             });
-
+            itemView.findViewById(R.id.participantsBtn).setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    if(recycleViewInterface != null){
+                        int pos = getAdapterPosition();
+                        if(pos!= RecyclerView.NO_POSITION){
+                            recycleViewInterface.onDetailsClick(pos);
+                        }
+                    }
+                }
+            });
             }
     }
 }

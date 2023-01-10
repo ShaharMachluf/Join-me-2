@@ -1,6 +1,4 @@
-package com.example.joinme;
-
-import android.provider.ContactsContract;
+package com.example.joinme.Model;
 
 public class UserRow {
     String name;

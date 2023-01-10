@@ -1,4 +1,4 @@
-package com.example.joinme;
+package com.example.joinme.ViewModel;
 
 import android.content.Context;
 import android.util.Log;
@@ -9,6 +9,9 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
+
+import com.example.joinme.R;
+import com.example.joinme.Model.UserRow;
 
 import java.util.List;
 

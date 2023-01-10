@@ -1,4 +1,4 @@
-package com.example.joinme;
+package com.example.joinme.ViewModel;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -8,12 +8,11 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
-import android.widget.Switch;
 import android.widget.Toast;
 
-import com.example.joinme.api.RetrofitClient;
-import com.example.joinme.databinding.ActivityDeleteUserBinding;
-import com.example.joinme.databinding.ActivityHistoryCreatedBinding;
+import com.example.joinme.R;
+import com.example.joinme.Model.UserRow;
+import com.example.joinme.Model.api.RetrofitClient;
 import com.example.joinme.databinding.ActivityParticipantsBinding;
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInClient;
@@ -28,7 +27,7 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class ParticipantsActivity extends AppCompatActivity implements RecycleViewInterface{
+public class ParticipantsActivity extends AppCompatActivity implements RecycleViewInterface {
     private ActivityParticipantsBinding binding;
     private FirebaseAuth firebaseAuth = FirebaseAuth.getInstance();;
     private GoogleSignInClient mGoogleSignInClient;
@@ -93,7 +92,6 @@ public class ParticipantsActivity extends AppCompatActivity implements RecycleVi
 
     @Override
     public void onDetailsClick(int position) {
-
     }
 
     @Override

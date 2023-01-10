@@ -1,4 +1,4 @@
-package com.example.joinme;
+package com.example.joinme.ViewModel;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -11,15 +11,16 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.Button;
-import android.widget.ListView;
-import android.widget.SearchView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 
-import com.example.joinme.databinding.ActivityOpenGroupBinding;
+import com.example.joinme.R;
 import com.example.joinme.databinding.ActivityRelevantGroupsBinding;
+import com.example.joinme.Model.Contact;
+import com.example.joinme.Model.Group;
+import com.example.joinme.Model.Logic;
+import com.example.joinme.Model.User;
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInClient;
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -35,7 +36,7 @@ import org.checkerframework.checker.nullness.qual.NonNull;
 import java.util.ArrayList;
 import java.util.Arrays;
 
-public class RelevantGroupsActivity extends AppCompatActivity implements RecycleViewInterface{
+public class RelevantGroupsActivity extends AppCompatActivity implements RecycleViewInterface {
     FirebaseFirestore db = FirebaseFirestore.getInstance();
     private ActivityRelevantGroupsBinding binding;
     private GoogleSignInClient mGoogleSignInClient;     //A client for interacting with the Google Sign In API.

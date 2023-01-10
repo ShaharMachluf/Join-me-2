@@ -5,7 +5,7 @@
     android:id="@+id/delPage"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".DeleteUserActivity">
+    tools:context=".ViewModel.DeleteUserActivity">
 
 
     <androidx.appcompat.widget.SearchView

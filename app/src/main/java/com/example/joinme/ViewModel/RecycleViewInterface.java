@@ -1,4 +1,4 @@
-package com.example.joinme;
+package com.example.joinme.ViewModel;
 
 public interface RecycleViewInterface {
     void onDetailsClick(int position);

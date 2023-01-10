@@ -1,4 +1,4 @@
-package com.example.joinme;
+package com.example.joinme.Model;
 
 public class Logic {
 

@@ -1,9 +1,4 @@
-package com.example.joinme;
-
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
+package com.example.joinme.ViewModel;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -12,40 +7,41 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.CompoundButton;
-import android.widget.Switch;
 import android.widget.Toast;
 
-import com.example.joinme.api.RetrofitClient;
-import com.example.joinme.databinding.ActivityHistoryCreatedBinding;
-import com.example.joinme.databinding.ActivityOpenGroupBinding;
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
+import com.example.joinme.R;
+import com.example.joinme.Model.DetailsForRecycleHistory;
+import com.example.joinme.Model.api.RetrofitClient;
+import com.example.joinme.databinding.ActivityHistoryJoinedBinding;
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInClient;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
 import java.util.ArrayList;
-import java.util.List;
 
-import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class HistoryCreatedActivity extends AppCompatActivity implements RecycleViewInterface{
-    private ActivityHistoryCreatedBinding binding;
+public class HistoryJoinedActivity extends AppCompatActivity implements RecycleViewInterface {
+    private ActivityHistoryJoinedBinding binding;
     //init firebase auth
-    private FirebaseAuth firebaseAuth = FirebaseAuth.getInstance();
-    FirebaseUser firebaseUser = firebaseAuth.getCurrentUser();
+    private FirebaseAuth firebaseAuth= FirebaseAuth.getInstance();
     private GoogleSignInClient mGoogleSignInClient;
-    List<DetailsForRecycleHistory> details = new ArrayList<>();
-    DetailsAdapter adapter = new DetailsAdapter(this, details, HistoryCreatedActivity.this);
-
+    ArrayList<DetailsForRecycleHistory> details = new ArrayList<>();
+    FirebaseUser firebaseUser = firebaseAuth.getCurrentUser();
+    JoinedDetailsAdapter adapter = new JoinedDetailsAdapter(this, details, HistoryJoinedActivity.this);
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        binding = ActivityHistoryCreatedBinding.inflate(getLayoutInflater()); //Using this function this binding variable can be used to access GUI components.
+        binding = ActivityHistoryJoinedBinding.inflate(getLayoutInflater()); //Using this function this binding variable can be used to access GUI components.
         setContentView(binding.getRoot()); //Set the activity content to an explicit view.
         mGoogleSignInClient = GoogleSignIn.getClient(this, MainActivity.googleSignInOptions);
 
@@ -53,13 +49,12 @@ public class HistoryCreatedActivity extends AppCompatActivity implements Recycle
         binding.backBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(HistoryCreatedActivity.this, MainPageActivity.class));
+                startActivity(new Intent(HistoryJoinedActivity.this, MainPageActivity.class));
             }
         });
+
         setUpDetails();
-
     }
-
     // menu
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
@@ -69,11 +64,11 @@ public class HistoryCreatedActivity extends AppCompatActivity implements Recycle
                 return true;
             case R.id.subitem1:
                 Toast.makeText(this, "created group", Toast.LENGTH_SHORT).show();
-                startActivity(new Intent(HistoryCreatedActivity.this, HistoryCreatedActivity.class));
+                startActivity(new Intent(HistoryJoinedActivity.this, HistoryCreatedActivity.class));
                 return true;
             case R.id.item2:
                 Toast.makeText(this,"update my details",Toast.LENGTH_SHORT).show();
-                startActivity(new Intent(HistoryCreatedActivity.this, UpdateDetailsActivity.class));
+                startActivity(new Intent(HistoryJoinedActivity.this, UpdateDetailsActivity.class));
                 return true;
             case R.id.item3:
                 Toast.makeText(this,"log out",Toast.LENGTH_SHORT).show();
@@ -96,23 +91,21 @@ public class HistoryCreatedActivity extends AppCompatActivity implements Recycle
         return true;
     }
 
-
     private void setUpDetails(){
         Call<ArrayList<DetailsForRecycleHistory>> call = RetrofitClient
                 .getInstance()
                 .getAPI()
-                .presentMyCreatedHistory(firebaseUser.getUid());
+                .presentMyJoinedHistory(firebaseUser.getUid());
         call.enqueue(new Callback<ArrayList<DetailsForRecycleHistory>>() {
             @Override
             public void onResponse(Call<ArrayList<DetailsForRecycleHistory>> call, Response<ArrayList<DetailsForRecycleHistory>> response) {
                 if(response.isSuccessful()) {
-                    Log.d("here", "response");
                     for(int i=0; i<response.body().size(); i++){
                         details.add(response.body().get(i));
                     }
-                    RecyclerView recyclerView = findViewById(R.id.rvCreatedBox);
+                    RecyclerView recyclerView = findViewById(R.id.rvJoinedBox);
                     recyclerView.setAdapter(adapter);
-                    recyclerView.setLayoutManager(new LinearLayoutManager(HistoryCreatedActivity.this));
+                    recyclerView.setLayoutManager(new LinearLayoutManager(HistoryJoinedActivity.this));
                 }
             }
 
@@ -121,12 +114,11 @@ public class HistoryCreatedActivity extends AppCompatActivity implements Recycle
                 Log.d("Fail", t.getMessage());
             }
         });
-
     }
 
     @Override
     public void onDetailsClick(int position) {
-        Intent intent = new Intent(HistoryCreatedActivity.this, ParticipantsActivity.class);
+        Intent intent = new Intent(HistoryJoinedActivity.this, ParticipantsActivity.class);
         Log.d("ID ", details.get(position).getId());
         String gid = details.get(position).getId();
         intent.putExtra("ID", gid);
@@ -150,19 +142,6 @@ public class HistoryCreatedActivity extends AppCompatActivity implements Recycle
 
     @Override
     public void onHappenedClick(int position, Boolean flag) {
-        details.get(position).setIs_happened(flag);
-        Call<ResponseBody> call = RetrofitClient.getInstance().getAPI().isHappened(details.get(position).getId(), flag);
-        call.enqueue(new Callback<ResponseBody>() {
-            @Override
-            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
-                Log.d("done", "done");
-            }
-
-            @Override
-            public void onFailure(Call<ResponseBody> call, Throwable t) {
-                Log.d("fail", t.getMessage());
-            }
-        });
 
     }
 }
