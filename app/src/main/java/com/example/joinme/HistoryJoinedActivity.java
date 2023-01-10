@@ -138,4 +138,9 @@ public class HistoryJoinedActivity extends AppCompatActivity implements RecycleV
     public void onReportClick(int position) {
 
     }
+
+    @Override
+    public void onHappenedClick(int position, Boolean flag) {
+
+    }
 }

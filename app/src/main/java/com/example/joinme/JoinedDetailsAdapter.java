@@ -12,7 +12,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import java.util.ArrayList;
 import java.util.List;
 
-public class JoinedDetailsAdapter extends RecyclerView.Adapter<DetailsAdapter.MyViewHolder>{
+public class JoinedDetailsAdapter extends RecyclerView.Adapter<JoinedDetailsAdapter.MyViewHolder>{
     private final RecycleViewInterface recycleViewInterface;
     Context context;
     List<DetailsForRecycleHistory> details;
@@ -27,15 +27,15 @@ public class JoinedDetailsAdapter extends RecyclerView.Adapter<DetailsAdapter.My
 
     @NonNull
     @Override
-    public DetailsAdapter.MyViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+    public JoinedDetailsAdapter.MyViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         // This is where you inflate the layout (Giving a look to our rows)
         LayoutInflater inflater = LayoutInflater.from(context);
         View view = inflater.inflate(R.layout.recycle_view_row_history_joined, parent, false);
-        return new DetailsAdapter.MyViewHolder(view, recycleViewInterface);
+        return new JoinedDetailsAdapter.MyViewHolder(view, recycleViewInterface);
     }
 
     @Override
-    public void onBindViewHolder(@NonNull DetailsAdapter.MyViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull JoinedDetailsAdapter.MyViewHolder holder, int position) {
         // assigning values to the views we created in the rcycle_view layout file
         // base on the position of the rcycle view
         holder.tvCategory.setText(details.get(position).getCategory());

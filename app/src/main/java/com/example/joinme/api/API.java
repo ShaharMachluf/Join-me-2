@@ -57,6 +57,11 @@ public interface API {
             @Query("uid") String uid
     );
 
+    @GET("getUserDetails")
+    Call<User> getUserDetails(
+            @Query("uid") String uid
+    );
+
     @FormUrlEncoded
     @POST("addReportToUser")
     Call<ResponseBody> addReportToUser(
@@ -99,6 +104,13 @@ public interface API {
     @POST("addUser")
     Call<ResponseBody> addUser(
             @Field("user") User user
+    );
+
+    @FormUrlEncoded
+    @POST("isHappened")
+    Call<ResponseBody> isHappened(
+            @Field("gid") String gid,
+            @Field("flag") Boolean flag
     );
 
     @FormUrlEncoded

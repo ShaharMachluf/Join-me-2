@@ -55,7 +55,7 @@ public class DetailsForRecycleHistory {
         return time;
     }
 
-    public boolean isIs_happened() {
+    public boolean is_happened() {
         return is_happened;
     }
 

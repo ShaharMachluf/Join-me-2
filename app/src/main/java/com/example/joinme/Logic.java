@@ -5,6 +5,7 @@ public class Logic {
     public Logic() {
     }
 
+    //if the date pass return false
     public boolean checkDate(int todayYear, int todayMonth, int todayDay, int groupDateYear, int groupDateMonth, int groupDateDay){
         if(todayYear > groupDateYear){
             return false;

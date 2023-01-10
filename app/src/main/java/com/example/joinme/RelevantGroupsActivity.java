@@ -206,6 +206,11 @@ public class RelevantGroupsActivity extends AppCompatActivity implements Recycle
 
     }
 
+    @Override
+    public void onHappenedClick(int position, Boolean flag) {
+
+    }
+
     private void addGroupToUserDB(String groupID, String uid) {
         db.collection("usersById").document(uid)
                 .get()

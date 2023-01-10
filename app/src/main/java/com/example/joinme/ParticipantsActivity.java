@@ -8,6 +8,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.Switch;
 import android.widget.Toast;
 
 import com.example.joinme.api.RetrofitClient;
@@ -60,6 +61,8 @@ public class ParticipantsActivity extends AppCompatActivity implements RecycleVi
                 startActivity(new Intent(ParticipantsActivity.this, HistoryCreatedActivity.class));
             }
         });
+
+
     }
 
     private void setUpUserRows() {
@@ -121,5 +124,10 @@ public class ParticipantsActivity extends AppCompatActivity implements RecycleVi
                 Log.d("report", "error");
             }
         });
+    }
+
+    @Override
+    public void onHappenedClick(int position, Boolean flag) {
+
     }
 }

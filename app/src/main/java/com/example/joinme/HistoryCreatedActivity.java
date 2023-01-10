@@ -12,6 +12,8 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.CompoundButton;
+import android.widget.Switch;
 import android.widget.Toast;
 
 import com.example.joinme.api.RetrofitClient;
@@ -25,6 +27,7 @@ import com.google.firebase.auth.FirebaseUser;
 import java.util.ArrayList;
 import java.util.List;
 
+import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -54,6 +57,7 @@ public class HistoryCreatedActivity extends AppCompatActivity implements Recycle
             }
         });
         setUpDetails();
+
     }
 
     // menu
@@ -141,6 +145,24 @@ public class HistoryCreatedActivity extends AppCompatActivity implements Recycle
 
     @Override
     public void onReportClick(int position) {
+
+    }
+
+    @Override
+    public void onHappenedClick(int position, Boolean flag) {
+        details.get(position).setIs_happened(flag);
+        Call<ResponseBody> call = RetrofitClient.getInstance().getAPI().isHappened(details.get(position).getId(), flag);
+        call.enqueue(new Callback<ResponseBody>() {
+            @Override
+            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                Log.d("done", "done");
+            }
+
+            @Override
+            public void onFailure(Call<ResponseBody> call, Throwable t) {
+                Log.d("fail", t.getMessage());
+            }
+        });
 
     }
 }

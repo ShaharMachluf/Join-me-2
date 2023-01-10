@@ -5,4 +5,5 @@ public interface RecycleViewInterface {
     void onJoinClick(int position);
     void onDeleteClick(int position);
     void onReportClick(int position);
+    void onHappenedClick(int position, Boolean flag);
 }
