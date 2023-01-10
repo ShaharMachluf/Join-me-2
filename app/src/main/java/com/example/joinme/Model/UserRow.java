@@ -5,12 +5,14 @@ public class UserRow {
     String mail;
     String uid;
     String phone;
+    int num_of_reports;
 
-    public UserRow(String name, String mail, String uid, String phone) {
+    public UserRow(String name, String mail, String uid, String phone, int num_of_reports) {
         this.name = name;
         this.mail = mail;
         this.uid = uid;
         this.phone = phone;
+        this.num_of_reports = num_of_reports;
     }
 
     public UserRow(String name, String mail, String uid) {
@@ -34,5 +36,9 @@ public class UserRow {
 
     public String getPhone() {
         return phone;
+    }
+
+    public int getNum_of_reports() {
+        return num_of_reports;
     }
 }

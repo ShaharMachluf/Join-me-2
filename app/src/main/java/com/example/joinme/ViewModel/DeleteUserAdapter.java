@@ -49,6 +49,7 @@ public class DeleteUserAdapter extends RecyclerView.Adapter<DeleteUserAdapter.My
         //based on the position of the recycler view
         holder.tvName.setText(userRows.get(position).getName());
         holder.tvMail.setText(userRows.get(position).getMail());
+        holder.tvReports.setText(userRows.get(position).getNum_of_reports() + " reports");
         Log.d("SET TEXT", userRows.get(position).getName());
     }
 
@@ -62,7 +63,7 @@ public class DeleteUserAdapter extends RecyclerView.Adapter<DeleteUserAdapter.My
         //grabbing the views from our users_recycle_view_row layout file
         //kinda like in the onCreate method
 
-        TextView tvName, tvMail;
+        TextView tvName, tvMail, tvReports;
 
         public MyViewHolder(@NonNull View itemView, RecycleViewInterface recycleViewInterface) {
             /**
@@ -74,6 +75,7 @@ public class DeleteUserAdapter extends RecyclerView.Adapter<DeleteUserAdapter.My
             //  entering the name and email of the user who needs to be blocked
             tvName = itemView.findViewById(R.id.nameTxt);
             tvMail = itemView.findViewById(R.id.mailTxt);
+            tvReports = itemView.findViewById(R.id.reportTxt);
             itemView.findViewById(R.id.blockBtn).setOnClickListener(new View.OnClickListener() {
                 //"Block User" button
                 @Override

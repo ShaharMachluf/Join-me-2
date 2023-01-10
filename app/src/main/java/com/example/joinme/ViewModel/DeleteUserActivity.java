@@ -36,6 +36,7 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import java.util.ArrayList;
 import java.util.List;
 
+import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -189,26 +190,27 @@ public class DeleteUserActivity extends AppCompatActivity implements RecycleView
                 popupWindow.dismiss();
                 String curr_uid = userRows.get(pos).getUid();
                 Log.d(TAG, "yes");
-                db.collection("usersById").document(userRows.get(pos).getUid()).get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
-                @Override
-                public void onComplete(@NonNull Task<DocumentSnapshot> task) {
-                    DocumentSnapshot document = task.getResult();
-                    if(document.exists()){
-                        User block_user = document.toObject(User.class);
-                        Log.d(TAG, "the user= " + block_user.toString());
-                        db.collection("blockUsers").document(curr_uid).set(block_user);
-                        }
-                    }
-                });
-                try {
-                    Thread.sleep(2000);
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
-                db.collection("usersById").document(curr_uid).delete();
-                userRows.remove(pos);
-                Toast.makeText(DeleteUserActivity.this, "user blocked successfully", Toast.LENGTH_SHORT).show();
-                adapter.notifyDataSetChanged();
+                deleteUser(curr_uid);
+//                db.collection("usersById").document(userRows.get(pos).getUid()).get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+//                @Override
+//                public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+//                    DocumentSnapshot document = task.getResult();
+//                    if(document.exists()){
+//                        User block_user = document.toObject(User.class);
+//                        Log.d(TAG, "the user= " + block_user.toString());
+//                        db.collection("blockUsers").document(curr_uid).set(block_user);
+//                        }
+//                    }
+//                });
+//                try {
+//                    Thread.sleep(2000);
+//                } catch (InterruptedException e) {
+//                    e.printStackTrace();
+//                }
+//                db.collection("usersById").document(curr_uid).delete();
+//                userRows.remove(pos);
+//                Toast.makeText(DeleteUserActivity.this, "user blocked successfully", Toast.LENGTH_SHORT).show();
+//                adapter.notifyDataSetChanged();
                     }
                 });
 
@@ -220,13 +222,56 @@ public class DeleteUserActivity extends AppCompatActivity implements RecycleView
                  */
                 Log.d(TAG, "no");
                 popupWindow.dismiss();
-
             }
         });
 
     }
 
+    private void deleteUser(String uid){
+//        Call<ResponseBody> call = RetrofitClient.getInstance().getAPI().deleteUserGroups(uid);
+//        call.enqueue(new Callback<ResponseBody>() {
+//            @Override
+//            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+//                Log.d("delete groups", "done");
+//            }
+//
+//            @Override
+//            public void onFailure(Call<ResponseBody> call, Throwable t) {
+//                Log.d("fail", t.getMessage());
+//            }
+//        });
+//
+//        Call<ResponseBody> call2 = RetrofitClient.getInstance().getAPI().deleteUserJoinedGroups(uid);
+//        call2.enqueue(new Callback<ResponseBody>() {
+//            @Override
+//            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+//                Log.d("delete joined groups", "done");
+//            }
+//
+//            @Override
+//            public void onFailure(Call<ResponseBody> call, Throwable t) {
+//                Log.d("fail", t.getMessage());
+//            }
+//        });
 
+//        try {
+//            Thread.sleep(2000);
+//        } catch (InterruptedException e) {
+//            e.printStackTrace();
+//        }
+        Call<ResponseBody> call = RetrofitClient.getInstance().getAPI().blockThisUser(uid);
+        call.enqueue(new Callback<ResponseBody>() {
+            @Override
+            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                Log.d("block", "done");
+            }
+
+            @Override
+            public void onFailure(Call<ResponseBody> call, Throwable t) {
+                Log.d("fail", t.getMessage());
+            }
+        });
+    }
     private void setUpUserRows(){
         Call<ArrayList<UserRow>> call = RetrofitClient
                 .getInstance()
