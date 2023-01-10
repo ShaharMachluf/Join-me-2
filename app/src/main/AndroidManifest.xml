@@ -24,7 +24,21 @@
                 android:value="" />
         </activity>
         <activity
+            android:name=".ParticipantsActivity"
+            android:exported="false">
+            <meta-data
+                android:name="android.app.lib_name"
+                android:value="" />
+        </activity>
+        <activity
             android:name=".HistoryCreatedActivity"
+            android:exported="false">
+            <meta-data
+                android:name="android.app.lib_name"
+                android:value="" />
+        </activity>
+        <activity
+            android:name=".HistoryJoinedActivity"
             android:exported="false">
             <meta-data
                 android:name="android.app.lib_name"
