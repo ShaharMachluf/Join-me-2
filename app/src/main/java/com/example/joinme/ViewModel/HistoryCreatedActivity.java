@@ -80,9 +80,7 @@ public class HistoryCreatedActivity extends AppCompatActivity implements Recycle
                 mGoogleSignInClient.signOut();
                 Intent signInIntent = mGoogleSignInClient.getSignInIntent();
                 //starting the activity for result
-                //startActivityForResult(signInIntent, RC_SIGN_IN);
-                //checkUser();
-                //startActivity(new Intent(MainPageActivity.this, MainActivity.class));
+                startActivity(new Intent(HistoryCreatedActivity.this, MainActivity.class));
                 return true;
             default: return super.onOptionsItemSelected(item);
         }
