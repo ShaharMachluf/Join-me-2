@@ -4,7 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ViewModel.StatisticsActivity">
+    tools:context=".ViewModel.StatisticsActivity"
+    android:background="#fff9de">
 
     <ScrollView
         android:id="@+id/scrollView2"
@@ -34,7 +35,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="center"
-                android:text="Amount of groups from each category" />
+                android:text="Amount of groups from each category"
+                android:textStyle="bold"/>
 
             <!--Creating another linear layout -->
             <!-- to display pie chart details -->
@@ -204,7 +206,8 @@
                     android:layout_marginLeft="15dp"
                     android:layout_marginBottom="15dp"
                     android:gravity="center"
-                    android:text="Compare groups that happened and didn't happen" />
+                    android:text="Compare groups that happened and didn't happen"
+                    android:textStyle="bold"/>
 
                 <com.github.mikephil.charting.charts.BarChart
                     android:id="@+id/barChart"
@@ -267,7 +270,8 @@
                     android:layout_marginLeft="15dp"
                     android:layout_marginBottom="15dp"
                     android:gravity="center"
-                    android:text="Top 3 users that opened the most groups" />
+                    android:text="Top 3 users that opened the most groups"
+                    android:textStyle="bold"/>
 
                 <com.github.mikephil.charting.charts.HorizontalBarChart
                     android:id="@+id/fragment_horizontalbarchart_chart"
@@ -282,22 +286,12 @@
     </ScrollView>
 
     <Button
-        android:id="@+id/logoutBtn"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Log Out"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.949"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.045" />
-
-    <Button
         android:id="@+id/backBtn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Back"
+        android:textAllCaps="false"
+        android:textSize="16sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.049"
@@ -311,7 +305,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Statistics"
-        android:textSize="14sp"
+        android:textSize="24sp"
         android:textStyle="bold"
         app:layout_constraintBottom_toTopOf="@+id/scrollView2"
         app:layout_constraintEnd_toEndOf="parent"

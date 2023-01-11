@@ -7,6 +7,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Toast;
 
@@ -62,6 +63,24 @@ public class ParticipantsActivity extends AppCompatActivity implements RecycleVi
         });
 
 
+    }
+
+    // menu
+    @Override
+    public boolean onOptionsItemSelected(@androidx.annotation.NonNull MenuItem item) {
+        switch (item.getItemId()){
+            case R.id.item1:
+                return true;
+            case R.id.item2:
+                startActivity(new Intent(ParticipantsActivity.this, UpdateDetailsActivity.class));
+                return true;
+            case R.id.item3:
+                firebaseAuth.signOut();
+                mGoogleSignInClient.signOut();
+                startActivity(new Intent(ParticipantsActivity.this, MainActivity.class));
+                return true;
+            default: return super.onOptionsItemSelected(item);
+        }
     }
 
     private void setUpUserRows() {

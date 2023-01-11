@@ -79,14 +79,11 @@ public class RelevantGroupsActivity extends AppCompatActivity implements Recycle
     public boolean onOptionsItemSelected(@androidx.annotation.NonNull MenuItem item) {
         switch (item.getItemId()){
             case R.id.item1:
-                Toast.makeText(this,"my history groups",Toast.LENGTH_SHORT).show();
                 return true;
             case R.id.item2:
-                Toast.makeText(this,"update my details",Toast.LENGTH_SHORT).show();
                 startActivity(new Intent(RelevantGroupsActivity.this, UpdateDetailsActivity.class));
                 return true;
             case R.id.item3:
-                Toast.makeText(this,"log out",Toast.LENGTH_SHORT).show();
                 firebaseAuth.signOut();
                 mGoogleSignInClient.signOut();
                 startActivity(new Intent(RelevantGroupsActivity.this, MainActivity.class));

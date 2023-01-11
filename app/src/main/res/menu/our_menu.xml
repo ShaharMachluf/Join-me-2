@@ -6,7 +6,7 @@
 
     <item
         android:id="@+id/item1"
-        android:title="MY HISTORY"
+        android:title="My History"
         app:showAsAction="never" >
 
         <menu>
@@ -22,12 +22,12 @@
     </item>
     <item
         android:id="@+id/item2"
-        android:title="UPDATE DETAILS"
+        android:title="Update Details"
         app:showAsAction="never" />
 
     <item
         android:id="@+id/item3"
-        android:title="LOG OUT"
+        android:title="Log Out"
         app:showAsAction="never">
 
 

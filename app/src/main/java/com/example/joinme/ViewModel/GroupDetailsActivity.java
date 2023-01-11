@@ -68,14 +68,11 @@ public class GroupDetailsActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         switch (item.getItemId()){
             case R.id.item1:
-                Toast.makeText(this,"my history groups",Toast.LENGTH_SHORT).show();
                 return true;
             case R.id.item2:
-                Toast.makeText(this,"update my details",Toast.LENGTH_SHORT).show();
                 startActivity(new Intent(GroupDetailsActivity.this, UpdateDetailsActivity.class));
                 return true;
             case R.id.item3:
-                Toast.makeText(this,"log out",Toast.LENGTH_SHORT).show();
                 firebaseAuth.signOut();
                 mGoogleSignInClient.signOut();
                 startActivity(new Intent(GroupDetailsActivity.this, MainActivity.class));
@@ -128,7 +125,7 @@ public class GroupDetailsActivity extends AppCompatActivity {
                         if (task.isSuccessful()) {
                             DocumentSnapshot document = task.getResult();
                             if (document.exists()) {
-                                binding.headTxt.setText("The head of the group is: " +document.getString("name"));
+                                binding.headTxt.setText("The head of the group is:\n " +document.getString("name"));
                                 Log.d(TAG, "DocumentSnapshot data: " + document.getData());
                             } else {
                                 Log.d(TAG, "No such document");

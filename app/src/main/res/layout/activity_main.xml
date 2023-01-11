@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+
     android:padding="20dp"
     tools:context=".ViewModel.MainActivity">
 
@@ -16,12 +17,14 @@
 
     <TextView
         android:id="@+id/captionTv"
-        android:layout_below="@+id/iconIv"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_below="@+id/iconIv"
         android:layout_centerHorizontal="true"
-        android:text="Welcome to JoinMe"
-        style="@style/TextAppearance.MaterialComponents.Body1"/>
+        android:layout_marginTop="26dp"
+        android:text="Welcome to Join Me"
+        android:textSize="20sp"
+        android:textStyle="bold" />
 
     <com.google.android.gms.common.SignInButton
         android:id="@+id/googleSignInBtn"

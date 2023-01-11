@@ -61,7 +61,6 @@ public class UpdateDetailsActivity extends AppCompatActivity {
                 binding.FNameTxt.setText(splitName[0]);
                 binding.LNameTxt.setText(splitName[1]);
                 binding.etSelectDate.setText(curr_user.getBirth_date());
-//                date = curr_user.getBirth_date();
             }
 
             @Override
@@ -150,18 +149,14 @@ public class UpdateDetailsActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         switch (item.getItemId()){
             case R.id.item1:
-                Toast.makeText(this,"my history groups",Toast.LENGTH_SHORT).show();
                 return true;
             case R.id.subitem1:
-                Toast.makeText(this, "created group", Toast.LENGTH_SHORT).show();
                 startActivity(new Intent(UpdateDetailsActivity.this, HistoryCreatedActivity.class));
                 return true;
             case R.id.item2:
-                Toast.makeText(this,"update my details",Toast.LENGTH_SHORT).show();
                 startActivity(new Intent(UpdateDetailsActivity.this, UpdateDetailsActivity.class));
                 return true;
             case R.id.item3:
-                Toast.makeText(this,"log out",Toast.LENGTH_SHORT).show();
                 firebaseAuth.signOut();
                 mGoogleSignInClient.signOut();
                 Intent signInIntent = mGoogleSignInClient.getSignInIntent();

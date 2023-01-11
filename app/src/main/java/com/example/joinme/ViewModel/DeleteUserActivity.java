@@ -157,7 +157,6 @@ public class DeleteUserActivity extends AppCompatActivity implements RecycleView
     }
 
     public void onButtonShowPopupWindowClick(int pos) {
-
         // inflate the layout of the popup window
         LayoutInflater inflater = (LayoutInflater) getSystemService(LAYOUT_INFLATER_SERVICE);
         //Inflate a new view hierarchy from the specified xml resource.
@@ -167,7 +166,7 @@ public class DeleteUserActivity extends AppCompatActivity implements RecycleView
         TextView tvMsg = popupView.findViewById(R.id.msgTxt);
         Button yesBtn = popupView.findViewById(R.id.yesBtn);
         Button noBtn = popupView.findViewById(R.id.noBtn);
-        tvMsg.setText("Are you sure you want to delete " + userRows.get(pos).getName() + "?");
+        tvMsg.setText("Are you sure you want to block " + userRows.get(pos).getName() + "?");
 
         // create the popup window
         int width = LinearLayout.LayoutParams.WRAP_CONTENT;
@@ -191,26 +190,6 @@ public class DeleteUserActivity extends AppCompatActivity implements RecycleView
                 String curr_uid = userRows.get(pos).getUid();
                 Log.d(TAG, "yes");
                 deleteUser(curr_uid);
-//                db.collection("usersById").document(userRows.get(pos).getUid()).get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
-//                @Override
-//                public void onComplete(@NonNull Task<DocumentSnapshot> task) {
-//                    DocumentSnapshot document = task.getResult();
-//                    if(document.exists()){
-//                        User block_user = document.toObject(User.class);
-//                        Log.d(TAG, "the user= " + block_user.toString());
-//                        db.collection("blockUsers").document(curr_uid).set(block_user);
-//                        }
-//                    }
-//                });
-//                try {
-//                    Thread.sleep(2000);
-//                } catch (InterruptedException e) {
-//                    e.printStackTrace();
-//                }
-//                db.collection("usersById").document(curr_uid).delete();
-//                userRows.remove(pos);
-//                Toast.makeText(DeleteUserActivity.this, "user blocked successfully", Toast.LENGTH_SHORT).show();
-//                adapter.notifyDataSetChanged();
                     }
                 });
 
@@ -228,37 +207,6 @@ public class DeleteUserActivity extends AppCompatActivity implements RecycleView
     }
 
     private void deleteUser(String uid){
-//        Call<ResponseBody> call = RetrofitClient.getInstance().getAPI().deleteUserGroups(uid);
-//        call.enqueue(new Callback<ResponseBody>() {
-//            @Override
-//            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
-//                Log.d("delete groups", "done");
-//            }
-//
-//            @Override
-//            public void onFailure(Call<ResponseBody> call, Throwable t) {
-//                Log.d("fail", t.getMessage());
-//            }
-//        });
-//
-//        Call<ResponseBody> call2 = RetrofitClient.getInstance().getAPI().deleteUserJoinedGroups(uid);
-//        call2.enqueue(new Callback<ResponseBody>() {
-//            @Override
-//            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
-//                Log.d("delete joined groups", "done");
-//            }
-//
-//            @Override
-//            public void onFailure(Call<ResponseBody> call, Throwable t) {
-//                Log.d("fail", t.getMessage());
-//            }
-//        });
-
-//        try {
-//            Thread.sleep(2000);
-//        } catch (InterruptedException e) {
-//            e.printStackTrace();
-//        }
         Call<ResponseBody> call = RetrofitClient.getInstance().getAPI().blockThisUser(uid);
         call.enqueue(new Callback<ResponseBody>() {
             @Override

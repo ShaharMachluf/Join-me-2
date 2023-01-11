@@ -4,13 +4,16 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ViewModel.GroupDetailsActivity">
+    tools:context=".ViewModel.GroupDetailsActivity"
+    android:background="@drawable/background88">
 
     <Button
         android:id="@+id/backBtn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Back"
+        android:textAllCaps="false"
+        android:textSize="16sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.049"
@@ -21,12 +24,12 @@
 
     <TextView
         android:id="@+id/titleTxt"
-        android:layout_width="132dp"
-        android:layout_height="46dp"
-        android:fontFamily="sans-serif-black"
+        android:layout_width="204dp"
+        android:layout_height="117dp"
         android:gravity="center"
         android:text="title"
         android:textSize="34sp"
+        android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="@+id/addressTxt"
         app:layout_constraintHorizontal_bias="0.508"
@@ -36,11 +39,11 @@
 
     <TextView
         android:id="@+id/addressTxt"
-        android:layout_width="75dp"
-        android:layout_height="39dp"
+        android:layout_width="123dp"
+        android:layout_height="49dp"
         android:gravity="center"
         android:text="location"
-        android:textSize="16sp"
+        android:textSize="20sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="@+id/dateTxt"
         app:layout_constraintStart_toStartOf="@+id/dateTxt"
@@ -49,11 +52,11 @@
 
     <TextView
         android:id="@+id/dateTxt"
-        android:layout_width="71dp"
-        android:layout_height="39dp"
+        android:layout_width="104dp"
+        android:layout_height="35dp"
         android:gravity="center"
         android:text="date"
-        android:textSize="16sp"
+        android:textSize="20sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
@@ -67,7 +70,7 @@
         android:layout_height="38dp"
         android:gravity="center"
         android:text="time"
-        android:textSize="16sp"
+        android:textSize="20sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.498"
@@ -81,6 +84,7 @@
         android:layout_height="61dp"
         android:gravity="center"
         android:text="head"
+        android:textSize="18sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.498"
@@ -90,15 +94,30 @@
 
     <TextView
         android:id="@+id/numPartTxt"
-        android:layout_width="287dp"
-        android:layout_height="41dp"
-        android:layout_marginBottom="120dp"
+        android:layout_width="229dp"
+        android:layout_height="108dp"
         android:gravity="center"
         android:text="num of participents"
+        android:textSize="18sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView6"
-        app:layout_constraintVertical_bias="0.178" />
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.967" />
+
+    <!--    <TextView-->
+<!--        android:id="@+id/numPartTxt"-->
+<!--        android:layout_width="249dp"-->
+<!--        android:layout_height="76dp"-->
+<!--        android:layout_marginTop="95dp"-->
+<!--        android:layout_marginBottom="120dp"-->
+<!--        android:gravity="center"-->
+<!--        android:text="num of participents"-->
+<!--        android:textSize="18sp"-->
+<!--        app:layout_constraintBottom_toBottomOf="parent"-->
+<!--        app:layout_constraintEnd_toEndOf="parent"-->
+<!--        app:layout_constraintHorizontal_bias="0.5"-->
+<!--        app:layout_constraintStart_toStartOf="parent"-->
+<!--        app:layout_constraintTop_toTopOf="@+id/headTxt"-->
+<!--        app:layout_constraintVertical_bias="0.178" />-->
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -1,11 +1,17 @@
 package com.example.joinme.ViewModel;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
+import android.widget.Toast;
 
+import com.example.joinme.R;
 import com.example.joinme.databinding.ActivityAdminMainPageBinding;
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInClient;
@@ -50,6 +56,31 @@ public class AdminMainPageActivity extends AppCompatActivity {
                 startActivity(new Intent(AdminMainPageActivity.this, StatisticsActivity.class));
             }
         });
+    }
+
+    // menu
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        switch (item.getItemId()){
+            case R.id.item1:
+                Toast.makeText(this,"log out",Toast.LENGTH_SHORT).show();
+                firebaseAuth.signOut();
+                mGoogleSignInClient.signOut();
+                Intent signInIntent = mGoogleSignInClient.getSignInIntent();
+                //starting the activity for result
+                startActivityForResult(signInIntent, RC_SIGN_IN);
+                checkUser();
+                //startActivity(new Intent(MainPageActivity.this, MainActivity.class));
+                return true;
+            default: return super.onOptionsItemSelected(item);
+        }
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.admin_menu, menu);
+        return true;
     }
 
     private void checkUser() {
