@@ -21,6 +21,8 @@ import android.widget.TextView;
 import android.widget.TimePicker;
 import android.widget.Toast;
 
+import com.example.joinme.Model.Category;
+import com.example.joinme.Model.api.RetrofitClient;
 import com.example.joinme.R;
 import com.example.joinme.databinding.ActivityOpenGroupBinding;
 import com.example.joinme.Model.Group;
@@ -35,14 +37,19 @@ import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Locale;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class OpenGroupActivity extends AppCompatActivity implements AdapterView.OnItemSelectedListener {
     FirebaseFirestore db = FirebaseFirestore.getInstance();
     Logic logic = new Logic();
     // create array of Strings of categories
-    String[] meetings = {"Category", "Minnian", "Football", "Basketball", "Group games", "Volunteer", "Hang out"};
+    String[] categories;
     //view binding
     private ActivityOpenGroupBinding binding;
     private GoogleSignInClient mGoogleSignInClient;
@@ -74,21 +81,35 @@ public class OpenGroupActivity extends AppCompatActivity implements AdapterView.
                 startActivity(new Intent(OpenGroupActivity.this, MainPageActivity.class));
             }
         });
+        Call<ArrayList<Category>> call = RetrofitClient.getInstance().getAPI().getCategories();
+        call.enqueue(new Callback<ArrayList<Category>>() {
+            @Override
+            public void onResponse(Call<ArrayList<Category>> call, Response<ArrayList<Category>> response) {
+                categories = new String[response.body().size()+1];
+                categories[0] = "Category";
+                for(int i=1; i<=response.body().size(); i++){
+                    categories[i]= response.body().get(i-1).getName();
+                }
+                Spinner spino = findViewById(R.id.spinner);
+                spino.setOnItemSelectedListener(OpenGroupActivity.this);
 
-        // Take the instance of Spinner and apply OnItemSelectedListener on it which tells which item of spinner is clicked
-        Spinner spino = findViewById(R.id.spinner);
-        spino.setOnItemSelectedListener(this);
+                // Create the instance of ArrayAdapter
+                // having the list of meetings
+                ArrayAdapter ad = new ArrayAdapter(OpenGroupActivity.this, android.R.layout.simple_spinner_item,  categories);
 
-        // Create the instance of ArrayAdapter
-        // having the list of meetings
-        ArrayAdapter ad = new ArrayAdapter(this, android.R.layout.simple_spinner_item,  meetings);
+                // set simple layout resource file
+                // for each item of spinner
+                ad.setDropDownViewResource(android.R.layout   .simple_spinner_dropdown_item);
+                // Set the ArrayAdapter (ad) data on the
+                // Spinner which binds data to spinner
+                spino.setAdapter(ad);
+            }
 
-        // set simple layout resource file
-        // for each item of spinner
-        ad.setDropDownViewResource(android.R.layout   .simple_spinner_dropdown_item);
-        // Set the ArrayAdapter (ad) data on the
-        // Spinner which binds data to spinner
-        spino.setAdapter(ad);
+            @Override
+            public void onFailure(Call<ArrayList<Category>> call, Throwable t) {
+                    Log.d("fail", t.getMessage());
+            }
+        });
 
         //get date of the meeting
         final Calendar calendar = Calendar.getInstance();
@@ -266,7 +287,7 @@ public class OpenGroupActivity extends AppCompatActivity implements AdapterView.
          * @param position - int: The position of the view in the adapter
          * @param id - long: The row id of the item that is selected
          */
-        title = meetings[i];
+        title = categories[i];
         if(title.equals("Category")){
             onNothingSelected(adapterView);
         }

@@ -6,6 +6,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -16,6 +17,8 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.joinme.Model.Category;
+import com.example.joinme.Model.api.RetrofitClient;
 import com.example.joinme.R;
 import com.example.joinme.databinding.ActivityFindGroupBinding;
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
@@ -23,10 +26,16 @@ import com.google.android.gms.auth.api.signin.GoogleSignInClient;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.FirebaseFirestore;
 
+import java.util.ArrayList;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+
 public class FindGroupActivity extends AppCompatActivity implements AdapterView.OnItemSelectedListener{
     FirebaseFirestore db = FirebaseFirestore.getInstance();
     // create array of Strings of categories
-    String[] meetings = {"Category", "Minnian", "Football", "Basketball", "Group games", "Volunteer", "Hang out"};
+    String[] categories;// = {"Category", "Minnian", "Football", "Basketball", "Group games", "Volunteer", "Hang out"};
     //view binding
     private ActivityFindGroupBinding binding;
     private GoogleSignInClient mGoogleSignInClient;     //A client for interacting with the Google Sign In API.
@@ -56,21 +65,51 @@ public class FindGroupActivity extends AppCompatActivity implements AdapterView.
             }
         });
 
-        // Take the instance of Spinner and apply OnItemSelectedListener on it which tells which item of spinner is clicked
-        Spinner spino = findViewById(R.id.spinner);
-        spino.setOnItemSelectedListener(this);
+        Call<ArrayList<Category>> call = RetrofitClient.getInstance().getAPI().getCategories();
+        call.enqueue(new Callback<ArrayList<Category>>() {
+            @Override
+            public void onResponse(Call<ArrayList<Category>> call, Response<ArrayList<Category>> response) {
+                categories = new String[response.body().size()+1];
+                categories[0] = "Category";
+                for(int i=1; i<=response.body().size(); i++){
+                    categories[i]= response.body().get(i-1).getName();
+                }
+                Spinner spino = findViewById(R.id.spinner);
+                spino.setOnItemSelectedListener(FindGroupActivity.this);
 
-        // Create the instance of ArrayAdapter
-        // having the list of meetings
-        ArrayAdapter ad = new ArrayAdapter(this, android.R.layout.simple_spinner_item, meetings);
+                // Create the instance of ArrayAdapter
+                // having the list of meetings
+                ArrayAdapter ad = new ArrayAdapter(FindGroupActivity.this, android.R.layout.simple_spinner_item,  categories);
 
-        // set simple layout resource file
-        // for each item of spinner
-        ad.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+                // set simple layout resource file
+                // for each item of spinner
+                ad.setDropDownViewResource(android.R.layout   .simple_spinner_dropdown_item);
+                // Set the ArrayAdapter (ad) data on the
+                // Spinner which binds data to spinner
+                spino.setAdapter(ad);
+            }
 
-        // Set the ArrayAdapter (ad) data on the
-        // Spinner which binds data to spinner
-        spino.setAdapter(ad);
+            @Override
+            public void onFailure(Call<ArrayList<Category>> call, Throwable t) {
+                Log.d("fail", t.getMessage());
+            }
+        });
+
+//        // Take the instance of Spinner and apply OnItemSelectedListener on it which tells which item of spinner is clicked
+//        Spinner spino = findViewById(R.id.spinner);
+//        spino.setOnItemSelectedListener(this);
+//
+//        // Create the instance of ArrayAdapter
+//        // having the list of meetings
+//        ArrayAdapter ad = new ArrayAdapter(this, android.R.layout.simple_spinner_item, categories);
+//
+//        // set simple layout resource file
+//        // for each item of spinner
+//        ad.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+//
+//        // Set the ArrayAdapter (ad) data on the
+//        // Spinner which binds data to spinner
+//        spino.setAdapter(ad);
         //when create button clicks
         binding.searchBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -129,7 +168,7 @@ public class FindGroupActivity extends AppCompatActivity implements AdapterView.
 
     @Override
     public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
-        title = meetings[i];
+        title = categories[i];
         if (title.equals("Category")) {
             onNothingSelected(adapterView); //todo:check this
         }
