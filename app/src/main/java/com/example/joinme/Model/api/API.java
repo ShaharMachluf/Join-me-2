@@ -1,5 +1,6 @@
 package com.example.joinme.Model.api;
 
+import com.example.joinme.Model.Category;
 import com.example.joinme.Model.DetailsForRecycleHistory;
 import com.example.joinme.Model.Group;
 import com.example.joinme.Model.User;
@@ -58,6 +59,17 @@ public interface API {
     @GET("getUserDetails")
     Call<User> getUserDetails(
             @Query("uid") String uid
+    );
+
+    @GET("getCategories")
+    Call<ArrayList<Category>> getCategories(
+
+    );
+
+    @FormUrlEncoded
+    @POST("addCategory")
+    Call<ResponseBody> addCategory(
+            @Field("category") String category
     );
 
     @FormUrlEncoded
@@ -129,5 +141,6 @@ public interface API {
     Call<ResponseBody> blockThisUser(
             @Field("uid") String uid
     );
+
 
 }

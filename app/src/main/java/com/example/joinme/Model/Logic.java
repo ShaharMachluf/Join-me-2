@@ -1,7 +1,9 @@
 package com.example.joinme.Model;
 
+
 public class Logic {
 
+    public boolean flag = true;
     public Logic() {
     }
 
@@ -20,4 +22,5 @@ public class Logic {
         }
         return true;
     }
+
 }

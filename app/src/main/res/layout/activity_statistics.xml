@@ -5,7 +5,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".ViewModel.StatisticsActivity"
-    android:background="#fff9de">
+    android:background="#fff9de"
+    android:id="@+id/statistics_page">
 
     <ScrollView
         android:id="@+id/scrollView2"

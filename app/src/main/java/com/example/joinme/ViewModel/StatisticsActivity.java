@@ -7,8 +7,19 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Gravity;
+import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.LinearLayout;
+import android.widget.PopupWindow;
 
+import com.example.joinme.Model.Category;
+import com.example.joinme.Model.api.RetrofitClient;
 import com.example.joinme.R;
 import com.example.joinme.databinding.ActivityStatisticsBinding;
 import com.github.mikephil.charting.charts.BarChart;
@@ -40,6 +51,11 @@ import org.eazegraph.lib.models.PieModel;
 import java.util.ArrayList;
 import java.util.List;
 
+import okhttp3.ResponseBody;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+
 public class StatisticsActivity extends AppCompatActivity {
 
     FirebaseFirestore db = FirebaseFirestore.getInstance();
@@ -55,6 +71,7 @@ public class StatisticsActivity extends AppCompatActivity {
     BarChart hBarChart;
     ArrayList<BarEntry> hBarArrayList;
     String[] hBarUsers;
+    androidx.constraintlayout.widget.ConstraintLayout parent;
     private final String[] categories = {"Minnian", "Football", "Basketball", "Group games", "Volunteer", "Hang out"};
     private final String[] colors = {"#FFBB86FC", "#00FFFF", "#0000FF", "#00FF00", "#800000", "#FFFF00"};
 
@@ -72,7 +89,7 @@ public class StatisticsActivity extends AppCompatActivity {
         hBarArrayList = new ArrayList<>();
         hBarChart = findViewById(R.id.fragment_horizontalbarchart_chart);
         hBarUsers = new String[3];
-
+        parent = findViewById(R.id.statistics_page);
         try {
             createPieChart();
         } catch (InterruptedException e) {
@@ -94,6 +111,106 @@ public class StatisticsActivity extends AppCompatActivity {
                 startActivity(new Intent(StatisticsActivity.this, AdminMainPageActivity.class));
             }
         });
+    }
+
+    // menu
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        switch (item.getItemId()){
+            case R.id.item1:
+                onButtonShowPopupWindowClick();
+                return true;
+            case R.id.item2:
+                firebaseAuth.signOut();
+                mGoogleSignInClient.signOut();
+                Intent signInIntent = mGoogleSignInClient.getSignInIntent();
+                //starting the activity for result
+                startActivityForResult(signInIntent, RC_SIGN_IN);
+                startActivity(new Intent(StatisticsActivity.this, MainActivity.class));
+                return true;
+            default: return super.onOptionsItemSelected(item);
+        }
+    }
+    public void onButtonShowPopupWindowClick(){
+        // inflate the layout of the popup window
+        LayoutInflater inflater = (LayoutInflater) getSystemService(LAYOUT_INFLATER_SERVICE);
+        //Inflate a new view hierarchy from the specified xml resource.
+        View popupView = inflater.inflate(R.layout.add_category_popup, null);
+        //confirm the deletion of the user
+        EditText tvCategory = popupView.findViewById(R.id.add_categoryTxt);
+        Button addBtn = popupView.findViewById(R.id.addBtn);
+        Button xBtn = popupView.findViewById(R.id.xBtn);
+
+
+        // create the popup window
+        int width = LinearLayout.LayoutParams.WRAP_CONTENT;
+        int height = LinearLayout.LayoutParams.WRAP_CONTENT;
+        boolean focusable = true; // lets taps outside the popup also dismiss it
+
+        //This class represents a popup window that can be used to display an arbitrary view.
+        //The popup window is a floating container that appears on top of the current activity.
+        final PopupWindow popupWindow = new PopupWindow(popupView, width, height, focusable);
+
+        // show the popup window
+        // which view you pass in doesn't matter, it is only used for the window token
+        popupWindow.showAtLocation(parent, Gravity.CENTER, 0, 0);
+        xBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                popupWindow.dismiss();
+            }
+        });
+        addBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                String category = tvCategory.getText().toString();
+                if(category.isEmpty()){
+                    tvCategory.setError("please enter category");
+                }
+                else{
+                    Call<ArrayList<Category>> call = RetrofitClient.getInstance().getAPI().getCategories();
+                    call.enqueue(new Callback<ArrayList<Category>>() {
+                        @Override
+                        public void onResponse(Call<ArrayList<Category>> call, Response<ArrayList<Category>> response) {
+                            for(int i=0; i<response.body().size(); i++){
+                                Log.d("category", response.body().get(i).getName());
+                                if(category.equals(response.body().get(i).getName())){
+                                    Log.d("in", "hi");
+                                    tvCategory.setError("this category already exist");
+                                    return;
+                                }
+                            }
+                            Call<ResponseBody> call2 = RetrofitClient.getInstance().getAPI().addCategory(category);
+                            call2.enqueue(new Callback<ResponseBody>() {
+                                @Override
+                                public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                                    Log.d("add", "add category");
+                                }
+
+                                @Override
+                                public void onFailure(Call<ResponseBody> call, Throwable t) {
+                                    Log.d("fail", t.getMessage());
+                                }
+                            });
+                            popupWindow.dismiss();
+                        }
+
+                        @Override
+                        public void onFailure(Call<ArrayList<Category>> call, Throwable t) {
+                            Log.d("fail", t.getMessage());
+                        }
+                    });
+                }
+            }
+        });
+    }
+
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.admin_menu, menu);
+        return true;
     }
 
     private void createPieChart() throws InterruptedException {
