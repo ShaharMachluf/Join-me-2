@@ -153,6 +153,9 @@ public class UpdateDetailsActivity extends AppCompatActivity {
             case R.id.subitem1:
                 startActivity(new Intent(UpdateDetailsActivity.this, HistoryCreatedActivity.class));
                 return true;
+            case R.id.subitem2:
+                startActivity(new Intent(UpdateDetailsActivity.this, HistoryJoinedActivity.class));
+                return true;
             case R.id.item2:
                 startActivity(new Intent(UpdateDetailsActivity.this, UpdateDetailsActivity.class));
                 return true;
