@@ -95,21 +95,6 @@ public class FindGroupActivity extends AppCompatActivity implements AdapterView.
             }
         });
 
-//        // Take the instance of Spinner and apply OnItemSelectedListener on it which tells which item of spinner is clicked
-//        Spinner spino = findViewById(R.id.spinner);
-//        spino.setOnItemSelectedListener(this);
-//
-//        // Create the instance of ArrayAdapter
-//        // having the list of meetings
-//        ArrayAdapter ad = new ArrayAdapter(this, android.R.layout.simple_spinner_item, categories);
-//
-//        // set simple layout resource file
-//        // for each item of spinner
-//        ad.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-//
-//        // Set the ArrayAdapter (ad) data on the
-//        // Spinner which binds data to spinner
-//        spino.setAdapter(ad);
         //when create button clicks
         binding.searchBtn.setOnClickListener(new View.OnClickListener() {
             @Override

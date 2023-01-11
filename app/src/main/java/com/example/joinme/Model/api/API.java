@@ -66,6 +66,11 @@ public interface API {
 
     );
 
+    @GET("getGroupDetails")
+    Call<Group> getGroupDetails(
+            @Query("gid") String gid
+    );
+
     @FormUrlEncoded
     @POST("addCategory")
     Call<ResponseBody> addCategory(
