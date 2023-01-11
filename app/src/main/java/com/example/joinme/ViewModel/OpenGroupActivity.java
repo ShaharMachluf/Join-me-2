@@ -203,6 +203,12 @@ public class OpenGroupActivity extends AppCompatActivity implements AdapterView.
         switch (item.getItemId()){
             case R.id.item1:
                 return true;
+            case R.id.subitem1:
+                startActivity(new Intent(OpenGroupActivity.this, HistoryCreatedActivity.class));
+                return true;
+            case R.id.subitem2:
+                startActivity(new Intent(OpenGroupActivity.this, HistoryJoinedActivity.class));
+                return true;
             case R.id.item2:
                 startActivity(new Intent(OpenGroupActivity.this, UpdateDetailsActivity.class));
                 return true;

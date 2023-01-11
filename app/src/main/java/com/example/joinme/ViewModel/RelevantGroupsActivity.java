@@ -80,6 +80,12 @@ public class RelevantGroupsActivity extends AppCompatActivity implements Recycle
         switch (item.getItemId()){
             case R.id.item1:
                 return true;
+            case R.id.subitem1:
+                startActivity(new Intent(RelevantGroupsActivity.this, HistoryCreatedActivity.class));
+                return true;
+            case R.id.subitem2:
+                startActivity(new Intent(RelevantGroupsActivity.this, HistoryJoinedActivity.class));
+                return true;
             case R.id.item2:
                 startActivity(new Intent(RelevantGroupsActivity.this, UpdateDetailsActivity.class));
                 return true;

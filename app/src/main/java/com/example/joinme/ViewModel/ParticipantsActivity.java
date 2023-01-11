@@ -73,6 +73,12 @@ public class ParticipantsActivity extends AppCompatActivity implements RecycleVi
         switch (item.getItemId()){
             case R.id.item1:
                 return true;
+            case R.id.subitem1:
+                startActivity(new Intent(ParticipantsActivity.this, HistoryCreatedActivity.class));
+                return true;
+            case R.id.subitem2:
+                startActivity(new Intent(ParticipantsActivity.this, HistoryJoinedActivity.class));
+                return true;
             case R.id.item2:
                 startActivity(new Intent(ParticipantsActivity.this, UpdateDetailsActivity.class));
                 return true;
