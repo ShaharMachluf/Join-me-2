@@ -33,14 +33,11 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 public class GroupDetailsActivity extends AppCompatActivity {
-
-    FirebaseFirestore db = FirebaseFirestore.getInstance();
     private ActivityGroupDetailsBinding binding;
     private GoogleSignInClient mGoogleSignInClient;     //A client for interacting with the Google Sign In API.
     private FirebaseAuth firebaseAuth;
     private static final int RC_SIGN_IN = 100;              //Request code used to invoke sign in user interactions.
     private static final String TAG = "GOOGLE_SIGN_IN_TAG";
-    public String uid;
     public String title;
 
     @Override
@@ -57,12 +54,7 @@ public class GroupDetailsActivity extends AppCompatActivity {
         firebaseAuth = FirebaseAuth.getInstance();
         mGoogleSignInClient = GoogleSignIn.getClient(this, MainActivity.googleSignInOptions);
         String id = getIntent().getStringExtra("ID");
-        try {
-            getDetailsFromDb(id);
-            getUserFromDb();
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
+        getDetailsFromDb(id);
 
 
         //handle click, back
@@ -111,7 +103,7 @@ public class GroupDetailsActivity extends AppCompatActivity {
     }
 
     //get all the details of the group and present them
-    private void getDetailsFromDb(String id) throws InterruptedException {
+    private void getDetailsFromDb(String id){
         Call<Group> call = RetrofitClient.getInstance().getAPI().getGroupDetails(id);
         call.enqueue(new Callback<Group>() {
             @Override
@@ -121,27 +113,8 @@ public class GroupDetailsActivity extends AppCompatActivity {
                 binding.addressTxt.setText(response.body().getCity());
                 binding.dateTxt.setText(response.body().getDate());
                 binding.timeTxt.setText(response.body().getTime());
-                uid = response.body().getHead_of_group();
-                notify();
                 binding.numPartTxt.setText("Current number of participants in the group: " + response.body().getNum_of_participant());
-//                try {
-//                    getUserFromDb();
-//                } catch (InterruptedException e) {
-//                    e.printStackTrace();
-//                }
-                //Log.d("user",uid);
-//                Call<User> call2 = RetrofitClient.getInstance().getAPI().getUserDetails(uid);
-//                call2.enqueue(new Callback<User>() {
-//                    @Override
-//                    public void onResponse(Call<User> call, Response<User> response) {
-//                        binding.headTxt.setText("The head of the group is:\n " + response.body().getName());
-//                    }
-//
-//                    @Override
-//                    public void onFailure(Call<User> call, Throwable t) {
-//                        Log.d("fail", t.getMessage());
-//                    }
-//                });
+                binding.headTxt.setText("The head of the group is:\n " + response.body().getHead_of_group());
             }
 
             @Override
@@ -149,66 +122,5 @@ public class GroupDetailsActivity extends AppCompatActivity {
                 Log.d("fail", t.getMessage());
             }
         });
-        //Thread.sleep(6000);
-//        db.collection("groups").document(id)
-//                .get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
-//                    @Override
-//                    public void onComplete(@NonNull Task<DocumentSnapshot> task) {
-//                        if (task.isSuccessful()) {
-//                            DocumentSnapshot document = task.getResult();
-//                            if (document.exists()) {
-//                                binding.titleTxt.setText(document.getString("title"));
-//                                title = document.getString("title");
-//                                binding.addressTxt.setText(document.getString("city"));
-//                                binding.dateTxt.setText(document.getString("date"));
-//                                binding.timeTxt.setText(document.getString("time"));
-//                                uid = document.getString("head_of_group");
-//                                binding.numPartTxt.setText("Current number of participants in the group: " + document.get("num_of_participant").toString());
-//                                Log.d(TAG, "DocumentSnapshot data: " + document.getData());
-//                                getUserFromDb();
-//                            } else {
-//                                Log.d(TAG, "No such document");
-//                            }
-//                        } else {
-//                            Log.d(TAG, "get failed with ", task.getException());
-//                        }
-//                    }
-//                });
-    }
-
-    //take the id of the head of the group and find his/her name
-    private synchronized void getUserFromDb() throws InterruptedException {
-        while (uid == null){
-            wait();
-        }
-        Call<User> call = RetrofitClient.getInstance().getAPI().getUserDetails(uid);
-        call.enqueue(new Callback<User>() {
-            @Override
-            public void onResponse(Call<User> call, Response<User> response) {
-                binding.headTxt.setText("The head of the group is:\n " + response.body().getName());
-            }
-
-            @Override
-            public void onFailure(Call<User> call, Throwable t) {
-                Log.d("fail", t.getMessage());
-            }
-        });
-//        db.collection("usersById").document(uid)
-//                .get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
-//                    @Override
-//                    public void onComplete(@NonNull Task<DocumentSnapshot> task) {
-//                        if (task.isSuccessful()) {
-//                            DocumentSnapshot document = task.getResult();
-//                            if (document.exists()) {
-//                                binding.headTxt.setText("The head of the group is:\n " +document.getString("name"));
-//                                Log.d(TAG, "DocumentSnapshot data: " + document.getData());
-//                            } else {
-//                                Log.d(TAG, "No such document");
-//                            }
-//                        } else {
-//                            Log.d(TAG, "get failed with ", task.getException());
-//                        }
-//                    }
-//                });
     }
 }

@@ -23,8 +23,6 @@ public interface API {
 
     );
 
-    //todo: the next functions not implement in the activitys
-
     @GET("presentMyCreatedHistory")
     Call<ArrayList<DetailsForRecycleHistory>> presentMyCreatedHistory(
             @Query("uid") String uid
@@ -34,12 +32,6 @@ public interface API {
     Call<ArrayList<DetailsForRecycleHistory>> presentMyJoinedHistory(
             @Query("uid") String uid
     );
-
-//    @FormUrlEncoded
-//    @GET("presentUsersToBlock")
-//    Call<ResponseBody> presentUsersToBlock(
-//            @Field("uid") String uid
-//    );
 
 
     @GET("presentReportedUsers")
@@ -118,7 +110,11 @@ public interface API {
     @FormUrlEncoded
     @POST("addUser")
     Call<ResponseBody> addUser(
-            @Field("user") User user
+            @Field("uid") String uid,
+            @Field("name") String name,
+            @Field("phone") String phone,
+            @Field("email") String email,
+            @Field("date") String date
     );
 
     @FormUrlEncoded

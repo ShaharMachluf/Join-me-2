@@ -11,6 +11,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
 
+import com.example.joinme.Model.api.RetrofitClient;
 import com.example.joinme.R;
 import com.example.joinme.databinding.ActivityMainBinding;
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
@@ -29,6 +30,13 @@ import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.GoogleAuthProvider;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
+
+import java.io.IOException;
+
+import okhttp3.ResponseBody;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -193,26 +201,28 @@ public class MainActivity extends AppCompatActivity {
          *
          * @param uid – holds the user id.
          */
-
-        db.collection("blockUsers").document(uid).get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+        Call<ResponseBody> call = RetrofitClient.getInstance().getAPI().checkBlockedUser(uid);
+        call.enqueue(new Callback<ResponseBody>() {
             @Override
-            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
-                DocumentSnapshot document = task.getResult();
-                if (task.isSuccessful()) {
-                    if (document.exists()) {
-                        Log.d(TAG, document.getId());
+            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                try {
+                    final String ans = response.body().string();
+                    if(ans.equals("blocked")){
                         Toast.makeText(MainActivity.this, "You are blocked", Toast.LENGTH_SHORT).show();
                         firebaseAuth.signOut();
                         googleSignInClient.signOut();
-                    } else {
-                        //existing account
-                        //start profile activity
+                    }else{
                         startActivity(new Intent(MainActivity.this, MainPageActivity.class));
                         finish();
                     }
-                } else {
-                    Log.d(TAG, "Failed with: ", task.getException());
+                } catch (IOException e) {
+                    e.printStackTrace();
                 }
+            }
+
+            @Override
+            public void onFailure(Call<ResponseBody> call, Throwable t) {
+                Log.d("block", t.getMessage());
             }
         });
     }

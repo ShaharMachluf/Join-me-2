@@ -29,6 +29,19 @@ public class Group {
         this.max_participants = max_participants;
     }
 
+    public Group(String title, String city, String time, String date, String head, int num_of_participant){
+        this.title = title;
+        this.num_of_participant = num_of_participant;
+        this.city = city;
+        this.time = time;
+        this.date = date;
+        this.is_happened = false;
+        this.participants = new ArrayList<>();
+        this.head_of_group_uid = head;
+        this.min_participants = 0;
+        this.max_participants = 10;
+    }
+
 
     public String getTitle() {
         return title;

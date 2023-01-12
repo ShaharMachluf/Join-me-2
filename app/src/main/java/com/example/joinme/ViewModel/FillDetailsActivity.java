@@ -7,9 +7,11 @@ import android.app.DatePickerDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
 import android.widget.DatePicker;
 
+import com.example.joinme.Model.api.RetrofitClient;
 import com.example.joinme.databinding.ActivityFillDetailsBinding;
 import com.example.joinme.Model.Logic;
 import com.example.joinme.Model.User;
@@ -20,6 +22,11 @@ import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.util.Calendar;
+
+import okhttp3.ResponseBody;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class FillDetailsActivity extends AppCompatActivity {
     String date;
@@ -122,10 +129,23 @@ public class FillDetailsActivity extends AppCompatActivity {
                     String phone = binding.PhoneTxt.getText().toString();
 
                     //create user
-                    User user = new User(uid, name, phone, email, date);
+//                    User user = new User(uid, name, phone, email, date);
                     //add user to database
-                    db.collection("usersById").document(uid).set(user);
+//                    db.collection("usersById").document(uid).set(user);
+                    Call<ResponseBody> call = RetrofitClient.getInstance().getAPI().addUser(uid, name, phone, email, date);
+                    call.enqueue(new Callback<ResponseBody>() {
+                        @Override
+                        public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                            Log.d("add user", "success");
+                        }
 
+                        @Override
+                        public void onFailure(Call<ResponseBody> call, Throwable t) {
+                            Log.d("add user", t.getMessage());
+                        }
+                    });
+//                    Intent intent = new Intent(FillDetailsActivity.this, MainPageActivity.class);
+//                    intent.putExtra("NAME", name)
                     startActivity(new Intent(FillDetailsActivity.this, MainPageActivity.class));
                     finish();
                 }

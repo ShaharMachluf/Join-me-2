@@ -12,6 +12,8 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Toast;
 
+import com.example.joinme.Model.User;
+import com.example.joinme.Model.api.RetrofitClient;
 import com.example.joinme.R;
 import com.example.joinme.databinding.ActivityMainPageBinding;
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
@@ -23,6 +25,10 @@ import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+
 public class MainPageActivity extends AppCompatActivity {
 
     //view binding
@@ -30,7 +36,6 @@ public class MainPageActivity extends AppCompatActivity {
     private GoogleSignInClient mGoogleSignInClient;     // A client for interacting with the Google Sign In API.
     private FirebaseAuth firebaseAuth;
     private static final int RC_SIGN_IN = 100;          // Request code used to invoke sign in user interactions.
-    private FirebaseFirestore db = FirebaseFirestore.getInstance();
     private static final String TAG = "WELCOME_TAG";
 
     @Override
@@ -117,23 +122,18 @@ public class MainPageActivity extends AppCompatActivity {
             //user logged in
             //get user info
             String uid = firebaseUser.getUid();
-            db.collection("usersById").document(uid).get()
-                    .addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
-                        @Override
-                        public void onComplete(@NonNull Task<DocumentSnapshot> task) {
-                            if (task.isSuccessful()) {
-                                DocumentSnapshot document = task.getResult();
-                                if (document.exists()) {
-                                    //adding the name to the place where it says "Welcome"
-                                    binding.nameTv.setText(document.getString("name"));
-                                } else {
-                                    Log.d(TAG, "No such document");
-                                }
-                            } else {
-                                Log.d(TAG, "get failed with ", task.getException());
-                            }
-                        }
-                    });
+            Call<User> call = RetrofitClient.getInstance().getAPI().getUserDetails(uid);
+            call.enqueue(new Callback<User>() {
+                @Override
+                public void onResponse(Call<User> call, Response<User> response) {
+                    binding.nameTv.setText(response.body().getName());
+                }
+
+                @Override
+                public void onFailure(Call<User> call, Throwable t) {
+                    Log.d("mainPage", t.getMessage());
+                }
+            });
         }
     }
 

@@ -32,8 +32,7 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class FindGroupActivity extends AppCompatActivity implements AdapterView.OnItemSelectedListener{
-    FirebaseFirestore db = FirebaseFirestore.getInstance();
+public class FindGroupActivity extends AppCompatActivity implements AdapterView.OnItemSelectedListener{ ;
     // create array of Strings of categories
     String[] categories;// = {"Category", "Minnian", "Football", "Basketball", "Group games", "Volunteer", "Hang out"};
     //view binding
@@ -155,7 +154,7 @@ public class FindGroupActivity extends AppCompatActivity implements AdapterView.
     public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
         title = categories[i];
         if (title.equals("Category")) {
-            onNothingSelected(adapterView); //todo:check this
+            onNothingSelected(adapterView);
         }
     }
 
