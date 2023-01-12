@@ -57,7 +57,13 @@ public class GroupDetailsActivity extends AppCompatActivity {
         firebaseAuth = FirebaseAuth.getInstance();
         mGoogleSignInClient = GoogleSignIn.getClient(this, MainActivity.googleSignInOptions);
         String id = getIntent().getStringExtra("ID");
-        getDetailsFromDb(id);
+        try {
+            getDetailsFromDb(id);
+            getUserFromDb();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+
 
         //handle click, back
         binding.backBtn.setOnClickListener(new View.OnClickListener() {
@@ -105,7 +111,7 @@ public class GroupDetailsActivity extends AppCompatActivity {
     }
 
     //get all the details of the group and present them
-    private void getDetailsFromDb(String id) {
+    private void getDetailsFromDb(String id) throws InterruptedException {
         Call<Group> call = RetrofitClient.getInstance().getAPI().getGroupDetails(id);
         call.enqueue(new Callback<Group>() {
             @Override
@@ -116,21 +122,26 @@ public class GroupDetailsActivity extends AppCompatActivity {
                 binding.dateTxt.setText(response.body().getDate());
                 binding.timeTxt.setText(response.body().getTime());
                 uid = response.body().getHead_of_group();
+                notify();
                 binding.numPartTxt.setText("Current number of participants in the group: " + response.body().getNum_of_participant());
-//                getUserFromDb();
-                Log.d("user",uid);
-                Call<User> call2 = RetrofitClient.getInstance().getAPI().getUserDetails(uid);
-                call2.enqueue(new Callback<User>() {
-                    @Override
-                    public void onResponse(Call<User> call, Response<User> response) {
-                        binding.headTxt.setText("The head of the group is:\n " + response.body().getName());
-                    }
-
-                    @Override
-                    public void onFailure(Call<User> call, Throwable t) {
-                        Log.d("fail", t.getMessage());
-                    }
-                });
+//                try {
+//                    getUserFromDb();
+//                } catch (InterruptedException e) {
+//                    e.printStackTrace();
+//                }
+                //Log.d("user",uid);
+//                Call<User> call2 = RetrofitClient.getInstance().getAPI().getUserDetails(uid);
+//                call2.enqueue(new Callback<User>() {
+//                    @Override
+//                    public void onResponse(Call<User> call, Response<User> response) {
+//                        binding.headTxt.setText("The head of the group is:\n " + response.body().getName());
+//                    }
+//
+//                    @Override
+//                    public void onFailure(Call<User> call, Throwable t) {
+//                        Log.d("fail", t.getMessage());
+//                    }
+//                });
             }
 
             @Override
@@ -138,6 +149,7 @@ public class GroupDetailsActivity extends AppCompatActivity {
                 Log.d("fail", t.getMessage());
             }
         });
+        //Thread.sleep(6000);
 //        db.collection("groups").document(id)
 //                .get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
 //                    @Override
@@ -165,7 +177,10 @@ public class GroupDetailsActivity extends AppCompatActivity {
     }
 
     //take the id of the head of the group and find his/her name
-    private void getUserFromDb() {
+    private synchronized void getUserFromDb() throws InterruptedException {
+        while (uid == null){
+            wait();
+        }
         Call<User> call = RetrofitClient.getInstance().getAPI().getUserDetails(uid);
         call.enqueue(new Callback<User>() {
             @Override
