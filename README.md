@@ -16,7 +16,7 @@
   </tr>
 </table>
 
-### Link to the code of the server our app uses:
+## Link to the code of the server our app uses:
 https://github.com/chenshtynmetz/JoinMeServer
 
 ## Introduction:
