@@ -16,9 +16,11 @@
   </tr>
 </table>
 
+## Link to the code of the server our app uses:
+https://github.com/chenshtynmetz/JoinMeServer
+
 ## Introduction:
 As part of a software engineering course, we conduct a development simulation, which includes most of the stages of the software life cycle, including experiencing teamwork and creating objects characteristic of each stage.
-
 
 
 ## Evaluation components and project content:
