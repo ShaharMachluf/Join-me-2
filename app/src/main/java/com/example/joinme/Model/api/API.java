@@ -1,6 +1,7 @@
 package com.example.joinme.Model.api;
 
 import com.example.joinme.Model.Category;
+import com.example.joinme.Model.Contact;
 import com.example.joinme.Model.DetailsForRecycleHistory;
 import com.example.joinme.Model.Group;
 import com.example.joinme.Model.User;
@@ -61,6 +62,17 @@ public interface API {
     @GET("getGroupDetails")
     Call<Group> getGroupDetails(
             @Query("gid") String gid
+    );
+
+    @GET("getGroups")
+    Call<ArrayList<Contact>> getGroups(
+            @Query("title") String title
+    );
+
+    @GET("getGroupsCity")
+    Call<ArrayList<Contact>> getGroupsCity(
+            @Query("title") String title,
+            @Query("city") String city
     );
 
     @FormUrlEncoded

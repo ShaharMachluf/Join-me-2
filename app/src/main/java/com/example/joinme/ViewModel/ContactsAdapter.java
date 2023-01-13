@@ -61,7 +61,7 @@ class ContactsAdapter extends RecyclerView.Adapter<ContactsAdapter.MyViewHolder>
          * @param   position – The position of the item within the adapter's data set.
          */
         holder.tvCategory.setText(contacts.get(position).getCategory()); //sets the text to be displayed.
-        holder.tvLocation.setText(contacts.get(position).getLocation());
+        holder.tvLocation.setText(contacts.get(position).getCity());
         holder.tvDate.setText(contacts.get(position).getDate());
         holder.tvId.setText(contacts.get(position).getId());
     }

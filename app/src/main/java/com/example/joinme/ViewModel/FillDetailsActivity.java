@@ -144,8 +144,6 @@ public class FillDetailsActivity extends AppCompatActivity {
                             Log.d("add user", t.getMessage());
                         }
                     });
-//                    Intent intent = new Intent(FillDetailsActivity.this, MainPageActivity.class);
-//                    intent.putExtra("NAME", name)
                     startActivity(new Intent(FillDetailsActivity.this, MainPageActivity.class));
                     finish();
                 }

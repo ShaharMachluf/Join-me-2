@@ -174,7 +174,6 @@ public class DeleteUserActivity extends AppCompatActivity implements RecycleView
                             for(int i=0; i<response.body().size(); i++){
                                 Log.d("category", response.body().get(i).getName());
                                 if(category.equals(response.body().get(i).getName())){
-                                    Log.d("in", "hi");
                                     tvCategory.setError("this category already exist");
                                     return;
                                 }

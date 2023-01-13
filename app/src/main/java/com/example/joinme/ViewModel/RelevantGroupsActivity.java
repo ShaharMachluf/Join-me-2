@@ -15,6 +15,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 
+import com.example.joinme.Model.api.RetrofitClient;
 import com.example.joinme.R;
 import com.example.joinme.databinding.ActivityRelevantGroupsBinding;
 import com.example.joinme.Model.Contact;
@@ -36,8 +37,12 @@ import org.checkerframework.checker.nullness.qual.NonNull;
 import java.util.ArrayList;
 import java.util.Arrays;
 
+import okhttp3.ResponseBody;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+
 public class RelevantGroupsActivity extends AppCompatActivity implements RecycleViewInterface {
-    FirebaseFirestore db = FirebaseFirestore.getInstance();
     private ActivityRelevantGroupsBinding binding;
     private GoogleSignInClient mGoogleSignInClient;     //A client for interacting with the Google Sign In API.
     private FirebaseAuth firebaseAuth;
@@ -45,7 +50,6 @@ public class RelevantGroupsActivity extends AppCompatActivity implements Recycle
     private static final String TAG = "GOOGLE_SIGN_IN_TAG";
     ArrayList<Contact> contacts = new ArrayList<>();
     Logic logic = new Logic();
-//    RecyclerView recyclerView;
     ContactsAdapter adapter = new ContactsAdapter(RelevantGroupsActivity.this, contacts, RelevantGroupsActivity.this);
 
     @Override
@@ -122,37 +126,33 @@ public class RelevantGroupsActivity extends AppCompatActivity implements Recycle
         //the conditions of if and else are designed to create a choice - whether to insert the name of the city or not
         if(city.equals("")) {
             String[] finalToday = today;
-            db.collection("groups")
-                    .whereEqualTo("title", title)
-                    .whereEqualTo("is_happened", false)
-                    .get()
-                    .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-                        @Override
-                        public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                            if (task.isSuccessful()) {
-                                presentRelevantGroups(task, finalToday);
-                            } else {
-                                Log.d(TAG, "Error getting documents: ", task.getException());
-                            }
-                        }
-                    });
+            Call<ArrayList<Contact>> call = RetrofitClient.getInstance().getAPI().getGroups(title);
+            call.enqueue(new Callback<ArrayList<Contact>>() {
+                @Override
+                public void onResponse(Call<ArrayList<Contact>> call, Response<ArrayList<Contact>> response) {
+                    presentRelevantGroups(response.body(), finalToday);
+                }
+
+                @Override
+                public void onFailure(Call<ArrayList<Contact>> call, Throwable t) {
+                    Log.d("Relevant groups", "fail");
+                }
+            });
         }
         else{
             String[] finalToday1 = today;
-            db.collection("groups")
-                    .whereEqualTo("title", title).whereEqualTo("city", city)
-                    .whereEqualTo("is_happened", false)
-                    .get()
-                    .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-                        @Override
-                        public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                            if (task.isSuccessful()) {
-                                presentRelevantGroups(task, finalToday1);
-                            } else {
-                                Log.d(TAG, "Error getting documents: ", task.getException());
-                            }
-                        }
-                    });
+            Call<ArrayList<Contact>> call = RetrofitClient.getInstance().getAPI().getGroupsCity(title, city);
+            call.enqueue(new Callback<ArrayList<Contact>>() {
+                @Override
+                public void onResponse(Call<ArrayList<Contact>> call, Response<ArrayList<Contact>> response) {
+                    presentRelevantGroups(response.body(), finalToday1);
+                }
+
+                @Override
+                public void onFailure(Call<ArrayList<Contact>> call, Throwable t) {
+                    Log.d("Relevant groups", "fail");
+                }
+            });
         }
     }
 
@@ -166,38 +166,23 @@ public class RelevantGroupsActivity extends AppCompatActivity implements Recycle
     @Override
     public void onJoinClick(int position) {
         String groupID = contacts.get(position).getId();
-        db.collection("groups")
-                .document(groupID)
-                .get()
-                .addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
-                    @Override
-                    public void onComplete(@androidx.annotation.NonNull Task<DocumentSnapshot> task) {
-                        if (task.isSuccessful()) {
-                            DocumentSnapshot document = task.getResult();
-                            if (document.exists()) {
-                                Group group = document.toObject(Group.class);
-                                ArrayList<String> participants = group.getParticipants();
-                                String uid = firebaseAuth.getCurrentUser().getUid();
+        Call<ResponseBody> call = RetrofitClient.getInstance().getAPI().addUserToGroup(groupID, firebaseAuth.getUid());
+        call.enqueue(new Callback<ResponseBody>() {
+            @Override
+            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                if (response.code() == 200) {
+                    Toast.makeText(RelevantGroupsActivity.this, "Joined group successfully", Toast.LENGTH_SHORT).show();
+                    Log.d("Add user to group", "Success");
+                } else {
+                    Toast.makeText(RelevantGroupsActivity.this, "You are already in this group", Toast.LENGTH_SHORT).show();
+                }
+            }
 
-                                //make sure the user is not already in this group
-                                for(int i = 0; i < participants.size(); ++i){
-                                    if(participants.get(i).equals(uid)){
-                                        Toast.makeText(RelevantGroupsActivity.this, "You are already in this group", Toast.LENGTH_SHORT).show();
-                                        return;
-                                    }
-                                }
-                                //adding the user to the group
-                                group.addParticipant(uid);
-                                addParticipantToDb(groupID, group);
-                                addGroupToUserDB(groupID, uid);
-                            } else {
-                                Log.d(TAG, "No such document");
-                            }
-                        } else {
-                            Log.d(TAG, "get failed with ", task.getException());
-                        }
-                    }
-                });
+            @Override
+            public void onFailure(Call<ResponseBody> call, Throwable t) {
+                Log.d("Add user to group", "Fail");
+            }
+        });
     }
 
     @Override
@@ -215,52 +200,20 @@ public class RelevantGroupsActivity extends AppCompatActivity implements Recycle
 
     }
 
-    private void addGroupToUserDB(String groupID, String uid) {
-        db.collection("usersById").document(uid)
-                .get()
-                .addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
-                    @Override
-                    public void onComplete(@androidx.annotation.NonNull Task<DocumentSnapshot> task) {
-                        if (task.isSuccessful()) {
-                            DocumentSnapshot document = task.getResult();
-                            if (document.exists()) {
-                                User user = document.toObject(User.class);
-                                user.addGroupIJoined(groupID);
-                                addToUserDb(user, uid);
-                            } else {
-                                Log.d(TAG, "No such document");
-                            }
-                        } else {
-                            Log.d(TAG, "get failed with ", task.getException());
-                        }
-                    }
-                });
-    }
-
-    private void addToUserDb(User user, String uid) {
-        db.collection("usersById").document(uid).set(user);
-    }
-
-    private void addParticipantToDb(String groupID, Group group) {
-        db.collection("groups").document(groupID).set(group);
-        Toast.makeText(this, "Joined group successfully", Toast.LENGTH_SHORT).show();
-    }
-
     //Displaying the list in which the relevant groups appear
-    private void presentRelevantGroups(@NonNull Task<QuerySnapshot> task, String[] finalToday){
+    private void presentRelevantGroups(ArrayList<Contact> response, String[] finalToday){
         RecyclerView recyclerView = findViewById(R.id.rvBox);
         TextView nonResultTxt = findViewById(R.id.nonResultTxt);
-        if (task.getResult().isEmpty()){
+        if (response.isEmpty()){
             nonResultTxt.setText("No matching groups were found");
         }
-        for (QueryDocumentSnapshot document : task.getResult()) {
-            String [] groupDate = document.getString("date").split("/");
+        for (Contact contact : response) {
+            String [] groupDate = contact.getDate().split("/|\\ ");
             //Checking if it is possible to add without exceeding the conditions set for the group
-            if(document.getLong("max_participants") > document.getLong("num_of_participant") &&
+            if(contact.getMax_participants() > contact.getNum_of_participant() &&
                     logic.checkDate(Integer.parseInt(finalToday[0]), Integer.parseInt(finalToday[1]), Integer.parseInt(finalToday[2]),
                             Integer.parseInt(groupDate[2]), Integer.parseInt(groupDate[1]), Integer.parseInt(groupDate[0]))) {
-                contacts.add(new Contact(document.getString("title"), document.getString("city"), document.getString("date") + " " + document.getString("time"), document.getId()));
-                Log.d(TAG, document.getId() + " => " + document.getString("city"));
+                contacts.add(contact);
             }
         }
 
