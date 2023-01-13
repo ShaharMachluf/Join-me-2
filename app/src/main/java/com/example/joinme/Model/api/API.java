@@ -127,7 +127,14 @@ public interface API {
     @FormUrlEncoded
     @POST("addGroup")
     Call<ResponseBody> addGroup(
-            @Field("group") Group group
+            @Field("gid") String gid,
+            @Field("title") String title,
+            @Field("city") String city,
+            @Field("time") String time,
+            @Field("date") String date,
+            @Field("head_uid") String head_uid,
+            @Field("min") int min,
+            @Field("max") int max
     );
 
     @FormUrlEncoded
