@@ -41,7 +41,6 @@ import retrofit2.Response;
 public class MainActivity extends AppCompatActivity {
 
     private ActivityMainBinding binding;
-    FirebaseFirestore db = FirebaseFirestore.getInstance();
     private static final int RC_SIGN_IN = 100;              //Request code used to invoke sign in user interactions.
     private GoogleSignInClient googleSignInClient;          //A client for interacting with the Google Sign In API.
     public static GoogleSignInOptions googleSignInOptions;  //GoogleSignInOptions contains options used to configure the Auth.GOOGLE_SIGN_IN_API

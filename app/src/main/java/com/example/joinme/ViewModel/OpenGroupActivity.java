@@ -47,7 +47,6 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 public class OpenGroupActivity extends AppCompatActivity implements AdapterView.OnItemSelectedListener {
-    FirebaseFirestore db = FirebaseFirestore.getInstance();
     Logic logic = new Logic();
     // create array of Strings of categories
     String[] categories;
@@ -209,13 +208,15 @@ public class OpenGroupActivity extends AppCompatActivity implements AdapterView.
                 FirebaseUser head = firebaseAuth.getCurrentUser();
                 String head_uid = head.getUid();
                 //create group
-                String gid = db.collection("groups").document().getId();
                 Call<ResponseBody> call = RetrofitClient.getInstance()
-                        .getAPI().addGroup(gid,title,city,time,date,head_uid,min,max);
+                        .getAPI().addGroup(title,city,time,date,head_uid,min,max);
                 call.enqueue(new Callback<ResponseBody>() {
                     @Override
                     public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                        startActivity(new Intent(OpenGroupActivity.this, MainPageActivity.class));
+                        finish();
                         Log.d("add group", "add group");
+                        Toast.makeText(OpenGroupActivity.this, "Group created successfully", Toast.LENGTH_SHORT).show();
                     }
 
                     @Override
@@ -223,12 +224,6 @@ public class OpenGroupActivity extends AppCompatActivity implements AdapterView.
                         Log.d("add group", t.getMessage());
                     }
                 });
-//                Group currGroup = new Group(title, city, time, date, head_uid, min, max);
-//                currGroup.addParticipant(head_uid);
-//                //add group to database
-//                String gid = db.collection("groups").document().getId();
-//                db.collection("groups").document(gid).set(currGroup);
-//                addGroupToHeadDb(gid);
             }
         });
     }
@@ -262,32 +257,6 @@ public class OpenGroupActivity extends AppCompatActivity implements AdapterView.
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.our_menu, menu);
         return true;
-    }
-
-    private void addGroupToHeadDb(String gid) {
-
-//        db.collection("usersById").document(firebaseAuth.getCurrentUser().getUid())
-//                        .get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
-//                    @Override
-//                    public void onComplete(@NonNull Task<DocumentSnapshot> task) {
-//                        if (task.isSuccessful()) {
-//                            DocumentSnapshot document = task.getResult();
-//                            if (document.exists()) {
-//                                User user = document.toObject(User.class);
-//                                user.addGroup(gid);
-//                                db.collection("usersById").document(user.getUid()).set(user);
-//                                Toast.makeText(OpenGroupActivity.this, "Group created successfully", Toast.LENGTH_SHORT).show();
-//                                //move to the main page
-//                                startActivity(new Intent(OpenGroupActivity.this, MainPageActivity.class));
-//                                finish();
-//                            } else {
-//                                Log.d(TAG, "No such document");
-//                            }
-//                        } else {
-//                            Log.d(TAG, "get failed with ", task.getException());
-//                        }
-//                    }
-//                });
     }
 
 

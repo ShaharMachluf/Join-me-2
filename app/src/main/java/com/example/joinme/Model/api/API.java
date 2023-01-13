@@ -127,7 +127,6 @@ public interface API {
     @FormUrlEncoded
     @POST("addGroup")
     Call<ResponseBody> addGroup(
-            @Field("gid") String gid,
             @Field("title") String title,
             @Field("city") String city,
             @Field("time") String time,

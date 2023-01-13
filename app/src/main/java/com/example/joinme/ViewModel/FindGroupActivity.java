@@ -34,7 +34,7 @@ import retrofit2.Response;
 
 public class FindGroupActivity extends AppCompatActivity implements AdapterView.OnItemSelectedListener{ ;
     // create array of Strings of categories
-    String[] categories;// = {"Category", "Minnian", "Football", "Basketball", "Group games", "Volunteer", "Hang out"};
+    String[] categories;
     //view binding
     private ActivityFindGroupBinding binding;
     private GoogleSignInClient mGoogleSignInClient;     //A client for interacting with the Google Sign In API.
